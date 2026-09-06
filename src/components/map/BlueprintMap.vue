@@ -2,10 +2,16 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { modules } from '../../data/modules'
+import { getAllQuizItems } from '../../data/quizzes'
 import { useProgress } from '../../composables/useProgress'
+import { useQuizReview } from '../../composables/useQuizReview'
 
 const router = useRouter()
 const { moduleReadCount } = useProgress()
+const { dueCount } = useQuizReview()
+
+const allQuizIds = getAllQuizItems().map((item) => item.id)
+const dueQuizCount = computed(() => dueCount(allQuizIds))
 
 const pathPoints = computed(() => modules.map((m) => `${m.position.x},${m.position.y}`).join(' '))
 
@@ -42,6 +48,9 @@ function go(slug: string) {
       <p class="annotation-label">SYSTEM DESIGN — BLUEPRINT MAP</p>
       <h1>เรียน System Design</h1>
       <p class="map-sub">คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว</p>
+      <router-link v-if="dueQuizCount > 0" to="/review" class="review-badge">
+        {{ dueQuizCount }} ข้อรอทวนวันนี้ →
+      </router-link>
     </header>
 
     <svg viewBox="0 0 960 560" xmlns="http://www.w3.org/2000/svg" class="map-svg">
@@ -100,6 +109,22 @@ function go(slug: string) {
 .map-sub {
   color: var(--ink-soft);
   margin: 0;
+}
+.review-badge {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-wash);
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+.review-badge:hover {
+  background: var(--accent);
+  color: var(--paper-raised);
 }
 .map-svg {
   width: 100%;

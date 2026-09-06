@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('../views/ModuleView.vue'),
       props: true,
     },
+    {
+      path: '/review',
+      name: 'review',
+      component: () => import('../views/ReviewView.vue'),
+    },
   ],
   scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) return savedPosition

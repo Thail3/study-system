@@ -2,13 +2,28 @@
 import { computed } from 'vue'
 import { getModuleBySlug } from '../data/modules'
 import { getTopicSource } from '../content'
+import { getQuizItemsForTopic, type QuizItem } from '../data/quizzes'
 import { useProgress } from '../composables/useProgress'
 import ModulePage from '../components/layout/ModulePage.vue'
 import TopicRenderer from '../components/content/TopicRenderer.vue'
+import QuizFlipCard from '../components/quiz/QuizFlipCard.vue'
 
 const props = defineProps<{ slug: string }>()
 const mod = computed(() => getModuleBySlug(props.slug))
 const { isRead, toggleRead } = useProgress()
+
+// Computed (not called inline in the template) so each topic's item array
+// keeps a stable reference across unrelated re-renders (e.g. toggling
+// "read" on a different topic) instead of being rebuilt every render.
+const quizByTopic = computed<Record<string, QuizItem[]>>(() => {
+  const m = mod.value
+  if (!m) return {}
+  const map: Record<string, QuizItem[]> = {}
+  for (const topic of m.topics) {
+    map[topic.id] = getQuizItemsForTopic(m.slug, topic.id, m.title, topic.title)
+  }
+  return map
+})
 </script>
 
 <template>
@@ -31,6 +46,7 @@ const { isRead, toggleRead } = useProgress()
         </button>
       </div>
       <TopicRenderer :source="getTopicSource(mod.id, topic.file)" />
+      <QuizFlipCard v-if="quizByTopic[topic.id]?.length" :items="quizByTopic[topic.id]" />
     </section>
   </ModulePage>
 </template>
