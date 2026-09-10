@@ -1,16 +1,14 @@
-const globResult = import.meta.glob('./**/*.md', { eager: true, query: '?raw', import: 'default' })
+const loaders = import.meta.glob('./**/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>
 
-const rawFiles: Record<string, string> = {}
-for (const [key, value] of Object.entries(globResult)) {
-  if (typeof value === 'string') {
-    rawFiles[key] = value
-  } else if (import.meta.env.DEV) {
-    console.warn(`[content] expected raw string for ${key}, got ${typeof value}`)
-  }
-}
-
-export function getTopicSource(moduleId: number, file: string): string {
+export async function getTopicSource(moduleId: number, file: string): Promise<string> {
   const folder = `module-${String(moduleId).padStart(2, '0')}`
   const key = `./${folder}/${file}.md`
-  return rawFiles[key] ?? `_(เนื้อหายังไม่ถูกเขียน: ${key})_`
+  const load = loaders[key]
+  if (!load) return `_(เนื้อหายังไม่ถูกเขียน: ${key})_`
+  const src = await load()
+  if (typeof src === 'string') return src
+  if (import.meta.env.DEV) {
+    console.warn(`[content] expected raw string for ${key}, got ${typeof src}`)
+  }
+  return `_(เนื้อหายังไม่ถูกเขียน: ${key})_`
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { getModuleBySlug } from '../data/modules'
 import { getTopicSource } from '../content'
 import { getQuizItemsForTopic, type QuizItem } from '../data/quizzes'
@@ -11,6 +11,18 @@ import QuizFlipCard from '../components/quiz/QuizFlipCard.vue'
 const props = defineProps<{ slug: string }>()
 const mod = computed(() => getModuleBySlug(props.slug))
 const { isRead, toggleRead } = useProgress()
+
+const topicSources = ref<Record<string, string>>({})
+
+watchEffect(async () => {
+  const m = mod.value
+  if (!m) return
+  const entries = await Promise.all(
+    m.topics.map(async (topic) => [topic.id, await getTopicSource(m.id, topic.file)] as const),
+  )
+  if (mod.value?.slug !== m.slug) return
+  topicSources.value = Object.fromEntries(entries)
+})
 
 // Computed (not called inline in the template) so each topic's item array
 // keeps a stable reference across unrelated re-renders (e.g. toggling
@@ -45,7 +57,8 @@ const quizByTopic = computed<Record<string, QuizItem[]>>(() => {
           {{ isRead(mod.slug, topic.id) ? '☑ อ่านแล้ว' : '☐ ทำเครื่องหมายว่าอ่านแล้ว' }}
         </button>
       </div>
-      <TopicRenderer :source="getTopicSource(mod.id, topic.file)" />
+      <TopicRenderer v-if="topicSources[topic.id]" :source="topicSources[topic.id]" />
+      <p v-else class="loading-note annotation-label">กำลังโหลดเนื้อหา…</p>
       <QuizFlipCard v-if="quizByTopic[topic.id]?.length" :items="quizByTopic[topic.id]" />
     </section>
   </ModulePage>
@@ -60,6 +73,9 @@ const quizByTopic = computed<Record<string, QuizItem[]>>(() => {
 .coming-soon-note {
   color: var(--ink-soft);
   font-style: italic;
+}
+.loading-note {
+  color: var(--ink-soft);
 }
 .topic-section {
   margin-bottom: var(--space-8);

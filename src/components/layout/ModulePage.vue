@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { ModuleMeta } from '../../data/modules'
+import { modules, type ModuleMeta } from '../../data/modules'
 import { useProgress } from '../../composables/useProgress'
 
 const props = defineProps<{ module: ModuleMeta }>()
 const { moduleReadCount } = useProgress()
 
+const displayId = computed(() => modules.filter((m) => m.track === props.module.track).findIndex((m) => m.slug === props.module.slug) + 1)
 const readCount = computed(() => moduleReadCount(props.module.slug, props.module.topics.map((t) => t.id)))
 const pct = computed(() => {
   const total = props.module.topics.length
@@ -16,11 +17,11 @@ const pct = computed(() => {
 <template>
   <div class="module-page">
     <nav class="breadcrumb">
-      <router-link to="/">← กลับไป blueprint map</router-link>
+      <router-link :to="{ name: 'track-home', params: { track: module.track } }">← กลับไป blueprint map</router-link>
     </nav>
 
     <header class="module-header">
-      <p class="annotation-label">MODULE {{ String(module.id).padStart(2, '0') }}</p>
+      <p class="annotation-label">MODULE {{ String(displayId).padStart(2, '0') }}</p>
       <h1>{{ module.title }}</h1>
       <p class="module-sub">{{ module.titleSub }}</p>
 

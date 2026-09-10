@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getModuleBySlug } from '../data/modules'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,10 +10,23 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/module/:slug',
+      path: '/:track(system-design|system-architecture|systems-thinking)',
+      name: 'track-home',
+      component: () => import('../views/TrackHomeView.vue'),
+      props: true,
+    },
+    {
+      path: '/:track(system-design|system-architecture|systems-thinking)/module/:slug',
       name: 'module',
       component: () => import('../views/ModuleView.vue'),
-      props: true,
+      props: (route) => ({ slug: route.params.slug }),
+      beforeEnter: (to) => {
+        const mod = getModuleBySlug(to.params.slug as string)
+        if (mod && mod.track !== to.params.track) {
+          return { name: 'module', params: { track: mod.track, slug: mod.slug }, replace: true }
+        }
+        return true
+      },
     },
     {
       path: '/review',

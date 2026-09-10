@@ -1,3 +1,5 @@
+export type Track = 'system-design' | 'system-architecture' | 'systems-thinking'
+
 export interface TopicMeta {
   id: string
   title: string
@@ -6,6 +8,7 @@ export interface TopicMeta {
 
 export interface ModuleMeta {
   id: number
+  track: Track
   slug: string
   title: string
   titleSub: string
@@ -17,6 +20,7 @@ export interface ModuleMeta {
 export const modules: ModuleMeta[] = [
   {
     id: 1,
+    track: 'system-design',
     slug: 'fundamentals',
     title: 'Fundamentals',
     titleSub: 'พื้นฐาน client-server, network, HTTP/DNS, real-time',
@@ -32,6 +36,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 2,
+    track: 'system-design',
     slug: 'scalability',
     title: 'Scalability',
     titleSub: 'ขยายระบบรองรับโหลด',
@@ -46,6 +51,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 3,
+    track: 'system-design',
     slug: 'caching',
     title: 'Caching',
     titleSub: 'client/CDN/server/DB cache, eviction',
@@ -60,6 +66,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 4,
+    track: 'system-design',
     slug: 'database',
     title: 'Database',
     titleSub: 'SQL vs NoSQL, index, replication, sharding, consensus',
@@ -75,6 +82,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 5,
+    track: 'system-design',
     slug: 'consistency-cap',
     title: 'Consistency & CAP',
     titleSub: 'CAP theorem, PACELC, consistency patterns',
@@ -88,6 +96,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 6,
+    track: 'system-design',
     slug: 'async-messaging',
     title: 'Async & Messaging',
     titleSub: 'message queue, pub/sub, event-driven',
@@ -102,6 +111,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 7,
+    track: 'system-design',
     slug: 'microservices-api',
     title: 'Microservices & API Design',
     titleSub: 'REST/gRPC, API gateway, service discovery, distributed transactions',
@@ -117,6 +127,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 8,
+    track: 'system-design',
     slug: 'reliability',
     title: 'Reliability',
     titleSub: 'rate limiting, circuit breaker, retry, failover, observability, idempotency, deployment',
@@ -134,6 +145,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 9,
+    track: 'system-design',
     slug: 'storage-at-scale',
     title: 'Storage at Scale',
     titleSub: 'blob storage, CDN delivery, search index',
@@ -147,6 +159,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 10,
+    track: 'system-design',
     slug: 'security-basics',
     title: 'Security Basics',
     titleSub: 'authN/authZ, encryption in transit/rest',
@@ -160,6 +173,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 11,
+    track: 'system-design',
     slug: 'capacity-estimation',
     title: 'Capacity Estimation',
     titleSub: 'back-of-envelope math',
@@ -173,6 +187,7 @@ export const modules: ModuleMeta[] = [
   },
   {
     id: 12,
+    track: 'system-design',
     slug: 'case-studies',
     title: 'Case Studies',
     titleSub: 'URL shortener, chat app, news feed, rate limiter',
@@ -183,6 +198,263 @@ export const modules: ModuleMeta[] = [
       { id: 'chat-app', title: 'Design: Chat App', file: '02-chat-app' },
       { id: 'news-feed', title: 'Design: News Feed', file: '03-news-feed' },
       { id: 'rate-limiter-case', title: 'Design: Rate Limiter', file: '04-rate-limiter-case' },
+    ],
+  },
+  {
+    id: 13,
+    track: 'system-architecture',
+    slug: 'architectural-styles',
+    title: 'Architectural Styles & Patterns',
+    titleSub: 'monolith, microservices, SOA, serverless, event-driven, layered vs hexagonal',
+    status: 'available',
+    position: { x: 120, y: 160 },
+    topics: [
+      {
+        id: 'monolith-vs-microservices-style',
+        title: 'Monolith vs Microservices: เลือก Style ไหนดี',
+        file: '01-monolith-vs-microservices-style',
+      },
+      { id: 'soa', title: 'SOA (Service-Oriented Architecture) ทำไมยังต้องรู้', file: '02-soa' },
+      { id: 'serverless-architecture', title: 'Serverless Architecture', file: '03-serverless-architecture' },
+      {
+        id: 'event-driven-architecture-style',
+        title: 'Event-Driven Architecture: มุมมองสถาปัตยกรรม',
+        file: '04-event-driven-architecture-style',
+      },
+      { id: 'layered-vs-hexagonal', title: 'Layered vs Hexagonal / Clean Architecture', file: '05-layered-vs-hexagonal' },
+    ],
+  },
+  {
+    id: 14,
+    track: 'system-architecture',
+    slug: 'architecture-documentation',
+    title: 'Architecture Documentation & Views',
+    titleSub: 'C4 model, 4+1 view, Architecture Decision Record',
+    status: 'available',
+    position: { x: 360, y: 160 },
+    topics: [
+      { id: 'c4-model', title: 'C4 Model: Context, Container, Component', file: '01-c4-model' },
+      { id: '4-plus-1-view', title: '4+1 View Model', file: '02-4-plus-1-view' },
+      { id: 'adr', title: 'เขียน ADR (Architecture Decision Record)', file: '03-adr' },
+    ],
+  },
+  {
+    id: 15,
+    track: 'system-architecture',
+    slug: 'ddd-foundations',
+    title: 'Domain-Driven Design พื้นฐาน',
+    titleSub: 'bounded context, ubiquitous language, aggregate, context mapping',
+    status: 'available',
+    position: { x: 600, y: 160 },
+    topics: [
+      { id: 'bounded-context', title: 'Bounded Context', file: '01-bounded-context' },
+      { id: 'ubiquitous-language', title: 'Ubiquitous Language', file: '02-ubiquitous-language' },
+      { id: 'aggregate', title: 'Aggregate & Entity Boundary', file: '03-aggregate' },
+      { id: 'context-mapping', title: 'Context Mapping', file: '04-context-mapping' },
+    ],
+  },
+  {
+    id: 16,
+    track: 'system-architecture',
+    slug: 'quality-attributes',
+    title: 'Quality Attributes & Trade-off Analysis',
+    titleSub: 'ilities, NFR vs FR, ATAM-style trade-off reasoning',
+    status: 'available',
+    position: { x: 840, y: 160 },
+    topics: [
+      { id: 'quality-attributes-ilities', title: 'Quality Attributes ("ilities") คืออะไร', file: '01-quality-attributes-ilities' },
+      { id: 'nfr-vs-fr', title: 'Functional vs Non-Functional Requirements', file: '02-nfr-vs-fr' },
+      { id: 'atam-tradeoff', title: 'ATAM-style Trade-off Reasoning', file: '03-atam-tradeoff' },
+      { id: 'tradeoff-case', title: 'เคส Trade-off จริง', file: '04-tradeoff-case' },
+    ],
+  },
+  {
+    id: 18,
+    track: 'system-architecture',
+    slug: 'deployment-infra-architecture',
+    title: 'Deployment & Infra Architecture',
+    titleSub: 'container, orchestration, cloud-native pattern, multi-region topology',
+    status: 'available',
+    position: { x: 120, y: 340 },
+    topics: [
+      { id: 'containerization-basics', title: 'Container & Containerization พื้นฐาน', file: '01-containerization-basics' },
+      { id: 'container-orchestration', title: 'Container Orchestration (Kubernetes)', file: '02-container-orchestration' },
+      { id: 'cloud-native-patterns', title: 'Cloud-Native Architecture Patterns', file: '03-cloud-native-patterns' },
+      { id: 'multi-region-deployment', title: 'Multi-Region Deployment Topology', file: '04-multi-region-deployment' },
+    ],
+  },
+  {
+    id: 19,
+    track: 'system-architecture',
+    slug: 'cqrs-event-sourcing',
+    title: 'CQRS & Event Sourcing',
+    titleSub: 'แยก read/write model, event store เป็น source of truth',
+    status: 'available',
+    position: { x: 360, y: 340 },
+    topics: [
+      { id: 'cqrs-basics', title: 'CQRS คืออะไร แยก Read/Write Model ทำไม', file: '01-cqrs-basics' },
+      { id: 'event-sourcing', title: 'Event Sourcing: Event Store เป็น Source of Truth', file: '02-event-sourcing' },
+      { id: 'cqrs-event-sourcing-together', title: 'CQRS + Event Sourcing ผสมกันยังไง', file: '03-cqrs-event-sourcing-together' },
+      { id: 'cqrs-tradeoffs', title: 'เมื่อไหร่ควรใช้ CQRS/Event Sourcing เมื่อไหร่ไม่ควร', file: '04-cqrs-tradeoffs' },
+    ],
+  },
+  {
+    id: 20,
+    track: 'system-architecture',
+    slug: 'team-topologies',
+    title: 'Team Topologies',
+    titleSub: '4 รูปแบบทีม, interaction mode, เชื่อมกับ Conway\'s Law',
+    status: 'available',
+    position: { x: 600, y: 340 },
+    topics: [
+      { id: 'four-team-types', title: '4 รูปแบบทีม (Stream-aligned, Platform, Enabling, Complicated-Subsystem)', file: '01-four-team-types' },
+      { id: 'team-interaction-modes', title: '3 Interaction Mode ระหว่างทีม', file: '02-team-interaction-modes' },
+      { id: 'team-topologies-and-architecture', title: 'Team Topologies กับการออกแบบ Architecture', file: '03-team-topologies-and-architecture' },
+    ],
+  },
+  {
+    id: 21,
+    track: 'system-architecture',
+    slug: 'evolutionary-architecture',
+    title: 'Evolutionary Architecture & Anti-pattern',
+    titleSub: 'fitness function, architecture erosion, anti-pattern ที่พบบ่อย',
+    status: 'available',
+    position: { x: 840, y: 340 },
+    topics: [
+      { id: 'fitness-functions', title: 'Fitness Function: ทดสอบ Architecture อัตโนมัติ', file: '01-fitness-functions' },
+      { id: 'architecture-erosion', title: 'Architecture Erosion / Technical Debt เชิงสถาปัตยกรรม', file: '02-architecture-erosion' },
+      { id: 'common-anti-patterns', title: 'Anti-pattern ที่พบบ่อย', file: '03-common-anti-patterns' },
+    ],
+  },
+  {
+    id: 17,
+    track: 'system-architecture',
+    slug: 'architecture-case-studies',
+    title: 'Case Studies',
+    titleSub: 'เอา pillar ทั้งหมดมาใช้จริง: e-commerce, notification, core banking',
+    status: 'available',
+    position: { x: 480, y: 520 },
+    topics: [
+      { id: 'ecommerce-checkout', title: 'Design: E-commerce Checkout System', file: '01-ecommerce-checkout' },
+      { id: 'notification-platform', title: 'Design: Notification Platform', file: '02-notification-platform' },
+      { id: 'core-banking-ledger', title: 'Design: Core Banking / Ledger System', file: '03-core-banking-ledger' },
+    ],
+  },
+  {
+    id: 22,
+    track: 'systems-thinking',
+    slug: 'systems-thinking-foundations',
+    title: 'Systems Thinking พื้นฐาน',
+    titleSub: 'system คืออะไร, linear vs systems thinking, โครงสร้างกำหนดพฤติกรรม',
+    status: 'available',
+    position: { x: 120, y: 140 },
+    topics: [
+      { id: 'what-is-a-system', title: 'System คืออะไร: Element, Interconnection, Purpose', file: '01-what-is-a-system' },
+      { id: 'linear-vs-systems-thinking', title: 'คิดแบบเส้นตรง vs คิดแบบระบบ', file: '02-linear-vs-systems-thinking' },
+      { id: 'structure-produces-behavior', title: 'โครงสร้างกำหนดพฤติกรรม (Structure Produces Behavior)', file: '03-structure-produces-behavior' },
+    ],
+  },
+  {
+    id: 23,
+    track: 'systems-thinking',
+    slug: 'stocks-and-flows',
+    title: 'Stocks and Flows',
+    titleSub: 'อ่างอาบน้ำ, stock ในซอฟต์แวร์/องค์กร, delay',
+    status: 'available',
+    position: { x: 360, y: 140 },
+    topics: [
+      { id: 'stock-flow-basics', title: 'Stock & Flow พื้นฐาน: อ่างอาบน้ำ', file: '01-stock-flow-basics' },
+      { id: 'stocks-in-software-and-orgs', title: 'Stock ในซอฟต์แวร์/องค์กร: Tech Debt, Queue, Cash, Users', file: '02-stocks-in-software-and-orgs' },
+      { id: 'delay-in-flows', title: 'Delay: ทำไม Flow ถึงมีความหน่วง', file: '03-delay-in-flows' },
+    ],
+  },
+  {
+    id: 24,
+    track: 'systems-thinking',
+    slug: 'feedback-loops',
+    title: 'Feedback Loops',
+    titleSub: 'balancing loop, reinforcing loop, อ่าน causal loop diagram, delay',
+    status: 'available',
+    position: { x: 600, y: 140 },
+    topics: [
+      { id: 'balancing-loops', title: 'Balancing Loop (B): กลไกควบคุมสมดุล', file: '01-balancing-loops' },
+      { id: 'reinforcing-loops', title: 'Reinforcing Loop (R): กลไกเร่งตัวเอง', file: '02-reinforcing-loops' },
+      { id: 'reading-causal-loop-diagrams', title: 'วิธีอ่าน Causal Loop Diagram', file: '03-reading-causal-loop-diagrams' },
+      { id: 'delay-and-loop-behavior', title: 'Delay ส่งผลต่อพฤติกรรมของ Loop ยังไง', file: '04-delay-and-loop-behavior' },
+    ],
+  },
+  {
+    id: 25,
+    track: 'systems-thinking',
+    slug: 'behavior-patterns',
+    title: 'Behavior Patterns จากโครงสร้างระบบ',
+    titleSub: 'exponential growth, goal-seeking, oscillation, overshoot & collapse',
+    status: 'available',
+    position: { x: 840, y: 140 },
+    topics: [
+      { id: 'exponential-growth', title: 'Exponential Growth', file: '01-exponential-growth' },
+      { id: 'goal-seeking-behavior', title: 'Goal-Seeking / Balancing Behavior', file: '02-goal-seeking-behavior' },
+      { id: 'oscillation', title: 'Oscillation', file: '03-oscillation' },
+      { id: 'overshoot-and-collapse', title: 'Overshoot and Collapse', file: '04-overshoot-and-collapse' },
+    ],
+  },
+  {
+    id: 26,
+    track: 'systems-thinking',
+    slug: 'systems-archetypes',
+    title: 'Systems Archetypes',
+    titleSub: 'limits to growth, fixes that fail, shifting the burden, tragedy of the commons, success to the successful, escalation',
+    status: 'available',
+    position: { x: 840, y: 340 },
+    topics: [
+      { id: 'limits-to-growth', title: 'Limits to Growth', file: '01-limits-to-growth' },
+      { id: 'fixes-that-fail', title: 'Fixes That Fail', file: '02-fixes-that-fail' },
+      { id: 'shifting-the-burden', title: 'Shifting the Burden', file: '03-shifting-the-burden' },
+      { id: 'tragedy-of-the-commons', title: 'Tragedy of the Commons', file: '04-tragedy-of-the-commons' },
+      { id: 'success-to-the-successful', title: 'Success to the Successful', file: '05-success-to-the-successful' },
+      { id: 'escalation', title: 'Escalation', file: '06-escalation' },
+    ],
+  },
+  {
+    id: 27,
+    track: 'systems-thinking',
+    slug: 'leverage-points',
+    title: 'Leverage Points',
+    titleSub: "Meadows' 12 leverage points, parameter vs structure vs paradigm",
+    status: 'available',
+    position: { x: 600, y: 340 },
+    topics: [
+      { id: 'twelve-leverage-points', title: "Meadows' 12 Leverage Points ภาพรวม", file: '01-twelve-leverage-points' },
+      { id: 'parameters-vs-structure', title: 'Parameter vs Structure vs Paradigm: จุดไหนมีผลมากกว่ากัน', file: '02-parameters-vs-structure' },
+      { id: 'leverage-points-in-practice', title: 'เคส: แก้ผิดจุด vs แก้ถูกจุด', file: '03-leverage-points-in-practice' },
+    ],
+  },
+  {
+    id: 28,
+    track: 'systems-thinking',
+    slug: 'system-traps-mental-models',
+    title: 'System Traps & Mental Models',
+    titleSub: 'policy resistance, boundary problem, mental model กับการมองระบบ',
+    status: 'available',
+    position: { x: 360, y: 340 },
+    topics: [
+      { id: 'system-traps-overview', title: 'System Traps: Policy Resistance, Drift, Rule Beating, Wrong Goal', file: '01-system-traps-overview' },
+      { id: 'boundary-problem', title: 'Boundary Problem: เรากำหนดขอบเขตระบบผิดตรงไหน', file: '02-boundary-problem' },
+      { id: 'mental-models-and-systems', title: 'Mental Model กับการมองระบบ', file: '03-mental-models-and-systems' },
+    ],
+  },
+  {
+    id: 29,
+    track: 'systems-thinking',
+    slug: 'systems-thinking-case-studies',
+    title: 'Case Studies',
+    titleSub: 'เอาแนวคิด systems thinking มาใช้จริง: tech debt, Conway\'s Law, cascading failure',
+    status: 'available',
+    position: { x: 480, y: 520 },
+    topics: [
+      { id: 'tech-debt-as-stock-flow', title: 'เคส: Tech Debt เป็น Stock/Flow + Feedback Loop', file: '01-tech-debt-as-stock-flow' },
+      { id: 'conways-law-systems-view', title: "เคส: Conway's Law ผ่านมุม Systems Thinking", file: '02-conways-law-systems-view' },
+      { id: 'cascading-failure-reinforcing-loop', title: 'เคส: Cascading Failure วิเคราะห์ผ่าน Reinforcing Loop', file: '03-cascading-failure-reinforcing-loop' },
     ],
   },
 ]

@@ -1,10 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { modules } from '../../data/modules'
+import { modules, type Track } from '../../data/modules'
 import { getAllQuizItems } from '../../data/quizzes'
 import { useProgress } from '../../composables/useProgress'
 import { useQuizReview } from '../../composables/useQuizReview'
+
+const props = defineProps<{ track: Track }>()
+
+const TRACK_META: Record<Track, { annotation: string; title: string; sub: string }> = {
+  'system-design': {
+    annotation: 'SYSTEM DESIGN — BLUEPRINT MAP',
+    title: 'เรียน System Design',
+    sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
+  },
+  'system-architecture': {
+    annotation: 'SYSTEM ARCHITECTURE — BLUEPRINT MAP',
+    title: 'เรียน System Architecture',
+    sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
+  },
+  'systems-thinking': {
+    annotation: 'SYSTEMS THINKING — BLUEPRINT MAP',
+    title: 'เรียน Systems Thinking',
+    sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
+  },
+}
 
 const router = useRouter()
 const { moduleReadCount } = useProgress()
@@ -13,18 +33,22 @@ const { dueCount } = useQuizReview()
 const allQuizIds = getAllQuizItems().map((item) => item.id)
 const dueQuizCount = computed(() => dueCount(allQuizIds))
 
-const pathPoints = computed(() => modules.map((m) => `${m.position.x},${m.position.y}`).join(' '))
+const meta = computed(() => TRACK_META[props.track])
+const trackModules = computed(() => modules.filter((m) => m.track === props.track))
+
+const pathPoints = computed(() => trackModules.value.map((m) => `${m.position.x},${m.position.y}`).join(' '))
 
 interface ModuleNode {
   module: (typeof modules)[number]
+  displayIndex: number
   state: 'coming-soon' | 'unread' | 'partial' | 'done'
   label: string
 }
 
 const nodes = computed<ModuleNode[]>(() =>
-  modules.map((m) => {
+  trackModules.value.map((m, i) => {
     if (m.status === 'coming-soon') {
-      return { module: m, state: 'coming-soon', label: 'coming soon' }
+      return { module: m, displayIndex: i + 1, state: 'coming-soon', label: 'coming soon' }
     }
     const total = m.topics.length
     const read = moduleReadCount(
@@ -33,21 +57,24 @@ const nodes = computed<ModuleNode[]>(() =>
     )
     const state = total === 0 || read === 0 ? 'unread' : read === total ? 'done' : 'partial'
     const label = total === 0 ? '' : `${read}/${total}`
-    return { module: m, state, label }
+    return { module: m, displayIndex: i + 1, state, label }
   }),
 )
 
 function go(slug: string) {
-  router.push({ name: 'module', params: { slug } })
+  router.push({ name: 'module', params: { track: props.track, slug } })
 }
 </script>
 
 <template>
   <div class="map-wrap">
     <header class="map-header">
-      <p class="annotation-label">SYSTEM DESIGN — BLUEPRINT MAP</p>
-      <h1>เรียน System Design</h1>
-      <p class="map-sub">คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว</p>
+      <nav class="breadcrumb">
+        <router-link to="/">← กลับไปเลือกวิชา</router-link>
+      </nav>
+      <p class="annotation-label">{{ meta.annotation }}</p>
+      <h1>{{ meta.title }}</h1>
+      <p class="map-sub">{{ meta.sub }}</p>
       <router-link v-if="dueQuizCount > 0" to="/review" class="review-badge">
         {{ dueQuizCount }} ข้อรอทวนวันนี้ →
       </router-link>
@@ -57,7 +84,7 @@ function go(slug: string) {
       <polyline :points="pathPoints" fill="none" stroke="var(--line-strong)" stroke-width="2" stroke-dasharray="6 6" />
 
       <g
-        v-for="{ module: m, state, label } in nodes"
+        v-for="{ module: m, displayIndex, state, label } in nodes"
         :key="m.slug"
         class="node-group"
         :class="state"
@@ -76,7 +103,7 @@ function go(slug: string) {
           rx="3"
           class="node-rect"
         />
-        <text :x="m.position.x - 64" :y="m.position.y - 20" class="node-index">{{ String(m.id).padStart(2, '0') }}</text>
+        <text :x="m.position.x - 64" :y="m.position.y - 20" class="node-index">{{ String(displayIndex).padStart(2, '0') }}</text>
         <text :x="m.position.x" :y="m.position.y + 2" text-anchor="middle" class="node-title">{{ m.title }}</text>
         <text :x="m.position.x" :y="m.position.y + 22" text-anchor="middle" class="node-sub">
           {{ state === 'coming-soon' ? 'coming soon' : label || 'เริ่มเรียน' }}
@@ -102,6 +129,18 @@ function go(slug: string) {
 }
 .map-header {
   margin-bottom: var(--space-6);
+}
+.breadcrumb {
+  margin-bottom: var(--space-4);
+}
+.breadcrumb a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  color: var(--accent-strong);
 }
 .map-header h1 {
   margin: var(--space-2) 0;

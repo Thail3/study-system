@@ -117,4 +117,24 @@ export const demoRegistry: Record<string, Component> = {
     errorComponent: DemoLoadError,
     delay: 200,
   }),
+  CausalLoopDiagram: defineAsyncComponent({
+    loader: () => import('../diagrams/CausalLoopDiagram.vue'),
+    errorComponent: DemoLoadError,
+    delay: 200,
+  }),
+  StockFlowDiagram: defineAsyncComponent({
+    loader: () => import('../diagrams/StockFlowDiagram.vue'),
+    errorComponent: DemoLoadError,
+    delay: 200,
+  }),
+  StockFlowSimulator: defineAsyncComponent({
+    loader: () => import('./StockFlowSimulator.vue'),
+    errorComponent: DemoLoadError,
+    delay: 200,
+  }),
+  FeedbackLoopSimulator: defineAsyncComponent({
+    loader: () => import('./FeedbackLoopSimulator.vue'),
+    errorComponent: DemoLoadError,
+    delay: 200,
+  }),
 }
