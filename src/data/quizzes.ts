@@ -38,7 +38,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'L4 กับ L7 Load Balancer ต่างกันยังไง',
       answer:
-        'L4 มองแค่ IP+port (เร็ว ตัดสินใจหยาบ) ส่วน L7 อ่านเนื้อหา HTTP จริง (path/header/cookie) ตัดสินใจฉลาดกว่าแต่ช้ากว่าเล็กน้อย แยกงานตาม path ได้',
+        'L4 (Transport Layer) มองแค่ IP+port (เร็ว ตัดสินใจหยาบ) ส่วน L7 (Application Layer) อ่านเนื้อหา HTTP จริง (path/header/cookie) ตัดสินใจฉลาดกว่าแต่ช้ากว่าเล็กน้อย แยกงานตาม path ได้',
     },
     {
       question: 'ทำไม Load Balancer เองก็กลายเป็น "จุดเดียวที่ทุกคนต้องผ่าน" (single point of failure ใหม่)',
@@ -95,23 +95,23 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
   'fundamentals:dns-resolution': [
     {
       question: 'DNS Resolution คืออะไร แก้ปัญหาอะไร',
-      answer: 'กระบวนการแปลงชื่อโดเมน (เช่น google.com) เป็น IP address จริงที่เครื่องใช้เชื่อมต่อได้ เพราะคอมพิวเตอร์รู้แค่ชื่อ ไม่รู้ที่อยู่จริง',
+      answer: 'กระบวนการแปลงชื่อโดเมน (เช่น google.com) เป็น IP (Internet Protocol) address จริงที่เครื่องใช้เชื่อมต่อได้ เพราะคอมพิวเตอร์รู้แค่ชื่อ ไม่รู้ที่อยู่จริง',
     },
     {
       question: 'ทำไม DNS ถึงเร็วทั้งที่มีหลายขั้นตอน (root → TLD → authoritative)',
-      answer: 'เพราะมีการ cache ผลลัพธ์ไว้ทุกขั้นตอน (ตาม TTL) ถ้าเคยถามชื่อนี้มาก่อน ไม่ต้องเดินครบทุกขั้นตอนซ้ำ',
+      answer: 'เพราะมีการ cache ผลลัพธ์ไว้ทุกขั้นตอน (ตาม TTL - Time To Live) ถ้าเคยถามชื่อนี้มาก่อน ไม่ต้องเดินครบทุกขั้นตอนซ้ำ',
     },
     {
       question: 'TTL สั้นกับยาว ต่างกันยังไง มีข้อดี-เสียยังไง',
       answer:
-        'TTL สั้น = รู้ IP ใหม่เร็วขึ้นถ้าเปลี่ยนที่อยู่ แต่ต้องถามซ้ำบ่อยขึ้น (โหลดเยอะขึ้นที่ resolver). TTL ยาว = โหลดน้อยกว่าแต่รู้การเปลี่ยนแปลงช้ากว่า',
+        'TTL (Time To Live) สั้น = รู้ IP (Internet Protocol) ใหม่เร็วขึ้นถ้าเปลี่ยนที่อยู่ แต่ต้องถามซ้ำบ่อยขึ้น (โหลดเยอะขึ้นที่ resolver). TTL ยาว = โหลดน้อยกว่าแต่รู้การเปลี่ยนแปลงช้ากว่า',
     },
   ],
   'fundamentals:http-lifecycle': [
     {
       question: 'เรียงลำดับขั้นตอนตั้งแต่พิมพ์ URL จนเห็นหน้าเว็บ มีอะไรบ้าง (คร่าวๆ)',
       answer:
-        'DNS Resolution → TCP Handshake → TLS Handshake (ถ้า HTTPS) → ส่ง HTTP Request → Server ประมวลผล → ส่ง HTTP Response → Browser Render',
+        'DNS (Domain Name System) Resolution → TCP (Transmission Control Protocol) Handshake → TLS (Transport Layer Security) Handshake (ถ้า HTTPS) → ส่ง HTTP (HyperText Transfer Protocol) Request → Server ประมวลผล → ส่ง HTTP Response → Browser Render',
     },
     {
       question: 'HTTP status code กลุ่ม 4xx กับ 5xx ต่างกันยังไง',
@@ -126,7 +126,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'TCP กับ UDP ต่างกันยังไง เลือกใช้ตอนไหน',
       answer:
-        'TCP การันตีว่าข้อมูลถึงครบ/เรียงลำดับถูก (มี handshake ก่อนส่ง) ใช้กับเว็บไซต์/โอนไฟล์/โอนเงิน. UDP ส่งเลยไม่รอยืนยัน เร็วกว่าแต่ข้อมูลอาจหายได้ ใช้กับ video call/เกม/DNS',
+        'TCP (Transmission Control Protocol) การันตีว่าข้อมูลถึงครบ/เรียงลำดับถูก (มี handshake ก่อนส่ง) ใช้กับเว็บไซต์/โอนไฟล์/โอนเงิน. UDP (User Datagram Protocol) ส่งเลยไม่รอยืนยัน เร็วกว่าแต่ข้อมูลอาจหายได้ ใช้กับ video call/เกม/DNS (Domain Name System)',
     },
     {
       question: 'TCP Handshake (SYN/SYN-ACK/ACK) ทำไปเพื่ออะไร',
@@ -142,7 +142,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'ทำไม HTTP ปกติ (request-response) ถึงไม่พอสำหรับแอปแชท/notification แบบ real-time',
       answer:
-        'เพราะ HTTP ปกติ client ต้องถามก่อนเสมอ server พูดเองไม่ได้ แอป real-time ต้องการให้ server "บอกทันที" เมื่อมีอะไรใหม่โดย client ไม่ต้องถามซ้ำ',
+        'เพราะ HTTP (HyperText Transfer Protocol) ปกติ client ต้องถามก่อนเสมอ server พูดเองไม่ได้ แอป real-time ต้องการให้ server "บอกทันที" เมื่อมีอะไรใหม่โดย client ไม่ต้องถามซ้ำ',
     },
     {
       question: 'Long Polling ต่างจาก Short Polling ยังไง',
@@ -151,7 +151,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     },
     {
       question: 'SSE กับ WebSocket ต่างกันตรงไหน',
-      answer: 'SSE ส่งข้อมูลทางเดียว (server → client เท่านั้น). WebSocket ส่งได้สองทาง (client ↔ server พร้อมกัน) เหมาะกับแชทที่ต้องโต้ตอบกันตลอด',
+      answer: 'SSE (Server-Sent Events) ส่งข้อมูลทางเดียว (server → client เท่านั้น). WebSocket ส่งได้สองทาง (client ↔ server พร้อมกัน) เหมาะกับแชทที่ต้องโต้ตอบกันตลอด',
     },
   ],
   'caching:why-cache': [
@@ -193,7 +193,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     },
     {
       question: 'LRU กับ LFU ต่างกันยังไง',
-      answer: 'LRU ดูว่า "นานแค่ไหนที่ไม่ถูกแตะ". LFU ดูว่า "ถูกหยิบกี่ครั้ง" (ความถี่) ทิ้งตัวที่ถูกหยิบน้อยครั้งสุด ไม่สนว่าหยิบล่าสุดเมื่อไหร่',
+      answer: 'LRU (Least Recently Used) ดูว่า "นานแค่ไหนที่ไม่ถูกแตะ". LFU (Least Frequently Used) ดูว่า "ถูกหยิบกี่ครั้ง" (ความถี่) ทิ้งตัวที่ถูกหยิบน้อยครั้งสุด ไม่สนว่าหยิบล่าสุดเมื่อไหร่',
     },
   ],
   'caching:cache-invalidation': [
@@ -388,7 +388,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'Event-Driven Architecture (EDA) คืออะไร ต่างจากสั่งงานตรงๆ (request-driven) ยังไง',
       answer:
-        'EDA คือให้ service สื่อสารกันผ่านการ "ประกาศเหตุการณ์" (ใช้ Pub/Sub) แทนที่จะเรียกกันตรงๆ — ลด tight coupling ที่เกิดจากการสั่งงานตรงๆ ที่ต้องรู้จักทุก service ปลายทาง',
+        'EDA (Event-Driven Architecture) คือให้ service สื่อสารกันผ่านการ "ประกาศเหตุการณ์" (ใช้ Pub/Sub) แทนที่จะเรียกกันตรงๆ — ลด tight coupling ที่เกิดจากการสั่งงานตรงๆ ที่ต้องรู้จักทุก service ปลายทาง',
     },
     {
       question: 'ข้อดีหลักของ EDA คืออะไรบ้าง',
@@ -418,7 +418,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'REST กับ gRPC ต่างกันยังไง เหมาะกับอะไร',
       answer:
-        'REST ใช้ HTTP verb ปกติ + JSON อ่านง่าย เหมาะกับ public API/client ภายนอก. gRPC ใช้ Protocol Buffers (binary) เร็วกว่ามาก รองรับ streaming เหมาะกับการสื่อสารระหว่าง service ภายในองค์กรเอง',
+        'REST (Representational State Transfer) ใช้ HTTP verb ปกติ + JSON อ่านง่าย เหมาะกับ public API/client ภายนอก. gRPC (gRPC Remote Procedure Call) ใช้ Protocol Buffers (binary) เร็วกว่ามาก รองรับ streaming เหมาะกับการสื่อสารระหว่าง service ภายในองค์กรเอง',
     },
     {
       question: 'ทำไม gRPC ถึงเร็วกว่า REST/JSON',
@@ -633,11 +633,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
   'security-basics:authn-vs-authz': [
     {
       question: 'Authentication (AuthN) กับ Authorization (AuthZ) ต่างกันยังไง',
-      answer: 'AuthN ตอบคำถาม "คุณเป็นใคร" (พิสูจน์ตัวตน เช่น login). AuthZ ตอบคำถาม "คุณเข้าถึงสิ่งนี้ได้ไหม" (ตรวจสิทธิ์)',
+      answer: 'AuthN (Authentication) ตอบคำถาม "คุณเป็นใคร" (พิสูจน์ตัวตน เช่น login). AuthZ (Authorization) ตอบคำถาม "คุณเข้าถึงสิ่งนี้ได้ไหม" (ตรวจสิทธิ์)',
     },
     {
       question: 'ทำไม 401 กับ 403 ถึงต่างกัน',
-      answer: '401 Unauthorized = ยังไม่ผ่านด่าน AuthN (ไม่รู้ว่าคุณเป็นใคร/token หมดอายุ). 403 Forbidden = ผ่าน AuthN แล้ว (รู้ว่าคุณเป็นใคร) แต่ไม่มีสิทธิ์ทำสิ่งนี้ (ผ่าน AuthZ ไม่ได้)',
+      answer: '401 Unauthorized = ยังไม่ผ่านด่าน AuthN (Authentication) (ไม่รู้ว่าคุณเป็นใคร/token หมดอายุ). 403 Forbidden = ผ่าน AuthN แล้ว (รู้ว่าคุณเป็นใคร) แต่ไม่มีสิทธิ์ทำสิ่งนี้ (ผ่าน AuthZ - Authorization - ไม่ได้)',
     },
     {
       question: 'RBAC คืออะไร',
@@ -657,7 +657,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'JWT (JSON Web Token) เชื่อมโยงกับ stateless design ยังไง',
       answer:
-        'JWT เก็บข้อมูลผู้ใช้ไว้ในตัว token เอง (encode+sign) server ตรวจสอบแค่ signature ก็รู้ว่าถูกต้องไหม โดยไม่ต้องเก็บ session state หรือถามที่ไหนเพิ่ม — ทำให้ server เป็น stateless ได้เต็มที่',
+        'JWT (JSON Web Token) เก็บข้อมูลผู้ใช้ไว้ในตัว token เอง (encode+sign) server ตรวจสอบแค่ signature ก็รู้ว่าถูกต้องไหม โดยไม่ต้องเก็บ session state หรือถามที่ไหนเพิ่ม — ทำให้ server เป็น stateless ได้เต็มที่',
     },
   ],
   'security-basics:encryption': [
@@ -680,7 +680,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
   'capacity-estimation:why-estimate': [
     {
       question: 'Capacity Estimation คืออะไร ทำไมสำคัญ',
-      answer: 'ทักษะประเมินตัวเลขคร่าวๆ (QPS, ขนาดข้อมูล) ก่อนออกแบบระบบ สำคัญเพราะถ้าตอบไม่ได้เป็นตัวเลข การออกแบบก็เป็นแค่การเดา',
+      answer: 'ทักษะประเมินตัวเลขคร่าวๆ (QPS - Queries Per Second, ขนาดข้อมูล) ก่อนออกแบบระบบ สำคัญเพราะถ้าตอบไม่ได้เป็นตัวเลข การออกแบบก็เป็นแค่การเดา',
     },
     {
       question: 'ทำไมไม่ต้องคำนวณให้แม่นยำ 100%',
@@ -689,14 +689,14 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     {
       question: 'กระบวนการคิด capacity estimation มาตรฐาน 5 ขั้นมีอะไรบ้าง (คร่าวๆ)',
       answer:
-        '(1) ตั้งสมมติฐานจำนวนผู้ใช้ (2) ประเมิน action/user/วัน (3) คำนวณ requests/วัน → QPS เฉลี่ย (4) คูณ peak multiplier → QPS พีค (5) ประเมินขนาดข้อมูล → storage/bandwidth',
+        '(1) ตั้งสมมติฐานจำนวนผู้ใช้ (2) ประเมิน action/user/วัน (3) คำนวณ requests/วัน → QPS (Queries Per Second) เฉลี่ย (4) คูณ peak multiplier → QPS พีค (5) ประเมินขนาดข้อมูล → storage/bandwidth',
     },
   ],
   'capacity-estimation:latency-numbers': [
     {
       question: 'ทำไม RAM ถึงเร็วกว่า Disk (SSD/HDD) มาก',
       answer:
-        'RAM อยู่ใกล้ CPU ที่สุด (~100 nanoseconds) ในขณะที่ SSD/HDD ต้องเข้าถึงผ่านกลไกที่ช้ากว่ามาก (SSD ~100 microseconds, HDD ~10 milliseconds) ต่างกันเป็นพันถึงแสนเท่า',
+        'RAM อยู่ใกล้ CPU ที่สุด (~100 nanoseconds) ในขณะที่ SSD/HDD (Hard Disk Drive) ต้องเข้าถึงผ่านกลไกที่ช้ากว่ามาก (SSD ~100 microseconds, HDD ~10 milliseconds) ต่างกันเป็นพันถึงแสนเท่า',
     },
     {
       question: 'ทำไม Round-trip ข้าม region ถึงช้ากว่า round-trip ใน data center เดียวกันมาก',
@@ -710,7 +710,7 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
   'capacity-estimation:estimation-calculator': [
     {
       question: 'Average QPS กับ Peak QPS ต่างกันยังไง อันไหนสำคัญกว่าตอนออกแบบระบบ',
-      answer: 'Average QPS คือภาระเฉลี่ยตลอดวัน. Peak QPS คือช่วงที่ภาระสูงสุด — Peak สำคัญกว่าเพราะระบบต้องรอดตอนพีคที่สุด ไม่ใช่แค่ค่าเฉลี่ย',
+      answer: 'Average QPS (Queries Per Second) คือภาระเฉลี่ยตลอดวัน. Peak QPS คือช่วงที่ภาระสูงสุด — Peak สำคัญกว่าเพราะระบบต้องรอดตอนพีคที่สุด ไม่ใช่แค่ค่าเฉลี่ย',
     },
     {
       question: 'ทำไมต้องคูณ Peak Multiplier เข้าไปในการคำนวณเสมอ',

@@ -7,6 +7,11 @@ component: ComparisonDiagram
 props: {"left":{"title":"Encryption in Transit (ซองปิดผนึก)","points":["เข้ารหัสข้อมูลระหว่างเดินทาง (client ↔ server)","ทำผ่าน TLS/HTTPS (จากโมดูล Fundamentals)","ป้องกัน: คนดักฟังระหว่างทาง (man-in-the-middle)"]},"right":{"title":"Encryption at Rest (ตู้เซฟที่บ้าน)","points":["เข้ารหัสข้อมูลตอนเก็บอยู่นิ่งๆ ใน disk/database","ทำที่ระดับ disk, database, หรือ object storage","ป้องกัน: คนขโมย harddisk/backup ไปอ่านตรงๆ"]},"note":"ต้องมีทั้งคู่ — ใส่ซองปิดผนึกตอนส่ง แต่เก็บเอกสารแบบเปิดโล่งไว้บนโต๊ะที่บ้าน ยังเสี่ยงถ้าโจรบุกเข้าบ้านได้"}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"gate","label":"TLS (ระหว่างทาง)"},{"icon":"notebook","label":"Database (at rest)"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"ข้อมูลเดินทางจาก Client ผ่านสาย network — เข้ารหัสด้วย TLS (ซองปิดผนึก) กันดักฟัง"},{"activeNode":2,"caption":"ข้อมูลถึงปลายทาง เก็บลง Database — เข้ารหัสอีกชั้น (at rest) กันขโมย harddisk/backup อ่านตรงๆ"},{"activeNode":0,"caption":"ต้องมีทั้งสองชั้น — ปิดผนึกตอนส่ง (in transit) ไม่พอ ถ้าตู้เซฟปลายทาง (at rest) ไม่ล็อกด้วย"}]}
+```
+
 ## ซองปิดผนึก — ทำไม TLS สำคัญ
 
 ```mermaid

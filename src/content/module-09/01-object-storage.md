@@ -22,6 +22,11 @@ component: ComparisonDiagram
 props: {"left":{"title":"Database","points":["เหมาะกับข้อมูลมีโครงสร้าง (แถว/คอลัมน์)","query/filter/join ได้เร็ว","backup/replication หนักขึ้นถ้ามีไฟล์ใหญ่ปนอยู่","แพงกว่ามากต่อ GB"]},"right":{"title":"Object Storage","points":["เหมาะกับไฟล์ก้อนใหญ่ (blob) ไม่มีโครงสร้างภายใน","เข้าถึงผ่าน key แบนราบ ไม่ query เนื้อหาในไฟล์ได้","scale เก็บได้แทบไม่จำกัด กระจายหลาย region","ถูกกว่ามากต่อ GB แต่ latency สูงกว่า DB โดยตรง"]},"note":"เก็บไฟล์จริงที่ Object Storage เก็บแค่ URL ไว้ใน Database — ใช้ทั้งคู่ตามหน้าที่ของมัน"}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"Object Storage"},{"icon":"notebook","label":"Database"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Client อัปโหลดไฟล์วิดีโอ — ไฟล์จริงถูกเก็บที่ Object Storage (โกดัง) ไม่ใช่ Database"},{"activeNode":2,"caption":"Database เก็บแค่ metadata: URL ที่ชี้ไปหาไฟล์นั้น (เหมือนจดที่อยู่โกดังไว้ในสมุด)"},{"activeNode":0,"caption":"ตอนอยากดูวิดีโอ Client ขอ URL จาก Database แล้วไปดึงไฟล์จริงจาก Object Storage โดยตรง"}]}
+```
+
 ## โกดังนี้ต่างจากตู้เก็บของทั่วไปยังไง
 
 - **ไม่มีชั้นวางเป็นระเบียบซ้อนกันจริงๆ** — ทุกกล่อง (object) มีรหัสล็อกเกอร์แบนราบ (เช่น `users/123/avatar.png`) แม้จะดูเหมือนมีชั้นวางเป็นโฟลเดอร์ แต่จริงๆ คือ string รหัสเฉยๆ

@@ -7,6 +7,11 @@ component: ComparisonDiagram
 props: {"left":{"title":"Authentication (AuthN) — บัตรพนักงาน","points":["ตอบคำถาม: คุณเป็นใคร?","พิสูจน์ตัวตน เช่น login ด้วย password, OTP, biometric","เกิดขึ้นครั้งเดียวตอนเข้าระบบ (ได้ token/session มา)"]},"right":{"title":"Authorization (AuthZ) — คีย์การ์ดเปิดห้อง","points":["ตอบคำถาม: คุณเข้าห้องนี้ได้ไหม?","ตรวจสิทธิ์ทุกครั้งที่พยายามเข้าถึง resource","เกิดขึ้นซ้ำๆ ทุกครั้งที่ต้องการสิทธิ์"]},"note":"ลำดับเสมอ: ต้องแสกนบัตรพนักงาน (AuthN) ผ่านก่อน ถึงจะมาแตะคีย์การ์ดเปิดห้อง (AuthZ) ได้"}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"User"},{"icon":"gate","label":"AuthN"},{"icon":"gate","label":"AuthZ"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"User login ด้วย email+password — ผ่านด่าน AuthN (พิสูจน์ว่าคุณเป็นใคร) ได้ token มา"},{"activeNode":2,"caption":"User ขอลบโพสต์ — มาถึงด่าน AuthZ (เช็คว่ามีสิทธิ์ทำสิ่งนี้ไหม)"},{"activeNode":2,"caption":"Token ถูกต้อง (ผ่าน AuthN) แต่ไม่มีสิทธิ์ลบโพสต์คนอื่น (ไม่ผ่าน AuthZ) — ได้ 403 Forbidden กลับไป"}]}
+```
+
 ## ตัวอย่างในชีวิตจริง
 
 ```mermaid

@@ -27,7 +27,12 @@ flowchart LR
 
 ```demo
 component: ComparisonDiagram
-props: {"left":{"title":"SQL LIKE '%คำ%'","points":["ไล่อ่านทุกแถวทุกครั้งที่ query","ช้ามากเมื่อข้อมูลเยอะ","ไม่มี ranking/relevance ในตัว","ไม่รองรับ typo/synonym"]},"right":{"title":"Inverted Index","points":["lookup คำ → list เอกสารได้ทันที","เร็วไม่ขึ้นกับขนาดข้อมูลมากนัก","มี ranking/relevance ในตัว (เช่น TF-IDF)","รองรับ typo tolerance/synonym ได้ (เครื่องมือเฉพาะทาง)"]},"note":"นี่คือเหตุผลที่ full-text search มักแยกไปใช้ search engine เฉพาะทาง ไม่ใช้ database หลักโดยตรง"}
+props: {"left":{"title":"SQL LIKE '%คำ%'","points":["ไล่อ่านทุกแถวทุกครั้งที่ query","ช้ามากเมื่อข้อมูลเยอะ","ไม่มี ranking/relevance ในตัว","ไม่รองรับ typo/synonym"]},"right":{"title":"Inverted Index","points":["lookup คำ → list เอกสารได้ทันที","เร็วไม่ขึ้นกับขนาดข้อมูลมากนัก","มี ranking/relevance ในตัว (เช่น TF-IDF - Term Frequency-Inverse Document Frequency)","รองรับ typo tolerance/synonym ได้ (เครื่องมือเฉพาะทาง)"]},"note":"นี่คือเหตุผลที่ full-text search มักแยกไปใช้ search engine เฉพาะทาง ไม่ใช้ database หลักโดยตรง"}
+```
+
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"notebook","label":"Primary DB"},{"icon":"building","label":"Search Engine"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Application เขียนข้อมูลปกติเข้า Primary Database (source of truth)"},{"activeNode":2,"caption":"ข้อมูลถูก sync ไปยัง Search Engine เฉพาะทาง (เช่น Elasticsearch) ที่ทำ Inverted Index ไว้"},{"activeNode":0,"caption":"ตอน query คำค้นหา Application ยิงไปที่ Search Engine โดยตรง ไม่ใช่ Database หลัก — เร็วกว่ามาก"}]}
 ```
 
 ## เครื่องมือที่ใช้จริง

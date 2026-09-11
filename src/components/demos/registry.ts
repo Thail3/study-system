@@ -32,6 +32,11 @@ export const demoRegistry: Record<string, Component> = {
     errorComponent: DemoLoadError,
     delay: 200,
   }),
+  JourneyDiagram: defineAsyncComponent({
+    loader: () => import('../diagrams/JourneyDiagram.vue'),
+    errorComponent: DemoLoadError,
+    delay: 200,
+  }),
   CacheDemo: defineAsyncComponent({
     loader: () => import('./CacheDemo.vue'),
     errorComponent: DemoLoadError,

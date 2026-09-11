@@ -34,6 +34,11 @@ component: StepThroughDiagram
 props: {"steps":[{"label":"1. Client อัปโหลดวิดีโอ","detail":"ยื่นผ้าให้พนักงานหน้าเคาน์เตอร์ — ส่งไฟล์วิดีโอไปที่ server"},{"label":"2. Server ตอบทันที (job_id)","detail":"พนักงานให้ใบเสร็จมาใบหนึ่งทันที ไม่ต้องรอ — client ได้ job_id กลับไปเลยโดยไม่ต้องรอ encode เสร็จ"},{"label":"3. ส่งงานเข้า Queue","detail":"ใบสั่งงานถูกวางเข้าคิวรอเครื่องซักที่ว่างอยู่หยิบไปทำ (เชื่อมกับ Message Queue บทถัดไป)"},{"label":"4. Worker ดึงงานไปทำ","detail":"เครื่องซักตัวหนึ่งว่าง หยิบงานจากคิวไปประมวลผล (encode วิดีโอ) โดยไม่กระทบ client ที่กลับบ้านไปแล้ว"},{"label":"5. แจ้งผลเมื่อเสร็จ","detail":"งานเสร็จแล้ว แจ้ง client ผ่าน notification/webhook หรือ client กลับมาถามสถานะเองทีหลัง — เหมือนกลับมารับผ้าตามเวลานัด"}]}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"Server"},{"icon":"building","label":"Worker"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Client อัปโหลดวิดีโอ ส่งไปที่ Server"},{"activeNode":0,"caption":"Server ตอบทันที \"รับเรื่องแล้ว\" (job_id) — ไม่ต้องรอ encode เสร็จ"},{"activeNode":2,"caption":"งานถูกส่งเข้า Queue ให้ Worker หยิบไปทำเบื้องหลัง"},{"activeNode":0,"caption":"Worker ทำเสร็จ แจ้งกลับ Client ผ่าน notification/webhook"}]}
+```
+
 ## เมื่อไหร่ควรใช้วิธีนี้
 
 - งานใช้เวลานาน (วินาทีขึ้นไป) ที่ client ไม่จำเป็นต้องรอผลทันที — เหมือนผ้าที่ต้องใช้เวลาซัก ไม่ใช่แค่รีดด่วน

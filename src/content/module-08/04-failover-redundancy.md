@@ -33,6 +33,11 @@ sequenceDiagram
     Note over DNS: Client เริ่มได้รับบริการจากยางอะไหล่แทนโดยไม่รู้ตัว
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"Primary"},{"icon":"building","label":"Standby"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Health Checker เช็ค Primary เป็นระยะทุก 2-5 วินาที — ปกติดี"},{"activeNode":1,"caption":"จู่ๆ Primary ไม่ตอบ (แตกแล้ว) — เหมือนยางแตกกลางทาง"},{"activeNode":2,"caption":"สลับไปใช้ Standby (ยางอะไหล่) ทันที"},{"activeNode":0,"caption":"Client เริ่มได้รับบริการจาก Standby แทนโดยไม่รู้ตัว"}]}
+```
+
 **Active-Passive (ยางอะไหล่นอนอยู่ในท้ายรถ)**: มีของสำรอง (standby) รอเฉยๆ ไม่ถูกใช้งานจนกว่า primary จะเสีย ค่อยเอามาใช้แทน — เรียบง่าย แต่ของสำรอง "นอนเฉยๆ ไม่ได้ใช้" ตอนไม่มีปัญหา
 
 **Active-Active (รถมี 4 ล้อทำงานพร้อมกันหมด)**: ทุกชุดรับภาระพร้อมกันตลอดเวลา (เหมือน load balancing หลายเครื่องที่เรียนไปแล้ว) ถ้าชุดหนึ่งเสีย ที่เหลือรับภาระต่อทันทีโดยไม่ต้อง "สลับ" อะไรเลย — ใช้ทรัพยากรคุ้มกว่า แต่ต้องออกแบบให้ทุกชุด stateless (เชื่อมกับโมดูล Scalability) และรองรับการทำงานพร้อมกันได้ (เชื่อมกับโมดูล Consistency & CAP)

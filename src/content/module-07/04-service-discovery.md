@@ -27,6 +27,11 @@ sequenceDiagram
 
 ทุก instance ที่เปิดขึ้นมาใหม่จะ**ลงทะเบียนตัวเอง**กับสมุดกลาง (เช่น Consul, etcd, หรือ Kubernetes DNS ในตัว) พร้อมส่ง "สัญญาณว่ายังอยู่" (heartbeat) เป็นระยะเพื่อบอกว่ายัง healthy — ถ้า instance ตายและหยุดส่งสัญญาณ สมุดกลางจะลบเบอร์นั้นออกจากรายชื่ออัตโนมัติ เหมือนลบเบอร์พนักงานที่ลาออกไปแล้ว
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"building","label":"Instance ใหม่"},{"icon":"notebook","label":"Registry"},{"icon":"building","label":"Gateway"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"Instance ใหม่บูตขึ้นมา ได้ IP ใหม่"},{"activeNode":1,"caption":"ลงทะเบียนตัวเองกับ Registry (สมุดโทรศัพท์กลาง) พร้อมส่ง heartbeat เป็นระยะ"},{"activeNode":2,"caption":"Gateway ถาม Registry ว่า instance ไหนยัง healthy อยู่บ้างตอนนี้"},{"activeNode":0,"caption":"Gateway โทรหา instance ที่ Registry ยืนยันว่ายังรับสายอยู่"}]}
+```
+
 ลองไล่ทีละ step ของ instance หนึ่งตัวตั้งแต่เกิดจนตาย:
 
 ```demo

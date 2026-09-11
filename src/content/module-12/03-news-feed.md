@@ -21,6 +21,11 @@ sequenceDiagram
     Note over Fanout: งานนี้ทำผ่าน Message Queue<br/>ไม่ block การโพสต์ (module Async & Messaging)
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"User โพสต์"},{"icon":"building","label":"Fan-out Queue"},{"icon":"notebook","label":"Follower Feeds"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"User โพสต์ใหม่ — ระบบตอบกลับทันทีว่าโพสต์สำเร็จ (ไม่รอ fan-out เสร็จ)"},{"activeNode":1,"caption":"งาน fan-out เข้า Message Queue เบื้องหลัง (async ไม่บล็อก user)"},{"activeNode":2,"caption":"Worker ค่อยๆ เขียนโพสต์นี้เข้า feed ของ follower ทุกคน (fan-out on write)"}]}
+```
+
 ## ทำไม Fan-out ต้องเป็น Async
 
 ถ้า user ดังมี follower 10 ล้านคน การเขียนเข้า feed ทุกคน**พร้อมกันแบบ synchronous** จะทำให้การโพสต์ค้างนานมาก (เหมือนต้องพิมพ์หนังสือพิมพ์ฉบับพิเศษ 10 ล้านฉบับให้เสร็จก่อนถึงจะกดโพสต์ได้) วิธีที่ถูกต้องคือให้การโพสต์**ตอบกลับทันที** (เชื่อมกับ module Async & Messaging) แล้วส่งงาน fan-out เข้า queue ให้ worker ค่อยๆ กระจายไปทีละ follower เบื้องหลัง

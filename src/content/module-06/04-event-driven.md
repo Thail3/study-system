@@ -26,6 +26,11 @@ component: ComparisonDiagram
 props: {"left":{"title":"Request-Driven (สั่งงานตรงๆ)","points":["Order Service ต้องรู้จักทุก service ปลายทาง","Tight coupling — service ไหนช้า/ล่ม กระทบทั้ง chain","เพิ่ม service ใหม่ต้องแก้โค้ดฝั่งเรียก"]},"right":{"title":"Event-Driven (ประกาศเหตุการณ์)","points":["Order Service แค่ประกาศ ไม่ต้องรู้ว่าใครฟัง","Loose coupling — service ล่มชั่วคราวไม่บล็อกทั้งระบบ","เพิ่ม service ใหม่แค่ subscribe event เดิม ไม่ต้องแก้ตัวประกาศ"]},"note":"ระบบใหญ่มักผสมทั้งสองแบบตามความจำเป็นจริง"}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"house","label":"เซนเซอร์ประตู"},{"icon":"building","label":"Event Bus"},{"icon":"building","label":"ไฟ/กล้อง/มือถือ"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"เซนเซอร์ประตูตรวจจับว่ามีคนเปิดประตูเข้าบ้าน"},{"activeNode":1,"caption":"ประกาศ event \"door.opened\" ผ่าน Event Bus — ไม่ได้สั่งใครตรงๆ"},{"activeNode":2,"caption":"ไฟ กล้อง และมือถือ ต่างคนต่างรับรู้ event นี้ แล้วทำงานของตัวเองอย่างอิสระพร้อมกัน"}]}
+```
+
 ## ข้อดี
 
 - **Decoupling** — เพิ่ม/ลบ service ที่ subscribe event ได้โดยไม่ต้องแก้ตัวที่ประกาศ (เพิ่มอุปกรณ์ใหม่ในบ้าน แค่ให้มันฟังเหตุการณ์เดิม ไม่ต้องแก้เซนเซอร์ประตู)

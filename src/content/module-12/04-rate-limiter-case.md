@@ -24,6 +24,11 @@ component: StepThroughDiagram
 props: {"steps":[{"label":"1. Request มาถึง App Server (ผ่าน Load Balancer)","detail":"App server ไหนก็ได้รับ request แล้วต้องเช็คโควต้าของ user นี้ก่อนประมวลผลต่อ"},{"label":"2. เช็ค/อัปเดต Token Count ที่ Redis กลาง","detail":"ใช้ atomic operation (เช่น Redis INCR + EXPIRE) เพื่อป้องกัน race condition ตอนหลาย server เช็คพร้อมกัน เหมือนสมุดนับบัตรที่แก้ทีละคนไม่ให้เขียนทับกัน"},{"label":"3. Redis ตอบกลับว่าเหลือโควต้าไหม","detail":"ถ้าเหลือ อนุญาต request ผ่าน ถ้าไม่เหลือ ตอบ 429 ทันทีโดยไม่ต้องประมวลผล request จริง"},{"label":"4. ทำที่ API Gateway ไม่ใช่ทุก service แยกกัน","detail":"เชื่อมกับ module Microservices — rate limit ควรอยู่ที่ Gateway (พนักงานต้อนรับ) จุดเดียว ไม่ต้องเขียนซ้ำในทุก microservice ข้างหลัง"}]}
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"gate","label":"App Servers"},{"icon":"notebook","label":"Redis กลาง"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Request จากหลายประตู (App Server) ต่างเช็คโควต้าของ user เดียวกัน"},{"activeNode":2,"caption":"ทุกประตูเช็ค/อัปเดตที่ Redis กลางเล่มเดียวกัน (ไม่ใช่นับแยกคนละเครื่อง)"},{"activeNode":1,"caption":"Redis ตอบกลับว่าเหลือโควต้าไหม — ถ้าไม่เหลือ ตอบ 429 ทันที"}]}
+```
+
 ## Trade-off ที่ควรพูดถึง
 
 - **Redis กลายเป็น dependency สำคัญ** — ถ้า Redis ช้า/ล่ม ทุก request ที่ต้องเช็ค rate limit ก็ช้า/ล่มตาม (ต้องคิดเรื่อง Circuit Breaker จาก module Reliability ป้องกันไว้ด้วย: ถ้า Redis ตอบช้าเกินไป อาจเลือก "fail open" ยอมปล่อยผ่านชั่วคราวดีกว่าบล็อกทุก request)

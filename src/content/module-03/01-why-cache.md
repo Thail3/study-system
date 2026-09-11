@@ -16,6 +16,11 @@ flowchart LR
 **Hit** คือเจอสูตรจดไว้แล้ว หยิบตอบเลย ส่วน **Miss** คือไม่มีจด ต้องเปิดตำราหาใหม่ (ช้ากว่า) แล้วค่อยจดใส่กระดาษไว้สำหรับครั้งหน้า
 
 ```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"notebook","label":"Cache"},{"icon":"building","label":"Database"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Request มาถึง เช็ค Cache ก่อน (จดไว้ในกระดาษข้างเตาหรือยัง)"},{"activeNode":2,"caption":"ไม่เจอ (Miss) — ต้องไปเปิดตำรา คำนวณ/query Database ใหม่"},{"activeNode":1,"caption":"ได้คำตอบแล้ว จดใส่ Cache ไว้ เผื่อมีคนถามซ้ำ"},{"activeNode":0,"caption":"ส่งคำตอบกลับ Client — ครั้งหน้าถ้าถามซ้ำ Cache จะ Hit ทันที ไม่ต้องเดินไป Database อีก"}]}
+```
+
+```demo
 component: ComparisonDiagram
 props: {"left":{"title":"ไม่มี Cache","points":["ทุก request ไปเปิดตำรา (query DB) ใหม่ทุกครั้ง","ช้าเท่าเดิมทุกครั้งไม่ว่าจะถามซ้ำกี่รอบ","Database รับภาระเต็มทุก request","ข้อมูลสดใหม่เป๊ะเสมอ"]},"right":{"title":"มี Cache","points":["คำถามซ้ำหยิบจากกระดาษจดได้เลย (hit)","เร็วขึ้นมากสำหรับข้อมูลที่ถามบ่อย","Database รับภาระแค่ตอน miss","ข้อมูลอาจ \"เก่า\" ไปนิดหน่อย (ต้องจัดการ invalidation)"]},"note":"cache ได้ผลดีสุดกับข้อมูลที่ถูกถามบ่อยกว่าที่เปลี่ยนแปลง"}
 ```

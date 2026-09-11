@@ -23,6 +23,11 @@ flowchart TB
 
 Client เห็นแค่ประตูเดียว (Gateway) ไม่ต้องรู้ว่าเบื้องหลังมีกี่ร้าน หรือร้านไหนอยู่ชั้นไหน — คล้าย Load Balancer ในบทต้นๆ แต่คราวนี้ชี้ทางตาม**เนื้อหาที่ถาม** (ถามหาอะไร ไม่ใช่แค่กระจายโหลดเฉยๆ)
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"API Gateway"},{"icon":"building","label":"Order/Payment/User"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Client ยิง request มาที่ Gateway จุดเดียว — ไม่ต้องรู้จักแต่ละ service เอง"},{"activeNode":1,"caption":"Gateway ตรวจ token (auth) ครั้งเดียวที่นี่ ไม่ต้องให้ทุก service ตรวจซ้ำ"},{"activeNode":2,"caption":"Gateway กระจาย request ไปหลาย service ที่เกี่ยวข้อง"},{"activeNode":0,"caption":"รวมผลลัพธ์จากทุก service เป็นคำตอบเดียว ส่งกลับ Client"}]}
+```
+
 ## หน้าที่ที่พนักงานต้อนรับ (Gateway) มักทำให้
 
 ```demo

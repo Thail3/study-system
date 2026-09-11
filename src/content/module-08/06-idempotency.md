@@ -29,6 +29,11 @@ Retry & Backoff (บทที่แล้ว) สอนว่า "network สะ
 
 `POST` (สร้าง/เก็บเงิน/ส่งอีเมล ฯลฯ) คือตัวการหลักที่ต้องระวัง เพราะโดยธรรมชาติมันไม่ idempotent — ต้อง**สร้างความ idempotent ขึ้นมาเอง**
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"Server"},{"icon":"notebook","label":"Dedup Store"}],"travelerIcon":"envelope","steps":[{"activeNode":1,"caption":"Client ส่ง request พร้อม Idempotency Key (เช่น abc-123) ครั้งแรก"},{"activeNode":2,"caption":"Server เช็ค Dedup Store: เคยเห็น key นี้ไหม — ยังไม่เคย"},{"activeNode":1,"caption":"Server หักเงินจริง + บันทึกผลลัพธ์คู่กับ key ไว้"},{"activeNode":0,"caption":"Response หายระหว่างทาง — Client retry ด้วย key เดิม (abc-123)"},{"activeNode":2,"caption":"Server เจอ key ซ้ำใน Dedup Store — ไม่หักเงินซ้ำ ส่งผลลัพธ์เดิมกลับไปแทน"}]}
+```
+
 ## แก้ยังไง: Idempotency Key
 
 ลองไล่ทีละ step ว่า client/server ทำงานร่วมกันยังไงให้ retry ปลอดภัย

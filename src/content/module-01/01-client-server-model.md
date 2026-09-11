@@ -17,6 +17,11 @@ props: {"left":{"title":"CLIENT (ฝั่งสั่ง)","points":["เดิ
 
 พนักงานเสิร์ฟเดินใบสั่งจากโต๊ะไปครัว (**request**) ครัวทำเสร็จแล้วส่งจานอาหารกลับมาที่โต๊ะ (**response**) — สองคำนี้คือหัวใจของการสื่อสารระหว่าง client กับ server ทุกครั้งที่เปิดเว็บ กดปุ่มในแอป หรือแม้แต่เลื่อนดูฟีด เบื้องหลังก็คือใบสั่ง-จานอาหารแบบนี้เกิดขึ้นซ้ำๆ นับไม่ถ้วน
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"โต๊ะคุณ (Client)"},{"icon":"building","label":"ครัว (Server)"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"คุณนั่งโต๊ะ เปิดเมนู แล้วสั่งอาหาร (request) — พนักงานรับใบสั่งแล้วเดินเข้าครัว"},{"activeNode":1,"caption":"ครัว (Server) ได้รับใบสั่ง เริ่มทำอาหารตามนั้น"},{"activeNode":1,"caption":"ทำเสร็จแล้ว เตรียมจานส่งกลับ (response)"},{"activeNode":0,"caption":"จานอาหารมาส่งถึงโต๊ะคุณ — ครบหนึ่งรอบ request-response"}]}
+```
+
 ```mermaid
 sequenceDiagram
     participant C1 as Client (มือถือ)

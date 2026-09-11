@@ -1,12 +1,17 @@
 ลองนึกภาพให้เพื่อนเข้าไปรดน้ำต้นไม้ที่บ้านตอนคุณไปเที่ยวต่างจังหวัด — คุณไม่อยากให้กุญแจบ้านจริง (เดี๋ยวเพื่อนเข้าไปห้องอื่นได้หมด) วิธีที่ทำกันจริงคือ**ทำกุญแจสำรองที่จำกัดสิทธิ์** เช่น กุญแจที่เปิดได้แค่ประตูหน้าบ้านกับสวน ไม่เปิดห้องนอน แถมยังเรียกคืนได้ทีหลังโดยไม่ต้องเปลี่ยนกุญแจบ้านจริงเลย
 
-AuthN (บทที่แล้ว) พูดถึงการพิสูจน์ตัวตน — แต่ถ้าอยากให้ "Login with Google" ทำงานได้ (ไม่ต้องสร้าง password ใหม่ในทุกแอป) ต้องมีมาตรฐานกลางที่ทุกฝ่ายเข้าใจตรงกัน นั่นคือ **OAuth 2.0** ซึ่งทำงานเหมือนระบบกุญแจสำรองจำกัดสิทธิ์นี้เป๊ะ
+AuthN (บทที่แล้ว) พูดถึงการพิสูจน์ตัวตน — แต่ถ้าอยากให้ "Login with Google" ทำงานได้ (ไม่ต้องสร้าง password ใหม่ในทุกแอป) ต้องมีมาตรฐานกลางที่ทุกฝ่ายเข้าใจตรงกัน นั่นคือ **OAuth 2.0 (Open Authorization)** ซึ่งทำงานเหมือนระบบกุญแจสำรองจำกัดสิทธิ์นี้เป๊ะ
 
 เดินตาม flow ทีละขั้นด้านล่าง (ตัวอย่าง "Login with Google")
 
 ```demo
 component: StepThroughDiagram
 props: {"steps":[{"label":"1. User กด Login with Google","detail":"แอป (Client) พาผู้ใช้ไปหน้า Google แทนที่จะขอ password ของ Google เก็บไว้เอง — เหมือนบอกเพื่อนว่า \"ไปคุยกับเจ้าของบ้านเอง ไม่ต้องขอกุญแจจากฉัน\""},{"label":"2. User ยืนยันตัวตนกับ Google โดยตรง","detail":"ผู้ใช้กรอก password ที่หน้าของ Google เท่านั้น แอปไม่เห็น password นี้เลย — เหมือนเพื่อนคุยกับเจ้าของบ้านตัวจริง ไม่ผ่านคนกลาง"},{"label":"3. Google ถามสิทธิ์ที่แอปขอ","detail":"เช่น \"แอปนี้ขอเข้าถึง อีเมลและชื่อของคุณ อนุญาตไหม?\" — เหมือนเจ้าของบ้านถามว่า \"จะทำกุญแจสำรองแบบเปิดได้แค่ประตูหน้ากับสวนนะ โอเคไหม\""},{"label":"4. Google ส่ง Authorization Code กลับมา","detail":"ส่งกลับไปที่แอปผ่าน redirect URL พร้อม code ชั่วคราว (ยังไม่ใช่กุญแจจริง แค่ใบเบิกกุญแจ)"},{"label":"5. แอปแลก Code เป็น Access Token","detail":"แอป (ฝั่ง server) ส่ง code นี้ไปแลกที่ Google โดยตรง (พร้อม client secret) ได้กุญแจสำรองจริง (access token) กลับมา"},{"label":"6. แอปใช้ Token เรียก API ของ Google","detail":"ใช้กุญแจสำรอง (access token) ขอข้อมูล profile/email ผู้ใช้จาก Google API แล้วสร้างบัญชีในระบบตัวเอง"}]}
+```
+
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"User"},{"icon":"building","label":"App (Client)"},{"icon":"building","label":"Google"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"User กด \"Login with Google\" ที่ App"},{"activeNode":2,"caption":"App พาไปหน้า Google โดยตรง — User กรอก password ที่ Google เท่านั้น ไม่ผ่าน App เลย"},{"activeNode":1,"caption":"Google ส่ง Authorization Code กลับมาที่ App"},{"activeNode":2,"caption":"App เอา Code ไปแลกเป็น Access Token กับ Google โดยตรง (พร้อม client secret)"},{"activeNode":1,"caption":"App ใช้ Access Token เรียกข้อมูล profile จาก Google — สร้างบัญชีในระบบตัวเอง"}]}
 ```
 
 ## ทำไมต้องซับซ้อนขนาดนี้
