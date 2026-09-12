@@ -7,7 +7,10 @@ import { demoRegistry } from '../demos/registry'
 
 const props = defineProps<{ source: string }>()
 
-const md = new MarkdownIt({ html: false, linkify: true, typographer: true })
+// html:true lets lesson prose (authored by us, not user input) use
+// <mark class="hl-term|hl-insight|hl-warning"> for the 3-color highlight
+// system — DOMPurify.sanitize() below still runs as a safety net regardless.
+const md = new MarkdownIt({ html: true, linkify: true, typographer: true })
 
 type Segment =
   | { type: 'html'; html: string }
@@ -103,6 +106,23 @@ const segments = computed<Segment[]>(() => {
 }
 .topic-content :deep(strong) {
   color: var(--ink);
+}
+.topic-content :deep(mark) {
+  padding: 0 0.2em;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+.topic-content :deep(mark.hl-term) {
+  background: var(--mark-yellow-wash);
+  color: var(--mark-yellow);
+}
+.topic-content :deep(mark.hl-insight) {
+  background: var(--mark-green-wash);
+  color: var(--mark-green);
+}
+.topic-content :deep(mark.hl-warning) {
+  background: var(--mark-red-wash);
+  color: var(--mark-red);
 }
 .topic-content :deep(blockquote) {
   margin: var(--space-4) 0;

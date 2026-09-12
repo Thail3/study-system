@@ -20,6 +20,21 @@ const props = defineProps<{
 
 const index = ref(0)
 
+// Decorative role color per icon type (not tied to the mark-*
+// term/insight/warning highlight colors) so each node stays visually
+// distinct across the whole journey, not just while active.
+const ICON_COLOR: Record<string, string> = {
+  person: 'var(--diagram-blue)',
+  house: 'var(--diagram-rose)',
+  building: 'var(--accent)',
+  notebook: 'var(--diagram-violet)',
+  gate: 'var(--diagram-violet)',
+  envelope: 'var(--diagram-blue)',
+}
+function nodeColor(icon: string): string {
+  return ICON_COLOR[icon] ?? 'var(--ink-soft)'
+}
+
 const travelerIcon = computed(() => props.travelerIcon ?? 'person')
 const activeNode = computed(() => props.steps[index.value].activeNode)
 const travelerPercent = computed(() => ((activeNode.value + 0.5) / props.nodes.length) * 100)
@@ -40,7 +55,13 @@ function prev() {
       <div class="traveler" :style="{ left: travelerPercent + '%' }">
         <JourneyIcon :name="travelerIcon" class="traveler-icon" />
       </div>
-      <div v-for="(n, i) in nodes" :key="i" class="rail-node" :class="{ active: i === activeNode }">
+      <div
+        v-for="(n, i) in nodes"
+        :key="i"
+        class="rail-node"
+        :class="{ active: i === activeNode }"
+        :style="{ color: nodeColor(n.icon) }"
+      >
         <JourneyIcon :name="n.icon" class="node-icon" />
         <p class="node-label annotation-label">{{ n.label }}</p>
       </div>
@@ -93,15 +114,21 @@ function prev() {
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
-  color: var(--ink-soft);
-  transition: color 0.2s;
+  opacity: 0.5;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 .rail-node.active {
-  color: var(--accent-strong);
+  opacity: 1;
+}
+.rail-node.active .node-icon {
+  transform: scale(1.15);
 }
 .node-icon {
   width: 32px;
   height: 32px;
+  transition: transform 0.2s;
 }
 .node-label {
   margin: 0;

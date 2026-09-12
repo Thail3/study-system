@@ -57,8 +57,16 @@ function slats(box: Box) {
       <line x1="490" :y1="baseline" x2="880" :y2="baseline" stroke="var(--ink-faint)" stroke-width="1" />
 
       <g v-for="(b, i) in upBoxes" :key="'up' + i">
-        <rect :x="b.x" :y="b.y" :width="b.size" :height="b.size" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="1.75" />
-        <path :d="ticks(b)" stroke="var(--accent)" stroke-width="2" fill="none" />
+        <rect
+          :x="b.x"
+          :y="b.y"
+          :width="b.size"
+          :height="b.size"
+          fill="var(--diagram-violet-wash)"
+          stroke="var(--diagram-violet)"
+          stroke-width="1.75"
+        />
+        <path :d="ticks(b)" stroke="var(--diagram-violet)" stroke-width="2" fill="none" />
         <path :d="slats(b)" stroke="var(--ink-soft)" stroke-width="1" />
         <text :x="b.x + b.size / 2" :y="b.y + b.size + 20" text-anchor="middle" class="box-label">{{ b.label }}</text>
       </g>
@@ -76,8 +84,16 @@ function slats(box: Box) {
       </g>
 
       <g v-for="(b, i) in outBoxes" :key="'out' + i">
-        <rect :x="b.x" :y="b.y" :width="b.size" :height="b.size" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="1.75" />
-        <path :d="ticks(b)" stroke="var(--accent)" stroke-width="2" fill="none" />
+        <rect
+          :x="b.x"
+          :y="b.y"
+          :width="b.size"
+          :height="b.size"
+          fill="var(--diagram-blue-wash)"
+          stroke="var(--diagram-blue)"
+          stroke-width="1.75"
+        />
+        <path :d="ticks(b)" stroke="var(--diagram-blue)" stroke-width="2" fill="none" />
         <path :d="slats(b)" stroke="var(--ink-soft)" stroke-width="1" />
         <text v-if="b.label" :x="b.x + b.size / 2" :y="b.y + b.size + 20" text-anchor="middle" class="box-label">{{ b.label }}</text>
       </g>

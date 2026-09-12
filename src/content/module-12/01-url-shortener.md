@@ -4,7 +4,7 @@
 
 - รับ URL ยาว คืน short code (เช่น `short.ly/aZ3x9`)
 - คลิก short code แล้ว redirect ไป URL ต้นฉบับ
-- รองรับ **100 ล้าน URL ใหม่/เดือน**, อ่าน (redirect) มากกว่าเขียนหลายเท่า (read-heavy — เหมือนป้ายบอกทางที่คนขับผ่านดูวันละหลายพันครั้ง แต่ไม่ค่อยมีใครมาติดป้ายใหม่บ่อย)
+- <mark class="hl-insight">รองรับ 100 ล้าน URL ใหม่/เดือน, อ่าน (redirect) มากกว่าเขียนหลายเท่า (read-heavy)</mark> — เหมือนป้ายบอกทางที่คนขับผ่านดูวันละหลายพันครั้ง แต่ไม่ค่อยมีใครมาติดป้ายใหม่บ่อย
 
 ```demo
 component: StepThroughDiagram
@@ -30,5 +30,5 @@ flowchart LR
 ## จุดที่มักถูกถามต่อในสัมภาษณ์
 
 - **Custom alias** (ผู้ใช้ตั้ง short code เอง) — ต้องเช็คว่า code นั้นถูกใช้ไปแล้วหรือยัง (เหมือนเช็คว่าชื่อโดเมนนี้มีคนจองแล้วหรือยัง)
-- **Analytics** (นับจำนวนคลิก) — เขียนถี่มาก ควรทำแบบ async (module Async & Messaging) ไม่บล็อกการ redirect ให้ user ต้องรอ
+- **Analytics** (นับจำนวนคลิก) — <mark class="hl-warning">เขียนถี่มาก ควรทำแบบ async ไม่บล็อกการ redirect ให้ user ต้องรอ</mark> (module Async & Messaging)
 - **URL หมดอายุ** — ใช้ TTL คล้ายกับที่เรียนใน module Caching (ป้ายที่มีวันหมดอายุกำกับ)

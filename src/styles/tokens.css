@@ -22,6 +22,18 @@
   --mark-red-wash: rgba(179, 70, 44, 0.1);
   --mark-green: #2f7d5a;
   --mark-green-wash: rgba(47, 125, 90, 0.12);
+  --mark-yellow: #9c6b0a;
+  --mark-yellow-wash: rgba(156, 107, 10, 0.16);
+
+  /* diagram role colors — decorative variety only, kept distinct from the
+     mark-* highlight colors above so a colored box never gets mistaken
+     for a term/insight/warning highlight */
+  --diagram-violet: #6b5b95;
+  --diagram-violet-wash: rgba(107, 91, 149, 0.12);
+  --diagram-blue: #3d6ea5;
+  --diagram-blue-wash: rgba(61, 110, 165, 0.12);
+  --diagram-rose: #a8527a;
+  --diagram-rose-wash: rgba(168, 82, 122, 0.12);
 
   --line: #c7d2dc;
   --line-strong: #9fb0be;

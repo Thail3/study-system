@@ -35,6 +35,33 @@ function loadMermaid(): Promise<Mermaid> {
   return mermaidPromise
 }
 
+// Mermaid's default theme renders every node the same color regardless of
+// role — cycle a small decorative palette across nodes/actors in document
+// order so diagrams read as visually distinct without hand-editing each
+// diagram's source (role labels vary too much per-diagram to color by
+// keyword reliably).
+const NODE_PALETTE = [
+  { fill: 'var(--accent-wash)', stroke: 'var(--accent)' },
+  { fill: 'var(--diagram-violet-wash)', stroke: 'var(--diagram-violet)' },
+  { fill: 'var(--diagram-blue-wash)', stroke: 'var(--diagram-blue)' },
+  { fill: 'var(--diagram-rose-wash)', stroke: 'var(--diagram-rose)' },
+]
+
+function colorizeNodes(root: Element) {
+  const shapes = root.querySelectorAll<SVGElement>('.node rect, .node polygon, .node circle, .node ellipse, .node path')
+  shapes.forEach((el, i) => {
+    const c = NODE_PALETTE[i % NODE_PALETTE.length]
+    el.style.fill = c.fill
+    el.style.stroke = c.stroke
+  })
+  const actors = root.querySelectorAll<SVGElement>('.actor')
+  actors.forEach((el, i) => {
+    const c = NODE_PALETTE[i % NODE_PALETTE.length]
+    el.style.fill = c.fill
+    el.style.stroke = c.stroke
+  })
+}
+
 async function render() {
   const token = ++renderToken
   const id = `mermaid-${Math.random().toString(36).slice(2, 10)}`
@@ -43,6 +70,7 @@ async function render() {
     const { svg } = await mermaid.render(id, props.code)
     if (token === renderToken && container.value) {
       container.value.innerHTML = svg
+      colorizeNodes(container.value)
     }
   } catch (err) {
     if (token === renderToken && container.value) {

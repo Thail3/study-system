@@ -60,11 +60,11 @@ const active = computed(() => (selected.value ? info[selected.value] : null))
           @keydown.space.prevent="selected = 'cp'"
         />
 
-        <circle cx="150" cy="30" r="20" class="cap-node" />
+        <circle cx="150" cy="30" r="20" class="cap-node node-c" />
         <text x="150" y="35" text-anchor="middle" class="cap-node-label">C</text>
-        <circle cx="30" cy="230" r="20" class="cap-node" />
+        <circle cx="30" cy="230" r="20" class="cap-node node-a" />
         <text x="30" y="235" text-anchor="middle" class="cap-node-label">A</text>
-        <circle cx="270" cy="230" r="20" class="cap-node" />
+        <circle cx="270" cy="230" r="20" class="cap-node node-p" />
         <text x="270" y="235" text-anchor="middle" class="cap-node-label">P</text>
 
         <text x="150" y="12" text-anchor="middle" class="cap-full-label">Consistency</text>
@@ -114,9 +114,19 @@ const active = computed(() => (selected.value ? info[selected.value] : null))
   outline: 2px solid var(--accent);
 }
 .cap-node {
-  fill: var(--paper-raised);
-  stroke: var(--ink);
   stroke-width: 1.75;
+}
+.cap-node.node-c {
+  fill: var(--diagram-violet-wash);
+  stroke: var(--diagram-violet);
+}
+.cap-node.node-a {
+  fill: var(--diagram-blue-wash);
+  stroke: var(--diagram-blue);
+}
+.cap-node.node-p {
+  fill: var(--diagram-rose-wash);
+  stroke: var(--diagram-rose);
 }
 .cap-node-label {
   font-family: var(--font-mono);

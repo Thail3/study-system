@@ -17,7 +17,7 @@ flowchart TB
     end
 ```
 
-ถ้าแต่ละ app server เก็บ token bucket แยกกันเอง (in-memory) — user ที่ยิง request สลับไปมาระหว่างเครื่อง (ปกติมากเพราะมี Load Balancer อยู่แล้ว) จะได้โควต้ารวมมากกว่าที่ตั้งใจ ทางแก้คือย้ายจำนวนบัตรไปเก็บที่ **Redis กลาง** (distributed cache จาก module Caching) ให้ทุก server เช็ค/อัปเดตค่าเดียวกัน เหมือนทุกประตูเปิดสมุดนับบัตรเล่มเดียวกัน แทนที่จะมีสมุดนับแยกคนละเล่ม
+ถ้าแต่ละ app server เก็บ token bucket แยกกันเอง (in-memory) — <mark class="hl-warning">user ที่ยิง request สลับไปมาระหว่างเครื่อง (ปกติมากเพราะมี Load Balancer อยู่แล้ว) จะได้โควต้ารวมมากกว่าที่ตั้งใจ</mark> ทางแก้คือย้ายจำนวนบัตรไปเก็บที่ **Redis กลาง** (distributed cache จาก module Caching) ให้ทุก server เช็ค/อัปเดตค่าเดียวกัน เหมือนทุกประตูเปิดสมุดนับบัตรเล่มเดียวกัน แทนที่จะมีสมุดนับแยกคนละเล่ม
 
 ```demo
 component: StepThroughDiagram
@@ -35,4 +35,4 @@ props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"gate","label":"App 
 - **Latency เพิ่มขึ้นทุก request** — ต้องยิงไป Redis ก่อนเสมอ (ปกติเร็วมาก ~1ms เพราะ Redis เป็น in-memory แต่ก็ยังเป็น network call เพิ่ม)
 - **เลือก granularity ให้เหมาะ** — per-user, per-IP, หรือ per-API-key ขึ้นกับว่าระบบต้องการป้องกันอะไร (เชื่อมกับ module Reliability เรื่อง rate limiting ระดับต่างๆ)
 
-> นี่คือตัวอย่างที่ดีว่าทำไม system design เป็นเรื่องของ**การเอาหลายๆ concept มาประกอบกัน** ไม่ใช่ท่องจำแต่ละเรื่องแยกๆ — rate limiter เดี่ยวๆ ง่าย แต่พอต้อง distributed ต้องดึง caching, consistency, และ reliability pattern มาผสมกันทั้งหมด
+> นี่คือตัวอย่างที่ดีว่าทำไม system design เป็นเรื่องของ**การเอาหลายๆ concept มาประกอบกัน** ไม่ใช่ท่องจำแต่ละเรื่องแยกๆ — <mark class="hl-insight">rate limiter เดี่ยวๆ ง่าย แต่พอต้อง distributed ต้องดึง caching, consistency, และ reliability pattern มาผสมกันทั้งหมด</mark>
