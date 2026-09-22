@@ -38,6 +38,10 @@ defineProps<{ name: string }>()
       <rect x="3" y="5" width="18" height="14" rx="1" />
       <path d="M3 6 L12 14 L21 6" />
     </g>
+    <g v-else>
+      <circle cx="12" cy="12" r="9" stroke-dasharray="2 2" />
+      <path d="M12 8 V13 M12 16 V16.1" />
+    </g>
   </svg>
 </template>
 

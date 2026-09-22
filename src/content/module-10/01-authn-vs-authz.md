@@ -4,7 +4,7 @@
 
 ```demo
 component: ComparisonDiagram
-props: {"left":{"title":"Authentication (AuthN) — บัตรพนักงาน","points":["ตอบคำถาม: คุณเป็นใคร?","พิสูจน์ตัวตน เช่น login ด้วย password, OTP, biometric","เกิดขึ้นครั้งเดียวตอนเข้าระบบ (ได้ token/session มา)"]},"right":{"title":"Authorization (AuthZ) — คีย์การ์ดเปิดห้อง","points":["ตอบคำถาม: คุณเข้าห้องนี้ได้ไหม?","ตรวจสิทธิ์ทุกครั้งที่พยายามเข้าถึง resource","เกิดขึ้นซ้ำๆ ทุกครั้งที่ต้องการสิทธิ์"]},"note":"ลำดับเสมอ: ต้องแสกนบัตรพนักงาน (AuthN) ผ่านก่อน ถึงจะมาแตะคีย์การ์ดเปิดห้อง (AuthZ) ได้"}
+props: {"left":{"title":"Authentication (AuthN) — บัตรพนักงาน","points":["ตอบคำถาม: คุณเป็นใคร?","พิสูจน์ตัวตน เช่น login ด้วย password, OTP (One-Time Password), biometric","เกิดขึ้นครั้งเดียวตอนเข้าระบบ (ได้ token/session มา)"]},"right":{"title":"Authorization (AuthZ) — คีย์การ์ดเปิดห้อง","points":["ตอบคำถาม: คุณเข้าห้องนี้ได้ไหม?","ตรวจสิทธิ์ทุกครั้งที่พยายามเข้าถึง resource","เกิดขึ้นซ้ำๆ ทุกครั้งที่ต้องการสิทธิ์"]},"note":"ลำดับเสมอ: ต้องแสกนบัตรพนักงาน (AuthN) ผ่านก่อน ถึงจะมาแตะคีย์การ์ดเปิดห้อง (AuthZ) ได้"}
 ```
 
 ```demo

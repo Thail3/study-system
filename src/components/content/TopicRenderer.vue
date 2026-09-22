@@ -5,12 +5,23 @@ import DOMPurify from 'dompurify'
 import MermaidDiagram from './MermaidDiagram.vue'
 import { demoRegistry } from '../demos/registry'
 
-const props = defineProps<{ source: string }>()
-
 // html:true lets lesson prose (authored by us, not user input) use
 // <mark class="hl-term|hl-insight|hl-warning"> for the 3-color highlight
 // system — DOMPurify.sanitize() below still runs as a safety net regardless.
+// Module-scoped: config is static, no need to rebuild per TopicRenderer instance.
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true })
+
+const SANITIZE_CONFIG = {
+  ALLOWED_TAGS: [
+    'p', 'br', 'strong', 'em', 'del', 'sup', 'sub', 'a', 'mark',
+    'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'hr',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+  ],
+  ALLOWED_ATTR: ['class', 'href', 'title'],
+}
+
+const props = defineProps<{ source: string }>()
 
 type Segment =
   | { type: 'html'; html: string }
@@ -55,7 +66,8 @@ const segments = computed<Segment[]>(() => {
   while ((match = fenceRe.exec(props.source))) {
     const [full, kind, info, body] = match
     const before = props.source.slice(lastIndex, match.index)
-    if (before.trim()) out.push({ type: 'html', html: DOMPurify.sanitize(md.render(before)) })
+    if (before.trim())
+      out.push({ type: 'html', html: DOMPurify.sanitize(md.render(before), SANITIZE_CONFIG) })
 
     if (kind === 'mermaid') {
       out.push({ type: 'mermaid', code: body.trim(), caption: extractTitle(info) })
@@ -71,7 +83,7 @@ const segments = computed<Segment[]>(() => {
     lastIndex = match.index + full.length
   }
   const rest = props.source.slice(lastIndex)
-  if (rest.trim()) out.push({ type: 'html', html: DOMPurify.sanitize(md.render(rest)) })
+  if (rest.trim()) out.push({ type: 'html', html: DOMPurify.sanitize(md.render(rest), SANITIZE_CONFIG) })
   return out
 })
 </script>

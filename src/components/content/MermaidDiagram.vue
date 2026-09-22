@@ -14,6 +14,7 @@ function loadMermaid(): Promise<Mermaid> {
     mermaidPromise = import('mermaid').then(({ default: mermaid }) => {
       mermaid.initialize({
         startOnLoad: false,
+        securityLevel: 'strict',
         theme: 'base',
         fontFamily: 'IBM Plex Mono, monospace',
         themeVariables: {
@@ -47,19 +48,20 @@ const NODE_PALETTE = [
   { fill: 'var(--diagram-rose-wash)', stroke: 'var(--diagram-rose)' },
 ]
 
+function paint(el: SVGElement, i: number) {
+  // Don't clobber a diagram author's own mermaid `style`/`classDef` color —
+  // only decorate shapes that are still using the theme default.
+  if (el.style.fill || el.getAttribute('style')) return
+  const c = NODE_PALETTE[i % NODE_PALETTE.length]
+  el.style.fill = c.fill
+  el.style.stroke = c.stroke
+}
+
 function colorizeNodes(root: Element) {
-  const shapes = root.querySelectorAll<SVGElement>('.node rect, .node polygon, .node circle, .node ellipse, .node path')
-  shapes.forEach((el, i) => {
-    const c = NODE_PALETTE[i % NODE_PALETTE.length]
-    el.style.fill = c.fill
-    el.style.stroke = c.stroke
-  })
-  const actors = root.querySelectorAll<SVGElement>('.actor')
-  actors.forEach((el, i) => {
-    const c = NODE_PALETTE[i % NODE_PALETTE.length]
-    el.style.fill = c.fill
-    el.style.stroke = c.stroke
-  })
+  root
+    .querySelectorAll<SVGElement>('.node rect, .node polygon, .node circle, .node ellipse, .node path')
+    .forEach(paint)
+  root.querySelectorAll<SVGElement>('.actor').forEach(paint)
 }
 
 async function render() {

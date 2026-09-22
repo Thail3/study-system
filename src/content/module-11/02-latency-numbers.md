@@ -5,17 +5,17 @@
 | Operation | เวลาโดยประมาณ | เทียบเป็นระยะทาง (คูณ 1 พันล้านเท่า) |
 |---|---|---|
 | อ่านจาก **L1 cache** (CPU) | ~1 nanosecond | 1 วินาที (เดินคนละมุมห้อง) |
-| อ่านจาก **RAM** | ~100 nanoseconds | ~1.5 นาที (เดินไปห้องข้างๆ) |
+| อ่านจาก <mark class="hl-term">RAM</mark> | ~100 nanoseconds | ~1.5 นาที (เดินไปห้องข้างๆ) |
 | **Compress** ข้อมูล 1KB | ~10 microseconds | ~3 ชั่วโมง (ขับรถข้ามเมือง) |
-| อ่านจาก **SSD** | ~100 microseconds | ~1 วัน (เดินทางข้ามจังหวัด) |
+| อ่านจาก <mark class="hl-term">SSD</mark> | ~100 microseconds | ~1 วัน (เดินทางข้ามจังหวัด) |
 | Round-trip ใน **data center เดียวกัน** | ~500 microseconds | ~6 วัน (เดินทางข้ามภูมิภาค) |
-| อ่านจาก **HDD (จานหมุน)** | ~10 milliseconds | ~4 เดือน (บินไปอีกทวีป) |
+| อ่านจาก **HDD (Hard Disk Drive, จานหมุน)** | ~10 milliseconds | ~4 เดือน (บินไปอีกทวีป) |
 | Round-trip **ข้าม region** (เช่น ไทย↔สหรัฐฯ) | ~150 milliseconds | ~5 ปี (เดินทางรอบโลกหลายรอบ) |
 
 ```mermaid
 flowchart LR
     A["RAM: ~100ns\n(ห้องข้างๆ)"] --> B["SSD: ~100μs\n(ข้ามจังหวัด — ช้ากว่า RAM ~1,000 เท่า)"]
-    B --> C["Network เดียว DC: ~500μs\n(ข้ามภูมิภาค)"]
+    B --> C["Network เดียว DC (Data Center): ~500μs\n(ข้ามภูมิภาค)"]
     C --> D["HDD: ~10ms\n(ข้ามทวีป — ช้ากว่า SSD ~100 เท่า)"]
     D --> E["ข้าม region: ~150ms\n(รอบโลก — ช้ากว่า network เดียว DC ~300 เท่า)"]
 ```

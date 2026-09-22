@@ -4,7 +4,7 @@
 
 ```demo
 component: ComparisonDiagram
-props: {"left":{"title":"REST (เหมือนจดหมายเต็มรูปแบบ)","points":["ใช้ HTTP verb ปกติ (GET/POST/PUT/DELETE)","payload เป็น JSON อ่านง่าย, debug ง่าย (เห็นด้วยตาเปล่า)","เครื่องมือ/library รองรับกว้างขวางมาก","เหมาะกับ: public API, API ที่ client ภายนอกเรียก"]},"right":{"title":"gRPC (เหมือนรหัสลับตกลงล่วงหน้า)","points":["กำหนด schema ล่วงหน้าด้วย Protocol Buffers","payload เป็น binary เล็กกว่า JSON, เร็วกว่ามาก","รองรับ streaming (client/server/bidirectional) ในตัว","เหมาะกับ: การสื่อสารระหว่าง service ภายในองค์กรเอง"]},"note":"REST เน้นความเข้ากันได้กว้าง/อ่านง่าย (ใครก็อ่านจดหมายออก), gRPC เน้นความเร็ว/ประสิทธิภาพ (แต่ต้องรู้รหัสก่อน)"}
+props: {"left":{"title":"REST (เหมือนจดหมายเต็มรูปแบบ)","points":["ใช้ HTTP verb ปกติ (GET/POST/PUT/DELETE)","payload เป็น JSON (JavaScript Object Notation) อ่านง่าย, debug ง่าย (เห็นด้วยตาเปล่า)","เครื่องมือ/library รองรับกว้างขวางมาก","เหมาะกับ: public API (Application Programming Interface), API ที่ client ภายนอกเรียก"]},"right":{"title":"gRPC (เหมือนรหัสลับตกลงล่วงหน้า)","points":["กำหนด schema ล่วงหน้าด้วย Protocol Buffers","payload เป็น binary เล็กกว่า JSON, เร็วกว่ามาก","รองรับ streaming (client/server/bidirectional) ในตัว","เหมาะกับ: การสื่อสารระหว่าง service ภายในองค์กรเอง"]},"note":"REST เน้นความเข้ากันได้กว้าง/อ่านง่าย (ใครก็อ่านจดหมายออก), gRPC เน้นความเร็ว/ประสิทธิภาพ (แต่ต้องรู้รหัสก่อน)"}
 ```
 
 ## ตัวอย่างที่ส่งจริง

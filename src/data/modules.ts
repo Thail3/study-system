@@ -462,5 +462,3 @@ export const modules: ModuleMeta[] = [
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {
   return modules.find((m) => m.slug === slug)
 }
-
-export const mapPath = modules.map((m) => m.position)

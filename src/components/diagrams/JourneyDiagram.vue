@@ -36,8 +36,10 @@ function nodeColor(icon: string): string {
 }
 
 const travelerIcon = computed(() => props.travelerIcon ?? 'person')
-const activeNode = computed(() => props.steps[index.value].activeNode)
-const travelerPercent = computed(() => ((activeNode.value + 0.5) / props.nodes.length) * 100)
+const activeNode = computed(() => props.steps[index.value]?.activeNode ?? 0)
+const travelerPercent = computed(
+  () => ((activeNode.value + 0.5) / (props.nodes.length || 1)) * 100,
+)
 const isLast = computed(() => index.value === props.steps.length - 1)
 
 function next() {
