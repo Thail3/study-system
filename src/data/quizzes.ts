@@ -784,6 +784,96 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     },
   ],
 
+  'case-studies:boss-loot-race': [
+    {
+      question: 'ทำไมดีไซน์ "เช็คว่าไอเทมยังอยู่ไหม แล้วค่อยเขียนว่าเก็บแล้ว" ถึงทำให้ไอเทมชิ้นเดียวถูกแจกซ้ำ 2 คนได้',
+      answer:
+        'เพราะเช็คกับเขียนเป็นสองขั้นตอนแยกกัน (check-then-act) — ระหว่างที่ผู้เล่นคนแรกเช็คผ่านแล้วกำลังจะเขียน ผู้เล่นอีกคนก็เช็คผ่านไปแล้วเหมือนกันเพราะสถานะยังไม่ถูกเขียนทับ ทั้งสอง request จึงเห็นว่า "ยังว่าง" พร้อมกันได้จริง',
+    },
+    {
+      question: 'ทางแก้ race condition ของการแจกไอเทมคืออะไร',
+      answer:
+        'รวมขั้นตอน "เช็ค + เขียน" ให้เป็น operation เดียวที่ atomic แยกกันไม่ได้ เช่น Redis SETNX หรือ Lua script (เทียบเท่า CAS - Compare-And-Swap) คนแรกที่ operation สำเร็จได้ไอเทมจริง คนที่เหลือ fail ทันที',
+    },
+    {
+      question: '"กดเก็บไอเทมก่อนได้ก่อน" มี trade-off เรื่องความแฟร์ยังไง',
+      answer:
+        'จริงๆ แล้วหมายถึง "request ไปถึง server ก่อน" ไม่ใช่ "มือไวกว่าจริง" ผู้เล่นที่ ping สูง (อยู่ไกล server) เสียเปรียบเสมอแม้กดเร็วกว่าในหน้าจอตัวเอง ถ้าต้องการความแฟร์ที่ไม่ผูกกับ network latency ต้องเปลี่ยนเป็นเปิดหน้าต่างเวลาสั้นๆ ให้ทุกคนกดได้แล้วสุ่มผู้ชนะหลังปิดรับ',
+    },
+  ],
+
+  'case-studies:flash-sale-ticket': [
+    {
+      question: 'ทำไมปล่อยให้หมื่น request ยิง UPDATE ตัด stock ตรงไปที่ Database พร้อมกันถึงเป็นปัญหา แม้ transaction จะถูกต้องทุกตัว',
+      answer:
+        'เพราะ Database ไม่ได้ออกแบบมาให้รองรับหมื่น connection มา lock แถวเดียวกันพร้อมกันในวินาทีเดียว ต่อให้ทุก transaction ถูกต้อง (ไม่มี race condition ขายเกิน) connection pool ก็เต็มจนทั้งระบบช้าหรือ timeout ได้',
+    },
+    {
+      question: 'Virtual Waiting Room แก้ปัญหาอะไรที่ atomic decrement เพียงอย่างเดียวแก้ไม่ได้',
+      answer:
+        'Atomic decrement การันตีความถูกต้อง (ไม่ oversell) แต่ไม่ได้ลดปริมาณ request ที่ชนกันในเวลาเดียว Waiting Room ช่วยถ่วงอัตราคนเข้าระบบให้พอดีกับที่ backend รับได้ แก้ปัญหาเรื่อง capacity ซึ่งเป็นคนละมิติจากปัญหา correctness',
+    },
+    {
+      question: 'ทำไมยืนยันคำสั่งซื้อจริงที่ Database แบบ async ได้ ไม่ต้องรอ Database ตอบก่อนแจ้งลูกค้า',
+      answer:
+        'เพราะผลการตัด stock ตัดสินเสร็จเรียบร้อยแล้วที่ Redis (atomic decrement) การเขียนลง Database เป็นแค่การบันทึกประวัติคำสั่งซื้อ ไม่ใช่จุดตัดสินผลว่าใครได้บัตร จึงไม่ต้องรอ Database ตอบก่อนแจ้งผลลูกค้า',
+    },
+  ],
+
+  'case-studies:ride-hailing-matching': [
+    {
+      question: 'ทำไม "query หาคนขับใกล้สุด แล้ว assign ทันที" ในขั้นตอนเดียว ถึงทำให้คนขับคนเดียวถูก assign ซ้ำ 2 เที่ยวได้',
+      answer:
+        'เพราะระหว่างที่ query กำลังหาคนขับใกล้สุด ตำแหน่ง/สถานะของคนขับเปลี่ยนได้ตลอดเวลา ข้อมูลที่ query ได้เป็นแค่ตัวเลือกที่น่าจะใช้ได้ ไม่ใช่ผลตัดสินจริง ถ้าสอง request query พร้อมกันก่อนมีใคร assign จริง ทั้งคู่จะเห็นคนขับคนเดียวกันว่า "ว่าง" พร้อมกัน',
+    },
+    {
+      question: 'ทำไมต้องแยก "หา" กับ "จอง" ออกจากกันเป็นสองขั้นตอน',
+      answer:
+        'เพราะข้อมูลจากขั้น "หา" (geospatial query) อาจ stale ได้เสมอเนื่องจากคนขับเคลื่อนที่ตลอดเวลา จึงให้ขั้น "จอง" เป็น atomic claim ที่ตัดสินจริง คนแรกที่ claim สำเร็จได้คนขับจริง คนที่เหลือ fail ทันทีแล้วลองคนขับคนถัดไปในรายชื่อ',
+    },
+    {
+      question: 'เคสนี้ต่างจาก Boss Loot Race ยังไงในแง่ของทรัพยากรที่แย่งกัน',
+      answer:
+        'Boss Loot Race ทรัพยากร (ไอเทม) อยู่นิ่ง ไม่เปลี่ยนตำแหน่ง ส่วนเคสนี้ทั้งคนขับและผู้โดยสารเคลื่อนที่ตลอดเวลา ทำให้ต้องมี Geospatial Index หาตัวเลือกก่อน แล้วค่อยใช้ atomic claim หลักการเดียวกันตัดสินผลจริงอีกชั้นหนึ่ง',
+    },
+  ],
+
+  'case-studies:viral-post-hotkey': [
+    {
+      question: 'ทำไมโพสต์ไวรัลที่มี like พุ่งหลักล้านครั้ง ถึงเป็นปัญหาที่ sharding ธรรมดาแก้ไม่ได้',
+      answer:
+        'เพราะ sharding กระจาย key ต่างกันไปคนละเครื่อง แต่ post_id เดียวกันย่อมอยู่ที่ shard เดียวเสมอไม่ว่า sharding จะดีแค่ไหน ถ้า key นั้นร้อนกว่า key อื่นมหาศาล (hot key) shard นั้นก็ยังรับภาระหนักกว่าเพื่อนอยู่ดี',
+    },
+    {
+      question: 'วิธีแก้ปัญหา Hot Key ของยอด like คืออะไร',
+      answer:
+        'ไม่เขียน Database ทันทีทุกครั้งที่มีคนกด like — ให้เขียน event เข้า Message Queue ก่อน สะสมยอดที่ In-Memory Counter เป็นช่วงเวลาสั้นๆ แล้ว flush ลง Database เป็นก้อนเดียวเป็นระยะ (batch write) ลดจำนวน write ต่อแถวลงมหาศาล',
+    },
+    {
+      question: 'ทำไมยอมให้ user เห็นยอด like คลาดเคลื่อนได้บ้างในเคสนี้',
+      answer:
+        'เพราะยอด like ไม่ต้องการ strong consistency — user ไม่รู้สึกความต่างระหว่างเลขที่ตามหลังของจริงไม่กี่วินาที การยอม eventual consistency แลกกับระบบไม่ล่มคุ้มค่ากว่ามาก แต่ถ้าเป็นข้อมูลที่ต้อง exact เสมอ (เช่นยอดเงินในบัญชี) จะใช้วิธีนี้ไม่ได้',
+    },
+  ],
+
+  'case-studies:realtime-leaderboard': [
+    {
+      question: 'ทำไม `ORDER BY score DESC LIMIT 100` ที่ Database ตรงๆ ไม่เหมาะกับ Leaderboard แบบเรียลไทม์',
+      answer:
+        'เพราะ Database ต้อง sort ข้อมูลผู้เล่นหลักล้านแถวใหม่ทุกครั้งที่มีคนขอ Leaderboard ทั้งที่จริงๆ อันดับเปลี่ยนแค่นิดหน่อยระหว่างสอง query ที่ห่างกันไม่กี่วินาที ยิ่งคนเปิดพร้อมกันมาก ยิ่งเปลืองงาน sort ซ้ำเดิม',
+    },
+    {
+      question: 'Sorted Set (เช่น Redis ZSET) แก้ปัญหา Leaderboard ได้ยังไง',
+      answer:
+        'Sorted Set จัดเรียงข้อมูลตามคะแนนไว้อัตโนมัติตลอดเวลา ทุกครั้งที่มีคนทำแต้มแค่อัปเดตคะแนนด้วย operation เดียว (เช่น ZADD) ไม่ต้อง sort ทั้งชุดใหม่ ทั้งการขอ Top 100 และขออันดับเจาะจงคนเดียวก็หยิบจากโครงสร้างนี้ได้ตรงๆ โดยไม่ต้องคำนวณใหม่',
+    },
+    {
+      question: 'ทำไม Sorted Set ไม่ควรเป็น source of truth หลักของคะแนน ต้อง sync กับ Database ด้วย',
+      answer:
+        'เพราะ Sorted Set อยู่ใน memory เป็นหลัก เร็วมากแต่เสี่ยงข้อมูลหายถ้า cache ล่ม ต้อง sync กลับ Database เป็นระยะเพื่อเก็บประวัติคะแนนแบบถาวร ไม่ให้ Sorted Set เป็นจุดเดียวที่ข้อมูลจริงอยู่',
+    },
+  ],
+
   'architectural-styles:monolith-vs-microservices-style': [
     { question: 'อะไรคือปัจจัยหลักที่ควรใช้ตัดสินใจเลือก Monolith หรือ Microservices ไม่ใช่แค่เรื่องเทคนิค', answer: 'ปัจจัยหลักคือปัจจัยเชิงองค์กร ได้แก่ ขนาดและจำนวนทีม (ตาม Conway\'s Law), ความถี่ที่แต่ละทีมต้องการ deploy อิสระ, ความชัดเจนของ domain boundary, และความพร้อมด้าน operational maturity ของทีม infra ไม่ใช่แค่ว่าเทคโนโลยีไหน \'ดีกว่า\' ในทางเทคนิคเพียวๆ' },
     { question: 'Conway\'s Law เกี่ยวข้องกับการเลือก architectural style ยังไง', answer: 'Conway\'s Law บอกว่าโครงสร้างระบบซอฟต์แวร์มักสะท้อนโครงสร้างการสื่อสารขององค์กรที่สร้างมันขึ้นมา ถ้าทีมแบ่งเป็นหลายทีมอิสระ ระบบก็มักถูกออกแบบให้แยกเป็น service ตามทีมนั้นไปด้วย (microservices) แต่ถ้าเป็นทีมเดียวที่สื่อสารกันตลอดเวลา ระบบมักรวมเป็น monolith เดียวได้อย่างมีประสิทธิภาพกว่า' },
@@ -1050,6 +1140,16 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'จุดที่ทำให้ Escalation หลอกคนได้แนบเนียนที่สุดคืออะไร', answer: 'ในแต่ละก้าว การกระทำของแต่ละฝ่ายดูสมเหตุสมผลเสมอเมื่อมองแค่ก้าวนั้นก้าวเดียว ไม่มีฝ่ายไหนตั้งใจทำร้ายอีกฝ่าย แต่ผลสะสมทั้ง trajectory พาไปไกลเกินกว่าที่ใครตั้งใจไว้แต่แรกมาก' },
     { question: 'ทางแก้ Escalation คืออะไร ต่างจากการ "พยายามชนะให้ได้" ยังไง', answer: 'คือหยุดวงจรการตอบโต้แบบสัมพัทธ์ (ปรับตามพฤติกรรมล่าสุดของอีกฝ่าย) แล้วเปลี่ยนไปใช้ข้อตกลงแบบสัมบูรณ์ที่ตกลงร่วมกันล่วงหน้าแทน เช่น SLA ร่วมกันที่ชัดเจน — ต่างจากการพยายามชนะซึ่งยิ่งเร่ง loop ให้แรงขึ้น' },
   ],
+  'systems-archetypes:growth-and-underinvestment': [
+    { question: 'Growth and Underinvestment ต่างจาก Limits to Growth ตรงไหน ทั้งที่โครงสร้างดูคล้ายกัน', answer: 'Limits to Growth ขีดจำกัดเป็นเงื่อนไขทางธรรมชาติที่ควบคุมไม่ได้ แต่ Growth and Underinvestment ขีดจำกัดคือการตัดสินใจของคน (งบลงทุน) ที่ถูกทำให้ต่ำเกินไปเพราะดูจาก performance ปัจจุบันที่ยังพอไปวัดไปวาย — เป็นข้อจำกัดที่เลือกได้ ไม่ใช่ธรรมชาติบังคับ' },
+    { question: 'ทำไม R loop ของ Growth and Underinvestment ถึง "วิ่งได้ทั้งขาขึ้นและขาลง"', answer: 'เพราะลิงก์ทั้งวง (investment→capacity→performance→demand→investment) เป็น "+" ทั้งหมด ถ้าลงทุนทันจะโตต่อเนื่อง แต่ถ้าลงทุนช้าแม้รอบเดียว (มี delay บนเส้น investment→capacity) จะดิ่งลงเป็นวงจรยืนยันตัวเองในทิศตรงข้ามเช่นกัน' },
+    { question: 'ทำไมกับดักนี้ถึง "หลอกคนเก่งได้ง่าย" — มันสร้าง self-fulfilling prophecy ยังไง', answer: 'เมื่อไม่ลงทุน performance ทรุดทำให้ demand ที่วัดได้ (realized demand) ลดลง ผู้บริหารเข้าใจผิดว่านั่นคือ demand ที่แท้จริงของตลาด (potential demand) จึงรู้สึกว่าตัดสินใจไม่ลงทุนถูกแล้ว ทั้งที่ demand ที่วัดได้ถูกกดไว้ด้วยข้อจำกัดที่ตัวเองสร้างขึ้นเอง' },
+  ],
+  'systems-archetypes:accidental-adversaries': [
+    { question: 'Accidental Adversaries ต่างจาก Escalation ตรงไหนเป็นหลัก', answer: 'Escalation แต่ละฝ่ายตอบโต้โดยตรงต่อการกระทำของอีกฝ่าย (รู้ตัวว่ากำลังแข่งกัน) ส่วน Accidental Adversaries แต่ละฝ่ายไม่เคยมองอีกฝ่ายเลย แค่ optimize metric ของตัวเองอย่างอิสระ โดยไม่รู้ตัวว่าการกระทำนั้นส่งผลข้างเคียงลบไปโดนอีกฝ่าย' },
+    { question: 'ในไดอะแกรมของ Accidental Adversaries เพราะอะไรถึงไม่มีลิงก์ตรงระหว่างการกระทำของสองฝ่ายเลย', answer: 'เพราะสองการกระทำไม่เคย "คุย" กันโดยตรง แต่ละฝ่ายมี R loop ของตัวเองที่หมุนดีในมุมมองตัวเอง ความเสียหายเกิดจากลิงก์ทแยงสองเส้นที่เป็นผลข้างเคียงซึ่งมองไม่เห็นจากมุมของฝ่ายที่ก่อขึ้นเอง ไม่ใช่จากการปะทะกันตรงๆ' },
+    { question: 'ทำไม Accidental Adversaries ถึงแก้ยากกว่า Escalation และทางแก้ที่ถูกต้องคืออะไร', answer: 'เพราะไม่มีฝ่ายไหนรู้ตัวว่าตัวเองคือต้นเหตุของปัญหาอีกฝ่าย (จากมุมตัวเองทุกอย่างดูสมเหตุสมผล) จึงไม่มีแรงจูงใจเปลี่ยนพฤติกรรมเอง ทางแก้คือสร้าง metric ร่วมที่บังคับให้เห็นผลกระทบข้ามทีม หรือมีคน/กลไกที่ยืนนอกขอบเขตของทั้งสองฝ่ายมองเห็นภาพรวม' },
+  ],
   'leverage-points:twelve-leverage-points': [
     { question: 'Leverage Point คืออะไร และ Meadows จัดอันดับไว้กี่ระดับ', answer: 'Leverage Point คือจุดในระบบที่การเปลี่ยนแปลงเล็กๆ ตรงนั้นส่งผลใหญ่หลวงต่อพฤติกรรมของทั้งระบบ Meadows จัดอันดับไว้ 12 ระดับ จากอ่อนที่สุด (parameters) ไปถึงแรงที่สุด (transcending paradigms)' },
     { question: 'ทำไมคนถึงเลือกแก้ที่ parameter บ่อยที่สุด ทั้งที่เป็นจุดที่มีแรงยกน้อยที่สุด', answer: 'เพราะแก้ง่ายที่สุด เห็นผลเร็วที่สุด ไม่ต้องขออนุมัติใคร ต่างจากการเปลี่ยน rules หรือ goals ที่ต้องอาศัยอำนาจตัดสินใจสูงกว่า มีแรงต้านจากคนที่คุ้นเคยของเดิม และเห็นผลช้ากว่า' },
@@ -1094,6 +1194,37 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ในเคส cascading failure ทำไม auth-service ถึงล่มตามทั้งที่ไม่มี dependency กับ payment-service ในโค้ดเลย', answer: 'เพราะทั้งสองแชร์ database instance เดียวกัน (dependency ระดับ infrastructure ที่ซ่อนอยู่) — ทีมมองแค่ dependency ระดับโค้ด ไม่เห็น dependency ที่แท้จริงเพราะ system boundary ที่ใช้วิเคราะห์แคบเกินไป' },
     { question: 'R loop ที่ขับเคลื่อน cascading failure ในเคสนี้ประกอบด้วยอะไรบ้าง และมี delay อยู่ตรงไหน', answer: 'Retry จาก client/upstream (+) → Load บน payment-service (+) → Latency/Error เพิ่มขึ้น (+) → วนกลับไปกระตุ้น retry อีก (loop เดียวกับ tech debt spiral) — delay อยู่ที่ alerting lag ระหว่าง error ที่เพิ่มขึ้นจริงกับตอนที่ทีมรู้ตัว' },
     { question: 'Mental model ที่เป็นต้นตอของเคสนี้คืออะไร และ leverage point ระดับ structure ที่แนะนำมีอะไรบ้าง', answer: 'Mental model คือ "retry with timeout ก็เพียงพอแล้วสำหรับ resilience ไม่จำเป็นต้องมี circuit breaker" — leverage point ระดับ structure ที่แนะนำคือใส่ circuit breaker ทุกจุดเรียก downstream, แยก connection pool ไม่ให้แชร์กัน (bulkhead), และเพิ่ม jitter ให้ retry ไม่ยิงพร้อมกัน' },
+  ],
+
+  'architectural-styles:what-is-system-architecture': [
+    { question: 'System Design กับ System Architecture ต่างกันตรงไหนหลักๆ', answer: 'System Design โฟกัสกลไกภายในหนึ่งระบบ (scale, cache, database) วัดผลด้วยตัวเลข ส่วน System Architecture โฟกัสการตัดสินใจข้ามระบบ/ข้ามทีม (แตกกี่ service, บันทึกเหตุผลยังไง) วัดผลขึ้นกับบริบทองค์กรมากกว่าตัวเลขล้วนๆ' },
+    { question: 'ทำไมทีมที่เก่ง System Design อย่างเดียวยังเจอปัญหาทีมชนกันบ่อย ทั้งที่ระบบ scale ได้ดี', answer: 'เพราะปัญหาทีมชนกัน (deploy ชนกัน, แก้โค้ดก้อนเดียวกัน) เป็นปัญหาระดับ System Architecture (โครงสร้างทีม/service) ไม่ใช่ปัญหากลไก การ optimize cache หรือ database (System Design) ไม่ช่วยแก้จุดนี้เลย' },
+    { question: 'ในการสัมภาษณ์งาน สัญญาณอะไรที่บ่งบอกว่าผู้สมัครยังแยก System Design กับ System Architecture ไม่ออก', answer: 'การเสนอ \'แตก microservices\' ทันทีโดยไม่ถามเรื่องขนาดทีมหรือ bounded context ก่อนเลย แสดงว่ายังไม่แยกมุมมองการตัดสินใจเชิงองค์กร (architecture) ออกจากกลไกทางเทคนิค (design)' },
+  ],
+  'evolutionary-architecture:strangler-fig-pattern': [
+    { question: 'Strangler Fig Pattern แก้ปัญหาอะไรที่การ rewrite แบบ big-bang มี', answer: 'Big-bang rewrite ต้องหยุด feature ใหม่ระหว่างเขียนใหม่ทั้งระบบ และถ้าพังคือพังทั้งระบบพร้อมกันวันเปิดตัว Strangler Fig migrate ทีละชิ้นเล็กๆ ที่ rollback ได้ และระบบใช้งานได้ตลอดกระบวนการ ไม่ต้องหยุด' },
+    { question: 'Facade layer ใน Strangler Fig Pattern ทำหน้าที่อะไร', answer: 'เป็นตัวกลาง (มักเป็น API Gateway/reverse proxy) คอยดักทุก request แล้วตัดสินใจว่าจะส่งไปที่ระบบเก่า (legacy) หรือระบบใหม่ที่ migrate เสร็จแล้ว ทำให้เปลี่ยน route ทีละส่วนได้โดยไม่กระทบส่วนอื่น' },
+    { question: 'เมื่อไหร่ถึงจะปลดระวาง (decommission) ระบบ legacy ได้อย่างปลอดภัยใน Strangler Fig Pattern', answer: 'เมื่อ facade ย้าย route ทุกเส้นไปที่ service ใหม่หมดแล้ว จนระบบ legacy เหลือแต่ route ที่ไม่มีใครเรียกใช้งานอีกต่อไป ถึงตอนนั้นค่อยปลดระวาง legacy ได้อย่างปลอดภัย' },
+  ],
+  'security-architecture:zero-trust-architecture': [
+    { question: 'หลักการ \'never trust, always verify\' ของ Zero Trust ต่างจากโมเดล castle-and-moat แบบเดิมยังไง', answer: 'Castle-and-moat เชื่อถือทันทีถ้าอยู่ใน network เดียวกัน (ตรวจแค่ตอนเข้าประตู) ส่วน Zero Trust ไม่เชื่อใครอัตโนมัติแค่เพราะอยู่ใน network เดียวกัน ทุก request ต้องพิสูจน์ตัวตนและสิทธิ์ใหม่ทุกครั้งไม่ว่าจะมาจากไหน' },
+    { question: 'ทำไม lateral movement ถึงเป็นความเสี่ยงหลักของโมเดล castle-and-moat', answer: 'เพราะถ้าผู้โจมตีเจาะจุดเดียวสำเร็จ (เช่น credential รั่ว) แล้วอยู่ใน network เดียวกัน จะเดินไปเรียก resource อื่นๆ ได้อย่างอิสระเพราะระบบข้างในเชื่อใจกันเองหมด ไม่มีการตรวจซ้ำ' },
+    { question: 'Zero Trust หมายความว่าไม่ต้องมี firewall หรือ network security อีกต่อไปใช่ไหม', answer: 'ไม่ใช่ Zero Trust ไม่ได้บอกให้ถอด firewall ทิ้ง แค่บอกว่าอย่าพึ่งพา network boundary เป็นเกราะป้องกันชั้นเดียว ในทางปฏิบัติมักใช้ควบคู่กับ network segmentation (Defense in Depth) อยู่ดี' },
+  ],
+  'security-architecture:defense-in-depth': [
+    { question: 'Defense in Depth ต่างจากการเพิ่ม firewall หลายตัวตรงไหน', answer: 'Defense in Depth ต้องการความหลากหลายของกลไกป้องกัน (defense diversity) แต่ละชั้นป้องกันคนละประเภทภัยคุกคาม ไม่ใช่แค่เพิ่มปริมาณเครื่องมือชนิดเดียวกัน เพราะถ้าสองชั้นถูก bypass ด้วยวิธีเดียวกันก็ล้มพร้อมกันทั้งคู่' },
+    { question: 'ทำไมถึงยังต้องทำ parameterized query ในโค้ดทั้งที่มี WAF บล็อก SQL injection อยู่แล้ว', answer: 'เพราะ WAF อาจถูก bypass ได้ด้วย payload รูปแบบใหม่ที่ signature ยังไม่รู้จัก parameterized query เป็นชั้นป้องกันอิสระที่ยังกันได้แม้ WAF พลาด ตามหลัก Defense in Depth ไม่ควรพึ่งชั้นเดียวสำหรับความเสี่ยงระดับ critical' },
+    { question: 'ชั้นการป้องกันแบบ Data layer (เช่น field-level encryption) ช่วยอะไรที่ Network layer ช่วยไม่ได้', answer: 'ถ้าผู้โจมตีเจาะผ่าน Network และ Application layer มาถึง database โดยตรง (เช่นผ่าน insider threat หรือ misconfigured backup) Data layer encryption ยังทำให้ข้อมูลอ่านไม่ออกถ้าไม่มี key แยกต่างหาก เป็นชั้นสุดท้ายที่ยังป้องกันได้' },
+  ],
+  'security-architecture:threat-modeling': [
+    { question: 'STRIDE คืออะไร มีกี่หมวด', answer: 'STRIDE คือ framework จาก Microsoft สำหรับไล่คิดภัยคุกคามตอนออกแบบระบบ มี 6 หมวด: Spoofing (ปลอมตัว), Tampering (แก้ไขข้อมูล), Repudiation (ปฏิเสธว่าไม่ได้ทำ), Information Disclosure (ข้อมูลรั่ว), Denial of Service (ทำให้ใช้งานไม่ได้), Elevation of Privilege (ยกระดับสิทธิ์)' },
+    { question: 'ทำไม Threat Modeling ควรทำตอนออกแบบ ไม่ใช่รอตอน code review หรือหลัง deploy', answer: 'เพราะต้นทุนแก้ปัญหาต่ำที่สุดตอนยังเป็นแค่ design (แค่ปรับ design) แพงขึ้นเรื่อยๆ ถ้าเจอตอน code review/pentest (ต้องแก้โค้ด) และแพงที่สุดถ้าเจอตอนถูกโจมตีจริงหลัง production (เสียชื่อเสียงและข้อมูล)' },
+    { question: 'Repudiation (ข้อ R ใน STRIDE) ป้องกันด้วยอะไร และเชื่อมกับหัวข้อไหนที่เรียนมาแล้ว', answer: 'ป้องกันด้วย audit log ที่แก้ไขไม่ได้ เชื่อมกับ Event Sourcing ที่เรียนไปแล้วในโมดูล CQRS & Event Sourcing เพราะ event log แบบ append-only คือ audit trail ในตัวอยู่แล้ว' },
+  ],
+  'security-architecture:secure-by-design-patterns': [
+    { question: 'หลักการ Least Privilege คืออะไร ช่วยจำกัดความเสียหายยังไงถ้า service ถูกเจาะ', answer: 'คือการให้สิทธิ์แต่ละ service/user/API key แค่พอทำงานที่ต้องทำเท่านั้น ไม่ใช่ให้สิทธิ์กว้างไว้ก่อน ถ้า service นั้นถูกเจาะ ความเสียหายจะจำกัดอยู่แค่ขอบเขตสิทธิ์ที่มันมี ไม่ลามไปทั้งระบบ' },
+    { question: 'ทำไมการ hardcode credential ในโค้ดถึงเป็นความเสี่ยงสูง และ Secrets Manager แก้ปัญหานี้ยังไง', answer: 'เพราะโค้ดมักถูก commit เข้า git, แชร์กับคนนอกทีมตอน debug, หรือหลุดผ่าน log ได้ง่าย Secrets Manager แก้โดยให้ application ขอ short-lived credential ตอน runtime แทน ไม่ต้องมีใครจำหรือแชร์ password ตรงๆ' },
+    { question: 'Trust Boundary ในสถาปัตยกรรมคืออะไร และทำไมต้องระบุให้ชัดใน architecture diagram', answer: 'คือจุดที่ข้อมูลเดินทางจากโซนไม่น่าเชื่อถือ (เช่น internet) เข้าสู่โซนที่เชื่อถือได้มากขึ้น ต้องระบุชัดเพราะทุกจุดที่ข้ามเส้นนี้ต้องมีการตรวจสอบ (validate, authenticate) เสมอ ไม่งั้นจะตกหล่นจุดที่ควรตรวจสอบ' },
   ],
 }
 

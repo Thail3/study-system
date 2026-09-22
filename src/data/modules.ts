@@ -198,6 +198,11 @@ export const modules: ModuleMeta[] = [
       { id: 'chat-app', title: 'Design: Chat App', file: '02-chat-app' },
       { id: 'news-feed', title: 'Design: News Feed', file: '03-news-feed' },
       { id: 'rate-limiter-case', title: 'Design: Rate Limiter', file: '04-rate-limiter-case' },
+      { id: 'boss-loot-race', title: 'Design: Boss Loot Race', file: '05-boss-loot-race' },
+      { id: 'flash-sale-ticket', title: 'Design: Flash Sale บัตรคอนเสิร์ต', file: '06-flash-sale-ticket' },
+      { id: 'ride-hailing-matching', title: 'Design: จับคู่คนขับ-ผู้โดยสาร', file: '07-ride-hailing-matching' },
+      { id: 'viral-post-hotkey', title: 'Design: โพสต์ไวรัล (Hot Key)', file: '08-viral-post-hotkey' },
+      { id: 'realtime-leaderboard', title: 'Design: Leaderboard เกมแบบ Real-time', file: '09-realtime-leaderboard' },
     ],
   },
   {
@@ -209,6 +214,11 @@ export const modules: ModuleMeta[] = [
     status: 'available',
     position: { x: 120, y: 160 },
     topics: [
+      {
+        id: 'what-is-system-architecture',
+        title: 'System Architecture ต่างจาก System Design ยังไง',
+        file: '00-what-is-system-architecture',
+      },
       {
         id: 'monolith-vs-microservices-style',
         title: 'Monolith vs Microservices: เลือก Style ไหนดี',
@@ -324,6 +334,22 @@ export const modules: ModuleMeta[] = [
       { id: 'fitness-functions', title: 'Fitness Function: ทดสอบ Architecture อัตโนมัติ', file: '01-fitness-functions' },
       { id: 'architecture-erosion', title: 'Architecture Erosion / Technical Debt เชิงสถาปัตยกรรม', file: '02-architecture-erosion' },
       { id: 'common-anti-patterns', title: 'Anti-pattern ที่พบบ่อย', file: '03-common-anti-patterns' },
+      { id: 'strangler-fig-pattern', title: 'Strangler Fig Pattern: Migrate Legacy ทีละส่วน', file: '04-strangler-fig-pattern' },
+    ],
+  },
+  {
+    id: 30,
+    track: 'system-architecture',
+    slug: 'security-architecture',
+    title: 'Security Architecture',
+    titleSub: 'zero trust, defense in depth, threat modeling, secure by design',
+    status: 'available',
+    position: { x: 480, y: 430 },
+    topics: [
+      { id: 'zero-trust-architecture', title: 'Zero Trust Architecture: ไม่เชื่อใครโดยอัตโนมัติ', file: '01-zero-trust-architecture' },
+      { id: 'defense-in-depth', title: 'Defense in Depth: ป้องกันหลายชั้น', file: '02-defense-in-depth' },
+      { id: 'threat-modeling', title: 'Threat Modeling: หา Threat ตั้งแต่ตอนออกแบบ (STRIDE)', file: '03-threat-modeling' },
+      { id: 'secure-by-design-patterns', title: 'Secure by Design: Least Privilege, Secrets, Trust Boundary', file: '04-secure-by-design-patterns' },
     ],
   },
   {
@@ -403,7 +429,7 @@ export const modules: ModuleMeta[] = [
     track: 'systems-thinking',
     slug: 'systems-archetypes',
     title: 'Systems Archetypes',
-    titleSub: 'limits to growth, fixes that fail, shifting the burden, tragedy of the commons, success to the successful, escalation',
+    titleSub: 'limits to growth, fixes that fail, shifting the burden, tragedy of the commons, success to the successful, escalation, growth and underinvestment, accidental adversaries',
     status: 'available',
     position: { x: 840, y: 340 },
     topics: [
@@ -413,6 +439,8 @@ export const modules: ModuleMeta[] = [
       { id: 'tragedy-of-the-commons', title: 'Tragedy of the Commons', file: '04-tragedy-of-the-commons' },
       { id: 'success-to-the-successful', title: 'Success to the Successful', file: '05-success-to-the-successful' },
       { id: 'escalation', title: 'Escalation', file: '06-escalation' },
+      { id: 'growth-and-underinvestment', title: 'Growth and Underinvestment', file: '07-growth-and-underinvestment' },
+      { id: 'accidental-adversaries', title: 'Accidental Adversaries', file: '08-accidental-adversaries' },
     ],
   },
   {

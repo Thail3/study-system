@@ -41,11 +41,14 @@ function loadMermaid(): Promise<Mermaid> {
 // order so diagrams read as visually distinct without hand-editing each
 // diagram's source (role labels vary too much per-diagram to color by
 // keyword reliably).
+// Own fill alpha (not the shared --*-wash tokens, which stay dim on purpose
+// for card/badge backgrounds elsewhere) so diagram nodes read as clearly
+// colored against the paper background instead of near-invisible tints.
 const NODE_PALETTE = [
-  { fill: 'var(--accent-wash)', stroke: 'var(--accent)' },
-  { fill: 'var(--diagram-violet-wash)', stroke: 'var(--diagram-violet)' },
-  { fill: 'var(--diagram-blue-wash)', stroke: 'var(--diagram-blue)' },
-  { fill: 'var(--diagram-rose-wash)', stroke: 'var(--diagram-rose)' },
+  { fill: 'rgba(31, 111, 139, 0.3)', stroke: 'var(--accent)' },
+  { fill: 'rgba(107, 91, 149, 0.32)', stroke: 'var(--diagram-violet)' },
+  { fill: 'rgba(61, 110, 165, 0.32)', stroke: 'var(--diagram-blue)' },
+  { fill: 'rgba(168, 82, 122, 0.32)', stroke: 'var(--diagram-rose)' },
 ]
 
 function paint(el: SVGElement, i: number) {
@@ -55,6 +58,7 @@ function paint(el: SVGElement, i: number) {
   const c = NODE_PALETTE[i % NODE_PALETTE.length]
   el.style.fill = c.fill
   el.style.stroke = c.stroke
+  el.style.strokeWidth = '1.5px'
 }
 
 function colorizeNodes(root: Element) {

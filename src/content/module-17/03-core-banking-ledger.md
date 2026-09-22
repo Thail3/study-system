@@ -1,6 +1,6 @@
 ลองนึกภาพสมุดบัญชีธนาคารแบบเก่า — เจ้าหน้าที่ธนาคารจดทุกธุรกรรมด้วยหมึกลงกระดาษ ห้ามลบ ห้ามแก้ ถ้าจดผิดต้องขีดฆ่าแล้วจดรายการแก้ไขใหม่ต่อท้าย ไม่มีการ "ย้อนกลับไปแก้ตัวเลขเดิม" เด็ดขาด เพราะสมุดบัญชีคือความจริงหนึ่งเดียวที่ทุกฝ่าย (ลูกค้า, ธนาคาร, ผู้ตรวจสอบบัญชี, ธนาคารกลาง) ต้องเชื่อถือได้ร้อยเปอร์เซ็นต์ — ถ้าสมุดบัญชีสองเล่มบอกยอดเงินไม่ตรงกันแม้แต่วินาทีเดียว ความน่าเชื่อถือทั้งระบบจะพังทันที
 
-นี่คือหัวใจของการออกแบบ **Core Banking / Ledger System** — ระบบที่ตัดสินใจเรื่อง consistency เข้มงวดที่สุดในทั้งหลักสูตรนี้ เพราะมันคือระบบเดียวที่ "ข้อมูลผิดพลาดชั่วคราว" ไม่ใช่แค่ bug แต่คือเงินหายจริงๆ
+นี่คือหัวใจของการออกแบบ <mark class="hl-term">**Core Banking / Ledger System**</mark> — ระบบที่ตัดสินใจเรื่อง consistency เข้มงวดที่สุดในทั้งหลักสูตรนี้ เพราะมันคือระบบเดียวที่ "ข้อมูลผิดพลาดชั่วคราว" ไม่ใช่แค่ bug แต่คือเงินหายจริงๆ
 
 ## Requirement คร่าวๆ
 
@@ -40,13 +40,13 @@ flowchart TB
 
 ## Trade-off ที่ต่อยอดจาก CAP Theorem
 
-ต่อยอดจาก **CAP Theorem** ที่เรียนไปในโมดูล Consistency & CAP ของ System Design — CAP บอกว่าเมื่อเกิด network partition ระบบ distributed ต้องเลือกระหว่าง **Consistency** กับ **Availability** จะเอาทั้งคู่พร้อมกันไม่ได้
+ต่อยอดจาก <mark class="hl-term">**CAP Theorem**</mark> ที่เรียนไปในโมดูล Consistency & CAP ของ System Design — CAP บอกว่าเมื่อเกิด network partition ระบบ distributed ต้องเลือกระหว่าง **Consistency** กับ **Availability** จะเอาทั้งคู่พร้อมกันไม่ได้
 
 ระบบส่วนใหญ่ในธนาคาร (เช่น Notification, Analytics, บริการแสดงโปรโมชั่น) เลือก **AP (Availability over Consistency)** ได้สบายๆ — ถ้า analytics service เห็นข้อมูลเก่าไปสองสามวินาทีระหว่าง partition ไม่มีใครเดือดร้อน ระบบยังคงตอบสนองผู้ใช้ได้ต่อไป
 
-แต่ **Ledger ต้องเลือก CP (Consistency over Availability) เท่านั้น** — ถ้าเกิด network partition ระหว่าง node ที่เก็บ ledger entry ระบบต้อง**ยอมปฏิเสธการทำธุรกรรมชั่วคราว** (unavailable) ดีกว่าเสี่ยงให้สอง node เขียน ledger entry ที่ขัดแย้งกัน เพราะผลลัพธ์ของการยอมให้ "available แต่ inconsistent" ในโดเมนนี้คือเงินอาจถูกโอนซ้ำ หรือยอดเงินสองฝั่งไม่ตรงกัน ซึ่งร้ายแรงกว่าการที่ผู้ใช้เห็นข้อความ "ระบบไม่พร้อมให้บริการชั่วคราว กรุณาลองใหม่" มาก
+แต่ **Ledger ต้องเลือก CP (Consistency over Availability) เท่านั้น** — ถ้าเกิด network partition ระหว่าง node ที่เก็บ ledger entry ระบบต้อง**ยอมปฏิเสธการทำธุรกรรมชั่วคราว** (unavailable) ดีกว่าเสี่ยงให้สอง node เขียน ledger entry ที่ขัดแย้งกัน เพราะผลลัพธ์ของการยอมให้ "available แต่ inconsistent" ในโดเมนนี้คือ<mark class="hl-warning">เงินอาจถูกโอนซ้ำ หรือยอดเงินสองฝั่งไม่ตรงกัน</mark> ซึ่งร้ายแรงกว่าการที่ผู้ใช้เห็นข้อความ "ระบบไม่พร้อมให้บริการชั่วคราว กรุณาลองใหม่" มาก
 
-นี่คือเหตุผลว่าทำไม core banking มักใช้ **relational database ที่มี strong consistency (single-leader replication, synchronous commit)** แทนที่จะใช้ NoSQL แบบ eventual consistency ที่นิยมใน service อื่นของบริษัทเดียวกัน — เพราะ**quality attribute ที่ให้น้ำหนักสูงสุดต่างกันตามโดเมน** ไม่ใช่ทุก service ในองค์กรเดียวกันต้องเลือกจุดเดียวกันบน CAP spectrum
+นี่คือเหตุผลว่าทำไม core banking มักใช้ **relational database ที่มี strong consistency (single-leader replication, synchronous commit)** แทนที่จะใช้ NoSQL แบบ eventual consistency ที่นิยมใน service อื่นของบริษัทเดียวกัน — <mark class="hl-insight">เพราะ**quality attribute ที่ให้น้ำหนักสูงสุดต่างกันตามโดเมน** ไม่ใช่ทุก service ในองค์กรเดียวกันต้องเลือกจุดเดียวกันบน CAP spectrum</mark>
 
 ```demo
 component: ComparisonDiagram
