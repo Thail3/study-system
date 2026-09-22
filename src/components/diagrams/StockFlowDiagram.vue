@@ -54,7 +54,7 @@ function angle(x1: number, y1: number, x2: number, y2: number) {
 
 <template>
   <figure class="sf-figure">
-    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="sf-svg">
+    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="sf-svg" role="img" :aria-label="caption || 'stock and flow diagram'">
       <defs>
         <marker id="sf-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
           <path d="M0,0 L10,5 L0,10 Z" fill="var(--ink-soft)" />

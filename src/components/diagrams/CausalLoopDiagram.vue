@@ -71,10 +71,15 @@ interface RenderedLink {
 const renderedLinks = computed<RenderedLink[]>(() => {
   const halfW = props.nodeWidth / 2
   const halfH = props.nodeHeight / 2
-  return props.links.map((link, i) => {
+  return props.links.flatMap((link, i) => {
     const a = nodeById.value.get(link.from)
     const b = nodeById.value.get(link.to)
-    if (!a || !b) return { key: `bad-${i}`, path: '', labelX: 0, labelY: 0, polarity: link.polarity }
+    if (!a || !b) {
+      if (import.meta.env.DEV) {
+        console.warn(`[CausalLoopDiagram] link references missing node: ${link.from} -> ${link.to}`)
+      }
+      return []
+    }
 
     const dx = b.x - a.x
     const dy = b.y - a.y
@@ -94,7 +99,7 @@ const renderedLinks = computed<RenderedLink[]>(() => {
         ? `M${start.x},${start.y} L${end.x},${end.y}`
         : `M${start.x},${start.y} Q${midX},${midY} ${end.x},${end.y}`
 
-    return {
+    return [{
       key: `${link.from}-${link.to}-${i}`,
       path,
       labelX: midX - uy * 14,
@@ -102,7 +107,7 @@ const renderedLinks = computed<RenderedLink[]>(() => {
       polarity: link.polarity,
       start,
       end,
-    }
+    }]
   })
 })
 
@@ -142,7 +147,7 @@ const delayMarks = computed<DelayMark[]>(() => {
 
 <template>
   <figure class="cld-figure">
-    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="cld-svg">
+    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="cld-svg" role="img" :aria-label="caption || 'causal loop diagram'">
       <defs>
         <marker id="cld-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
           <path d="M0,0 L9,4.5 L0,9 Z" fill="var(--ink)" />
