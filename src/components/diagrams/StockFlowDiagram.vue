@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed, useTemplateRef } from 'vue'
+import { useScrollReveal } from '../../composables/useScrollReveal'
+
 interface StockNode {
   id: string
   label: string
@@ -22,12 +25,16 @@ interface CloudNode {
   y: number
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     stocks: StockNode[]
     flows?: FlowPipe[]
     clouds?: CloudNode[]
     infoLinks?: { x1: number; y1: number; x2: number; y2: number }[]
+    /** flow ids to trace with a colored reveal animation on scroll */
+    highlightFlows?: string[]
+    /** stock ids to fade in alongside the highlighted flows */
+    highlightStocks?: string[]
     viewBox?: string
     caption?: string
     stockWidth?: number
@@ -37,10 +44,53 @@ withDefaults(
     flows: () => [],
     clouds: () => [],
     infoLinks: () => [],
+    highlightFlows: () => [],
+    highlightStocks: () => [],
     viewBox: '0 0 640 300',
     stockWidth: 120,
     stockHeight: 64,
   },
+)
+
+const target = useTemplateRef<SVGSVGElement>('target')
+const { revealed, replayToken, replay } = useScrollReveal(
+  target,
+  props.highlightFlows.length > 0 || props.highlightStocks.length > 0,
+)
+
+const stockById = computed(() => new Map(props.stocks.map((s) => [s.id, s])))
+const flowById = computed(() => new Map(props.flows.map((f) => [f.id, f])))
+
+interface HighlightFlow {
+  id: string
+  x1: number
+  y1: number
+  x2: number
+  y2: number
+  delayMs: number
+}
+
+const highlightedFlows = computed<HighlightFlow[]>(() =>
+  props.highlightFlows.flatMap((id, i) => {
+    const f = flowById.value.get(id)
+    if (!f) return []
+    return [{ id, x1: f.x1, y1: f.y1, x2: f.x2, y2: f.y2, delayMs: i * 350 }]
+  }),
+)
+
+interface HighlightStock {
+  id: string
+  x: number
+  y: number
+  delayMs: number
+}
+
+const highlightedStocks = computed<HighlightStock[]>(() =>
+  props.highlightStocks.flatMap((id, i) => {
+    const s = stockById.value.get(id)
+    if (!s) return []
+    return [{ id, x: s.x, y: s.y, delayMs: i * 350 }]
+  }),
 )
 
 function midpoint(x1: number, y1: number, x2: number, y2: number) {
@@ -54,7 +104,8 @@ function angle(x1: number, y1: number, x2: number, y2: number) {
 
 <template>
   <figure class="sf-figure">
-    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="sf-svg" role="img" :aria-label="caption || 'stock and flow diagram'">
+    <button v-if="(highlightedFlows.length || highlightedStocks.length) && revealed" class="diagram-replay-btn" title="เล่นอนิเมชั่นอีกครั้ง" @click="replay">↻</button>
+    <svg ref="target" :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="sf-svg" role="img" :aria-label="caption || 'stock and flow diagram'">
       <defs>
         <marker id="sf-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
           <path d="M0,0 L10,5 L0,10 Z" fill="var(--ink-soft)" />
@@ -128,6 +179,30 @@ function angle(x1: number, y1: number, x2: number, y2: number) {
         <text :x="s.x" :y="s.y + 6" text-anchor="middle" class="sf-stock-label">{{ s.label }}</text>
         <text v-if="s.note" :x="s.x" :y="s.y + stockHeight / 2 + 18" text-anchor="middle" class="sf-stock-note">{{ s.note }}</text>
       </g>
+
+      <g :key="replayToken" class="diagram-reveal-layer" :class="{ revealed }">
+        <line
+          v-for="hf in highlightedFlows"
+          :key="hf.id"
+          :x1="hf.x1"
+          :y1="hf.y1"
+          :x2="hf.x2"
+          :y2="hf.y2"
+          class="diagram-reveal-link"
+          path-length="1"
+          :style="{ animationDelay: hf.delayMs + 'ms' }"
+        />
+        <rect
+          v-for="hs in highlightedStocks"
+          :key="hs.id"
+          :x="hs.x - stockWidth / 2"
+          :y="hs.y - stockHeight / 2"
+          :width="stockWidth"
+          :height="stockHeight"
+          class="diagram-reveal-node"
+          :style="{ animationDelay: hs.delayMs + 'ms' }"
+        />
+      </g>
     </svg>
     <figcaption v-if="caption" class="annotation-label">{{ caption }}</figcaption>
   </figure>
@@ -135,6 +210,7 @@ function angle(x1: number, y1: number, x2: number, y2: number) {
 
 <style scoped>
 .sf-figure {
+  position: relative;
   margin: var(--space-5) 0;
   padding: var(--space-5);
   background: var(--paper-raised);

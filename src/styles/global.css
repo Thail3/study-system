@@ -57,6 +57,71 @@ a {
   color: var(--accent-strong);
 }
 
+/* shared scroll-triggered highlight animation for diagram components
+   (CausalLoopDiagram, StockFlowDiagram) — paired with useScrollReveal() */
+.diagram-replay-btn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.diagram-replay-btn:hover {
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+}
+.diagram-reveal-link {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-width: 3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.diagram-reveal-layer.revealed .diagram-reveal-link {
+  animation: diagram-reveal-link 0.7s ease forwards;
+  opacity: 1;
+}
+.diagram-reveal-node {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 3;
+}
+.diagram-reveal-layer.revealed .diagram-reveal-node {
+  animation: diagram-reveal-node 0.5s ease forwards;
+}
+@keyframes diagram-reveal-link {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes diagram-reveal-node {
+  to {
+    fill: var(--accent-wash);
+    stroke: var(--accent-strong);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diagram-reveal-link {
+    animation: none !important;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  .diagram-reveal-node {
+    animation: none !important;
+    fill: var(--accent-wash);
+    stroke: var(--accent-strong);
+  }
+}
+
 code,
 .mono {
   font-family: var(--font-mono);

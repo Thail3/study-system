@@ -16,15 +16,15 @@
 
 ```demo
 component: CausalLoopDiagram
-props: {"nodes":[{"id":"retries","label":"Retry จาก client/upstream","x":150,"y":230},{"id":"load","label":"Load บน payment-service","x":420,"y":100},{"id":"errors","label":"Latency/Error เพิ่มขึ้น","x":690,"y":230}],"links":[{"from":"retries","to":"load","polarity":"+"},{"from":"load","to":"errors","polarity":"+"},{"from":"errors","to":"retries","polarity":"+"}],"loops":[{"label":"R","x":420,"y":260,"note":"cascading failure — วิ่งไม่หยุดเอง"}],"delays":[{"from":"errors","to":"retries"}],"viewBox":"0 0 800 320"}
+props: {"nodes":[{"id":"retries","label":"Retry จาก client/upstream","x":150,"y":230},{"id":"load","label":"Load บน payment-service","x":420,"y":100},{"id":"errors","label":"Latency/Error เพิ่มขึ้น","x":690,"y":230}],"links":[{"from":"retries","to":"load","polarity":"+"},{"from":"load","to":"errors","polarity":"+"},{"from":"errors","to":"retries","polarity":"+"}],"loops":[{"label":"R","x":420,"y":260,"note":"cascading failure — วิ่งไม่หยุดเอง"}],"delays":[{"from":"errors","to":"retries"}],"highlightLinks":[{"from":"retries","to":"load"},{"from":"load","to":"errors"},{"from":"errors","to":"retries"}],"viewBox":"0 0 800 320"}
 caption: R loop เดียวกับ tech debt spiral ที่เห็นในโมดูล Feedback Loops ทุกประการ แค่เปลี่ยนตัวละคร — บวก delay จาก alerting lag ที่ทำให้ทีมรู้ตัวช้ากว่าที่ loop วิ่งจริง
 ```
 
-จุดที่ทำให้เหตุการณ์นี้ลาม (cascade) ข้าม service ได้คือ **shared database** — `payment-service` กับ `auth-service` ไม่มี dependency กันตรงๆ ในโค้ดเลย แต่แชร์ทรัพยากรระดับล่างร่วมกัน (นี่คือ system boundary ที่แคบเกินไปจากโมดูล System Traps — ทีมมองแค่ dependency ระดับโค้ด ไม่เห็น dependency ระดับ infrastructure ที่ซ่อนอยู่)
+จุดที่ทำให้เหตุการณ์นี้ลาม (cascade) ข้าม service ได้คือ **shared database** — <mark class="hl-warning">`payment-service` กับ `auth-service` ไม่มี dependency กันตรงๆ ในโค้ดเลย แต่แชร์ทรัพยากรระดับล่างร่วมกัน</mark> (นี่คือ system boundary ที่แคบเกินไปจากโมดูล System Traps — ทีมมองแค่ dependency ระดับโค้ด ไม่เห็น dependency ระดับ infrastructure ที่ซ่อนอยู่)
 
 ## ระดับที่ 4: Mental Model
 
-Post-mortem พบความเชื่อร่วมที่ฝังอยู่ในทีมมานาน: **"Retry with timeout ก็เพียงพอแล้วสำหรับ resilience เราไม่จำเป็นต้องมี circuit breaker เพราะ failure แบบนี้ไม่ค่อยเกิด"** — ความเชื่อนี้เองที่ทำให้ทีมไม่เคยลงทุนสร้าง circuit breaker หรือทดสอบพฤติกรรมของระบบทั้งหมดภายใต้ load จริงร่วมกัน (ทดสอบแยก service ทีละตัว แต่ไม่เคยทดสอบพฤติกรรม retry ร่วมกันทั้ง call graph)
+Post-mortem พบความเชื่อร่วมที่ฝังอยู่ในทีมมานาน: <mark class="hl-insight">**"Retry with timeout ก็เพียงพอแล้วสำหรับ resilience เราไม่จำเป็นต้องมี circuit breaker เพราะ failure แบบนี้ไม่ค่อยเกิด"**</mark> — ความเชื่อนี้เองที่ทำให้ทีมไม่เคยลงทุนสร้าง circuit breaker หรือทดสอบพฤติกรรมของระบบทั้งหมดภายใต้ load จริงร่วมกัน (ทดสอบแยก service ทีละตัว แต่ไม่เคยทดสอบพฤติกรรม retry ร่วมกันทั้ง call graph)
 
 ## Leverage Point ที่แนะนำ
 

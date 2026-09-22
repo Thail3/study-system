@@ -2,13 +2,13 @@
 
 ## โครงสร้างของ Reinforcing Loop
 
-Reinforcing Loop (เขียนย่อว่า **R**) ต่างจาก Balancing Loop ตรงที่**ไม่มีลิงก์ลบเลย หรือมีลิงก์ลบเป็นจำนวนคู่** — ผลคือทุกครั้งที่วนครบหนึ่งรอบ ค่าที่ได้จะขยายไปในทิศทางเดิมเสมอ ไม่ใช่ถูกหักล้าง
+Reinforcing Loop (เขียนย่อว่า **R**) ต่างจาก Balancing Loop ตรงที่**ไม่มีลิงก์ลบเลย หรือมีลิงก์ลบเป็นจำนวนคู่** — <mark class="hl-term">ผลคือทุกครั้งที่วนครบหนึ่งรอบ ค่าที่ได้จะขยายไปในทิศทางเดิมเสมอ ไม่ใช่ถูกหักล้าง</mark>
 
 ตัวอย่างที่วิศวกรซอฟต์แวร์เจอบ่อยแต่มักไม่รู้ว่ามันคือ R loop: **Tech Debt Spiral**
 
 ```demo
 component: CausalLoopDiagram
-props: {"nodes":[{"id":"debt","label":"Technical Debt","x":160,"y":220},{"id":"slow","label":"ความเร็วทีมลดลง","x":420,"y":100},{"id":"shortcut","label":"ทางลัด/skip test เพิ่ม","x":680,"y":220}],"links":[{"from":"debt","to":"slow","polarity":"+"},{"from":"slow","to":"shortcut","polarity":"+"},{"from":"shortcut","to":"debt","polarity":"+"}],"loops":[{"label":"R","x":420,"y":250,"note":"ยิ่งหมุนยิ่งแย่ลง"}],"viewBox":"0 0 800 320"}
+props: {"nodes":[{"id":"debt","label":"Technical Debt","x":160,"y":220},{"id":"slow","label":"ความเร็วทีมลดลง","x":420,"y":100},{"id":"shortcut","label":"ทางลัด/skip test เพิ่ม","x":680,"y":220}],"links":[{"from":"debt","to":"slow","polarity":"+"},{"from":"slow","to":"shortcut","polarity":"+"},{"from":"shortcut","to":"debt","polarity":"+"}],"loops":[{"label":"R","x":420,"y":250,"note":"ยิ่งหมุนยิ่งแย่ลง"}],"highlightLinks":[{"from":"debt","to":"slow"},{"from":"slow","to":"shortcut"},{"from":"shortcut","to":"debt"}],"viewBox":"0 0 800 320"}
 caption: Tech Debt Spiral — ทุกลิงก์เป็น "+" (จำนวนลิงก์ลบ = ศูนย์ = เลขคู่) ทำให้วนกลับมาขยายตัวเองซ้ำแล้วซ้ำเล่า
 ```
 
@@ -22,7 +22,7 @@ caption: Tech Debt Spiral — ทุกลิงก์เป็น "+" (จำ�
 - **Compound learning ของทีม** — ทีมมี documentation ดี → onboarding คนใหม่เร็ว → มีเวลาไปเขียน documentation เพิ่ม → onboarding เร็วขึ้นอีก
 - **Flywheel ของ Amazon** — ราคาถูกลง → ลูกค้าเยอะขึ้น → seller เยอะขึ้น → selection เยอะขึ้น → ลูกค้าเยอะขึ้นอีก → cost structure ดีขึ้น → ราคาถูกลงอีก
 
-จุดสำคัญคือ **R loop ไม่มีเป้าหมายในตัวมันเอง** ไม่ว่าจะเป็นทิศบวกหรือลบ มันจะขยายตัวต่อไปเรื่อยๆ จนกว่าจะมี**อย่างอื่น**มาหยุดมัน (ทรัพยากรหมด ตลาดอิ่มตัว หรือ balancing loop อื่นเข้ามาคาน) — R loop ที่ดีจึงต้องถูกออกแบบร่วมกับการรู้ล่วงหน้าว่าอะไรจะมาเป็นเพดานตามธรรมชาติ ไม่งั้นมันจะพุ่งชนกำแพงแบบไม่ทันตั้งตัว (เรื่องนี้คือแก่นของโมดูล Behavior Patterns หัวข้อ "Overshoot and Collapse" ที่จะเจอถัดไป)
+จุดสำคัญคือ **R loop ไม่มีเป้าหมายในตัวมันเอง** ไม่ว่าจะเป็นทิศบวกหรือลบ <mark class="hl-warning">มันจะขยายตัวต่อไปเรื่อยๆ จนกว่าจะมี**อย่างอื่น**มาหยุดมัน (ทรัพยากรหมด ตลาดอิ่มตัว หรือ balancing loop อื่นเข้ามาคาน)</mark> — R loop ที่ดีจึงต้องถูกออกแบบร่วมกับการรู้ล่วงหน้าว่าอะไรจะมาเป็นเพดานตามธรรมชาติ ไม่งั้นมันจะพุ่งชนกำแพงแบบไม่ทันตั้งตัว (เรื่องนี้คือแก่นของโมดูล Behavior Patterns หัวข้อ "Overshoot and Collapse" ที่จะเจอถัดไป)
 
 ## ลองเล่นเอง: เห็นความต่างระหว่าง R กับ B
 

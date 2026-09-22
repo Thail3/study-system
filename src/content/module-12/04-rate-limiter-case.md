@@ -35,4 +35,24 @@ props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"gate","label":"App 
 - **Latency เพิ่มขึ้นทุก request** — ต้องยิงไป Redis ก่อนเสมอ (ปกติเร็วมาก ~1ms เพราะ Redis เป็น in-memory แต่ก็ยังเป็น network call เพิ่ม)
 - **เลือก granularity ให้เหมาะ** — per-user, per-IP, หรือ per-API-key ขึ้นกับว่าระบบต้องการป้องกันอะไร (เชื่อมกับ module Reliability เรื่อง rate limiting ระดับต่างๆ)
 
+## คำถามเจาะลึกที่มักถูกถามต่อ
+
+**ถาม: เก็บ token count แยกกันที่แต่ละ server จะได้ effective quota มากกว่าที่ตั้งใจกี่เท่า?**
+ถ้ามี N servers behind Load Balancer และ user สลับยิง request ไปมา แต่ละ server เก็บนับแยกกันเอง <mark class="hl-warning">เท่ากับ user ได้โควต้าจริง N เท่าของที่ตั้งใจ</mark> เก็บที่ Redis กลางทำให้ทุก server เห็นค่าเดียวกัน โควต้าเป็นไปตามที่ตั้งใจเป๊ะไม่ว่าจะ scale ไปกี่เครื่อง
+
+**ถาม: ทำไมต้องใช้ atomic operation (INCR) ไม่ใช้ GET แล้ว SET แบบปกติ?**
+GET แล้ว SET เป็นสองขั้นตอนแยกกัน (เหมือน check-then-act ใน Boss Loot Race) — สอง request พร้อมกันอ่านค่าเดิมได้เหมือนกันก่อนอีกฝั่งเขียนทับ ทำให้นับพลาด (ปล่อย request เกิน quota ได้) <mark class="hl-insight">INCR เป็น atomic operation เดียว การันตีนับถูกต้องเสมอไม่ว่าจะมีกี่ request มาพร้อมกัน</mark>
+
+**ถาม: ยิงไป Redis ก่อนทุก request เพิ่ม latency เท่าไหร่ คุ้มไหม?**
+<mark class="hl-insight">Redis in-memory เพิ่ม latency แค่ราว ~1ms ต่อ request (network round-trip ในเครือข่ายเดียวกัน) เทียบกับ request จริงที่มักใช้เวลาหลัก 10-100ms</mark> การเช็คโควต้าคิดเป็นสัดส่วนน้อยมากของ latency รวม แลกกับ correctness ที่คุ้มค่ามาก
+
+**ถาม: รวม Rate Limiter ไว้ที่ Gateway จุดเดียว ลดงานได้แค่ไหนเทียบกับกระจายทุก microservice?**
+ถ้าเขียน logic เดิมซ้ำใน 20 microservice ต้อง maintain 20 จุด แก้ policy ทีต้องแก้ 20 ที่ พลาดจุดเดียวก็เป็นช่องโหว่ รวมที่ Gateway จุดเดียวลดจำนวนจุดที่ต้อง maintain จาก 20 เหลือ 1 ทุก service ข้างในไม่ต้องรับรู้เรื่อง rate limit เลย
+
+**ถาม: "Fail Open" กับ "Fail Closed" ตอน Redis ตอบช้า เลือกยังไง ต่างกันแค่ไหน?**
+Fail closed ปลอดภัยกว่าเรื่อง correctness แต่ถ้า Redis ล่ม ทุก request ถูกบล็อกหมด — ทั้งระบบล่มตาม Redis ไปด้วย <mark class="hl-warning">Fail open ยอมให้บาง request หลุด quota ไปชั่วคราว (ความเสียหายจำกัดเพราะสั้นๆ) แต่ระบบหลักยังทำงานต่อได้</mark> ส่วนใหญ่เลือก fail open เพราะ rate limiting ป้องกันปัญหา ไม่ใช่ correctness ที่ต้องเป๊ะ 100%
+
+**ถาม: เลือก granularity per-user/per-IP/per-API-key ผิด จะเกิดอะไร?**
+per-IP มีปัญหาถ้าหลาย user อยู่หลัง NAT เดียวกัน (เช่น office เดียวกัน) ทุกคนแย่ง quota เดียวกันทั้งที่เป็นคนละคน per-user แม่นกว่าแต่ต้อง authenticate ก่อนถึงเช็คได้ (ป้องกัน anonymous flood ไม่ได้ก่อน login) เลือกผิด granularity ทำให้ rate limit ไม่ป้องกันสิ่งที่ตั้งใจ หรือบล็อก user ที่ไม่ผิดไปด้วย
+
 > นี่คือตัวอย่างที่ดีว่าทำไม system design เป็นเรื่องของ**การเอาหลายๆ concept มาประกอบกัน** ไม่ใช่ท่องจำแต่ละเรื่องแยกๆ — <mark class="hl-insight">rate limiter เดี่ยวๆ ง่าย แต่พอต้อง distributed ต้องดึง caching, consistency, และ reliability pattern มาผสมกันทั้งหมด</mark>

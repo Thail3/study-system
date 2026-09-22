@@ -45,3 +45,11 @@ flowchart LR
 ```
 
 ระบบใหญ่มัก**ไม่ใช้ database หลักทำ search โดยตรง** แต่ sync ข้อมูลบางส่วนไปยัง search engine เฉพาะทาง (เช่น Elasticsearch) ที่ optimize สำหรับ full-text search โดยเฉพาะ — เป็นอีกตัวอย่างของการแยกความรับผิดชอบ: database หลักดูแล consistency, search engine ดูแลความเร็ว/ความฉลาดในการค้นหา
+
+## ขั้นสูง: sync ไม่ทันใจ และ index เดียวไม่พอ
+
+**Indexing Lag** — การ sync จาก Primary DB ไป Search Engine ไม่ได้เกิดทันที (ใช้เวลาหลักวินาทีถึงนาที เรียกว่า **near-real-time** ไม่ใช่ real-time จริง) <mark class="hl-warning">ผลคือ user เพิ่ง post ข้อมูลใหม่ไปหมาดๆ แล้วลอง search หาทันที อาจหาไม่เจอ เพราะ index ยัง sync ไม่ทัน</mark> เหมือนสารบัญท้ายเล่มยังไม่ได้อัปเดตตามหน้าที่เพิ่งเขียนใหม่ ระบบที่ต้องการ "search เจอทันทีที่ post" (เช่น chat) มักแก้ด้วย **CDC (Change Data Capture)** ที่ลด lag ให้เร็วขึ้นมาก หรือให้ UI แสดงผลจาก Primary DB ควบคู่ไปก่อนชั่วคราวจนกว่า index จะ sync ทัน
+
+**Index Sharding** — พอข้อมูลมหาศาลระดับพันล้านเอกสาร inverted index ตัวเดียวจะโตจนช้าและไม่พอเก็บในเครื่องเดียว <mark class="hl-term">Index Sharding</mark> แก้ปัญหาเดียวกับที่ database เจอ (โมดูล Database) — แบ่ง index ออกเป็นหลาย shard กระจายหลายเครื่อง query เข้ามาแต่ละครั้งต้องยิงไปทุก shard พร้อมกันแล้วรวมผลลัพธ์ (scatter-gather) ก่อนส่งกลับ ซึ่งซับซ้อนกว่า query index เดียวตรงๆ มาก แต่จำเป็นเมื่อข้อมูลใหญ่เกินเครื่องเดียวรับได้
+
+> คำถามสัมภาษณ์: "ทำไม search feature บางทีหาโพสต์ที่เพิ่งโพสต์ไม่เจอ" — เพราะ full-text search แยก sync จาก primary database เสมอ (ไม่ใช่ query database ตรงๆ) และการ sync นั้นมี lag ตามธรรมชาติ — ยิ่งต้องการ lag สั้นแค่ไหน ยิ่งต้องลงทุนกับ CDC/streaming sync ที่ซับซ้อนขึ้นตามไปด้วย ไม่มีทางได้ real-time เป๊ะแบบไม่มี trade-off

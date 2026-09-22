@@ -34,3 +34,20 @@ sequenceDiagram
 - **ABAC (Attribute-Based Access Control)** — กำหนดสิทธิ์ตาม attribute หลายอย่างร่วมกัน (เช่น "เข้าห้องนี้ได้เฉพาะพนักงานแผนกเดียวกัน และเฉพาะเวลาทำงาน") ยืดหยุ่นกว่าแต่ซับซ้อนกว่า
 
 > คำถามสัมภาษณ์: "ทำไม 401 กับ 403 ต่างกัน" — **401 Unauthorized** จริงๆ หมายถึงยังไม่ผ่านด่านบัตรพนักงาน (ไม่รู้ว่าคุณเป็นใคร หรือบัตรหมดอายุ) ส่วน **403 Forbidden** หมายถึงผ่านด่านบัตรพนักงานแล้ว (รู้ว่าคุณเป็นใคร) แต่คีย์การ์ดไม่เปิดห้องนี้ให้ (ไม่มีสิทธิ์ทำสิ่งนี้)
+
+## ขั้นสูง: ช่องโหว่ที่โจมตี AuthN/AuthZ จริงๆ
+
+ต่อให้ระบบ AuthN/AuthZ ออกแบบถูกหลักการทุกอย่าง — ยังมีอีกชั้นที่ต้องป้องกัน: คนร้ายไม่ได้พยายาม "ผ่านด่านตามกฎ" แต่พยายาม **โกงด่าน** ไปเลย เหมือนไม่ได้ปลอมบัตรพนักงาน แต่หลอกพนักงานต้อนรับให้เปิดประตูให้ตรงๆ
+
+**Brute-force login** — ลองรหัสผ่านทีละคำจนกว่าจะเจอ (เหมือนขโมยลองบิดหมุนตู้เซฟทีละเลข) <mark class="hl-warning">rate limit แบบ per-IP อย่างเดียว (โมดูล Reliability) ไม่พอ</mark> เพราะ botnet กระจาย request จากหลายพัน IP พร้อมกัน ต้องเพิ่ม rate limit **per-account** ด้วย (ล็อกบัญชีชั่วคราวหลังพยายาม login ผิดติดกันหลายครั้ง) และ backoff/CAPTCHA เพิ่มความหน่วงให้การลองสุ่มไม่คุ้มค่าคนร้าย
+
+**OWASP-class attack vector อื่นๆ ที่เจาะระบบ auth โดยตรง:**
+
+| การโจมตี | เจาะช่องโหว่ตรงไหน | ป้องกันยังไง |
+|---|---|---|
+| **SQL Injection** | ฝัง SQL ในช่อง username/password เพื่อ bypass query login ตรงๆ (เช่น `' OR '1'='1`) | ใช้ parameterized query/ORM เสมอ ไม่ต่อ string SQL เอง |
+| **XSS (Cross-Site Scripting)** | ฝัง script ในหน้าเว็บที่ user อื่นเปิดดู เพื่อขโมย session token/cookie ไปสวมรอย | sanitize input ที่แสดงผล + ตั้ง cookie เป็น `HttpOnly` (JS อ่านไม่ได้) |
+| **CSRF (Cross-Site Request Forgery)** | หลอกให้ user ที่ login อยู่แล้วกดปุ่ม/โหลดหน้าที่ยิง request อันตรายโดยไม่ตั้งใจ (browser แนบ session cookie ให้อัตโนมัติ) | ใช้ CSRF token เฉพาะ form/session + ตั้ง cookie เป็น `SameSite` |
+| **SSRF (Server-Side Request Forgery)** | หลอกให้ server ยิง request แทนเรา ไปยัง endpoint ภายในที่ server เชื่อใจ (เช่น ผ่านฟีเจอร์ "ใส่ URL รูปโปรไฟล์") | validate/whitelist URL ปลายทางที่ server ยอมยิงให้ ไม่เชื่อ input จาก user ตรงๆ |
+
+<mark class="hl-insight">auth logic ถูกต้อง 100% ไม่ได้แปลว่าระบบปลอดภัย — ถ้าชั้น input validation รั่ว คนร้ายไม่ต้อง "แฮ็ก" ระบบ auth เลย แค่เดินอ้อมมันไปทางอื่น</mark> นี่คือเหตุผลที่ security ต้องมองทั้ง stack ไม่ใช่แค่ authentication/authorization logic เพียวๆ

@@ -6,15 +6,15 @@ Systems Thinking มีสัญลักษณ์เฉพาะสำหรั
 
 ```demo
 component: CausalLoopDiagram
-props: {"nodes":[{"id":"backlog","label":"Ticket ค้าง","x":150,"y":220},{"id":"decide","label":"ตัดสินใจจ้างเพิ่ม","x":420,"y":100},{"id":"hires","label":"คนใหม่ตอบ ticket ได้","x":690,"y":220}],"links":[{"from":"backlog","to":"decide","polarity":"+"},{"from":"decide","to":"hires","polarity":"+"},{"from":"hires","to":"backlog","polarity":"-"}],"loops":[{"label":"B","x":420,"y":250,"note":"แต่มี delay ซ่อนอยู่"}],"delays":[{"from":"decide","to":"hires"}],"viewBox":"0 0 800 320"}
+props: {"nodes":[{"id":"backlog","label":"Ticket ค้าง","x":150,"y":220},{"id":"decide","label":"ตัดสินใจจ้างเพิ่ม","x":420,"y":100},{"id":"hires","label":"คนใหม่ตอบ ticket ได้","x":690,"y":220}],"links":[{"from":"backlog","to":"decide","polarity":"+"},{"from":"decide","to":"hires","polarity":"+"},{"from":"hires","to":"backlog","polarity":"-"}],"loops":[{"label":"B","x":420,"y":250,"note":"แต่มี delay ซ่อนอยู่"}],"delays":[{"from":"decide","to":"hires"}],"highlightLinks":[{"from":"backlog","to":"decide"},{"from":"decide","to":"hires"},{"from":"hires","to":"backlog"}],"viewBox":"0 0 800 320"}
 caption: Balancing loop เดียวกับ autoscaling ในหัวข้อก่อนหน้า แต่เส้น "ตัดสินใจจ้าง → คนใหม่ตอบ ticket ได้" มีขีดคู่ (||) กำกับ = onboarding ใช้เวลา 2-3 เดือน ไม่ใช่ทันที
 ```
 
-โครงสร้างนี้เหมือน balancing loop ของ autoscaling ในหัวข้อแรกของโมดูลนี้เป๊ะทุกประการ — เป็น B loop (มีลิงก์ลบ 1 เส้น) ควรจะดึง ticket backlog กลับเข้าสู่ระดับที่รับไหวได้ แต่ความต่างเดียวที่ทำให้พฤติกรรมจริงต่างไปมหาศาลคือ **delay บนเส้นกลาง** — ระหว่างที่รอ ผู้จัดการเห็น backlog ยังสูงอยู่ (เพราะผลของการจ้างยังไม่ทันออกฤทธิ์) จึงตัดสินใจจ้างเพิ่มอีกรอบ ซ้อนกับรอบแรกที่ยังไม่ทันเห็นผล
+โครงสร้างนี้เหมือน balancing loop ของ autoscaling ในหัวข้อแรกของโมดูลนี้เป๊ะทุกประการ — เป็น B loop (มีลิงก์ลบ 1 เส้น) ควรจะดึง ticket backlog กลับเข้าสู่ระดับที่รับไหวได้ แต่ความต่างเดียวที่ทำให้พฤติกรรมจริงต่างไปมหาศาลคือ **delay บนเส้นกลาง** — <mark class="hl-warning">ระหว่างที่รอ ผู้จัดการเห็น backlog ยังสูงอยู่ (เพราะผลของการจ้างยังไม่ทันออกฤทธิ์) จึงตัดสินใจจ้างเพิ่มอีกรอบ ซ้อนกับรอบแรกที่ยังไม่ทันเห็นผล</mark>
 
 ## กฎทั่วไป: Delay ทำอะไรกับแต่ละชนิดของ Loop
 
-**Delay ใน Balancing Loop → เสี่ยง oscillation/overshoot** — เพราะระบบ "แก้" ซ้ำก่อนที่จะเห็นผลของการแก้ครั้งก่อนครบ ยิ่ง delay นาน ยิ่งเสี่ยงแก้เกินจำเป็นซ้ำแล้วซ้ำเล่า (พฤติกรรมแบบนี้จะเห็นเป็นกราฟจริงในหัวข้อ Oscillation ของโมดูลถัดไป)
+**Delay ใน Balancing Loop → เสี่ยง oscillation/overshoot** — <mark class="hl-term">เพราะระบบ "แก้" ซ้ำก่อนที่จะเห็นผลของการแก้ครั้งก่อนครบ</mark> ยิ่ง delay นาน ยิ่งเสี่ยงแก้เกินจำเป็นซ้ำแล้วซ้ำเล่า (พฤติกรรมแบบนี้จะเห็นเป็นกราฟจริงในหัวข้อ Oscillation ของโมดูลถัดไป)
 
 **Delay ใน Reinforcing Loop → บดบังความเร็วที่แท้จริงของการเติบโต** — ปัญหาคือคนละแบบกับ B loop เพราะไม่มี "แก้เกิน" แต่เป็นการ "รู้ตัวช้าเกินไป" เช่น cache hit rate ที่ค่อยๆ ลดลงจาก resource ที่รั่วสะสม กว่า dashboard จะแสดงผลกระทบชัดพอให้ทีมสังเกตเห็น ปัญหาอาจสะสมมาหลายสัปดาห์แล้ว (เหมือนกบต้มที่ไม่รู้ตัวว่าน้ำร้อนขึ้นทีละนิด) พอรู้ตัวอีกที stock (เช่น memory leak, error rate) อาจโตไปไกลเกินจะแก้ง่ายๆ แล้ว
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
+import { useScrollReveal } from '../../composables/useScrollReveal'
 
 interface CLDNode {
   id: string
@@ -34,6 +35,8 @@ const props = withDefaults(
     links: CLDLink[]
     loops?: CLDLoop[]
     delays?: CLDDelay[]
+    /** subset of `links` (matched by from+to) to trace with a colored reveal animation on scroll */
+    highlightLinks?: { from: string; to: string }[]
     viewBox?: string
     caption?: string
     nodeWidth?: number
@@ -42,11 +45,24 @@ const props = withDefaults(
   {
     loops: () => [],
     delays: () => [],
+    highlightLinks: () => [],
     viewBox: '0 0 640 380',
     nodeWidth: 128,
     nodeHeight: 46,
   },
 )
+
+const target = useTemplateRef<SVGSVGElement>('target')
+const { revealed, replayToken, replay } = useScrollReveal(target, props.highlightLinks.length > 0)
+
+const highlightNodeOrder = computed<string[]>(() => {
+  const seen: string[] = []
+  for (const l of props.highlightLinks) {
+    if (!seen.includes(l.from)) seen.push(l.from)
+    if (!seen.includes(l.to)) seen.push(l.to)
+  }
+  return seen
+})
 
 const nodeById = computed(() => new Map(props.nodes.map((n) => [n.id, n])))
 
@@ -143,11 +159,41 @@ const delayMarks = computed<DelayMark[]>(() => {
   }
   return out
 })
+
+interface HighlightLink {
+  key: string
+  path: string
+  delayMs: number
+}
+
+const highlightedLinks = computed<HighlightLink[]>(() =>
+  props.highlightLinks.flatMap((h, i) => {
+    const link = renderedLinks.value.find((l) => l.key.startsWith(`${h.from}-${h.to}-`))
+    if (!link) return []
+    return [{ key: link.key, path: link.path, delayMs: i * 350 }]
+  }),
+)
+
+interface HighlightNode {
+  id: string
+  x: number
+  y: number
+  delayMs: number
+}
+
+const highlightedNodes = computed<HighlightNode[]>(() =>
+  highlightNodeOrder.value.flatMap((id, i) => {
+    const n = nodeById.value.get(id)
+    if (!n) return []
+    return [{ id, x: n.x, y: n.y, delayMs: i * 350 }]
+  }),
+)
 </script>
 
 <template>
   <figure class="cld-figure">
-    <svg :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="cld-svg" role="img" :aria-label="caption || 'causal loop diagram'">
+    <button v-if="highlightedLinks.length && revealed" class="diagram-replay-btn" title="เล่นอนิเมชั่นอีกครั้ง" @click="replay">↻</button>
+    <svg ref="target" :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg" class="cld-svg" role="img" :aria-label="caption || 'causal loop diagram'">
       <defs>
         <marker id="cld-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
           <path d="M0,0 L9,4.5 L0,9 Z" fill="var(--ink)" />
@@ -170,6 +216,28 @@ const delayMarks = computed<DelayMark[]>(() => {
         <text :x="n.x" :y="n.y + 4" text-anchor="middle" class="cld-node-label">{{ n.label }}</text>
       </g>
 
+      <g :key="replayToken" class="diagram-reveal-layer" :class="{ revealed }">
+        <path
+          v-for="hl in highlightedLinks"
+          :key="hl.key"
+          :d="hl.path"
+          class="diagram-reveal-link"
+          path-length="1"
+          :style="{ animationDelay: hl.delayMs + 'ms' }"
+        />
+        <rect
+          v-for="hn in highlightedNodes"
+          :key="hn.id"
+          :x="hn.x - nodeWidth / 2"
+          :y="hn.y - nodeHeight / 2"
+          :width="nodeWidth"
+          :height="nodeHeight"
+          rx="4"
+          class="diagram-reveal-node"
+          :style="{ animationDelay: hn.delayMs + 'ms' }"
+        />
+      </g>
+
       <g v-for="(loop, i) in loops" :key="'loop-' + i">
         <circle :cx="loop.x" :cy="loop.y" r="17" class="loop-badge" :class="loop.label === 'R' ? 'loop-r' : 'loop-b'" />
         <text :x="loop.x" :y="loop.y + 5" text-anchor="middle" class="loop-badge-text">{{ loop.label }}</text>
@@ -182,6 +250,7 @@ const delayMarks = computed<DelayMark[]>(() => {
 
 <style scoped>
 .cld-figure {
+  position: relative;
   margin: var(--space-5) 0;
   padding: var(--space-5);
   background: var(--paper-raised);

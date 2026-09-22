@@ -4,15 +4,15 @@
 
 ```demo
 component: CausalLoopDiagram
-props: {"nodes":[{"id":"org","label":"โครงสร้างทีม/การสื่อสาร","x":150,"y":220},{"id":"software","label":"โครงสร้าง Software (module boundary)","x":550,"y":220}],"links":[{"from":"org","to":"software","polarity":"+"},{"from":"software","to":"org","polarity":"+"}],"loops":[{"label":"R","x":350,"y":140,"note":"ยิ่งตรงกัน ยิ่งล็อกแน่นขึ้นเรื่อยๆ"}],"viewBox":"0 0 700 320"}
+props: {"nodes":[{"id":"org","label":"โครงสร้างทีม/การสื่อสาร","x":150,"y":220},{"id":"software","label":"โครงสร้าง Software (module boundary)","x":550,"y":220}],"links":[{"from":"org","to":"software","polarity":"+"},{"from":"software","to":"org","polarity":"+"}],"loops":[{"label":"R","x":350,"y":140,"note":"ยิ่งตรงกัน ยิ่งล็อกแน่นขึ้นเรื่อยๆ"}],"highlightLinks":[{"from":"org","to":"software"},{"from":"software","to":"org"}],"viewBox":"0 0 700 320"}
 caption: R loop สองทาง — org shape software (Conway's Law แบบดั้งเดิม), แต่ software ก็ shape org กลับเช่นกัน (ทีมจัดตัวเองรอบ module ที่มีอยู่)
 ```
 
-ทิศทางแรก (org → software) คือ Conway's Law แบบที่ทุกคนรู้จัก — ทีมสื่อสารกันยังไง โค้ดก็จะถูกแบ่ง module ตามรอยต่อการสื่อสารนั้น แต่ทิศทางที่สอง (software → org) มักถูกมองข้าม: พอ software ถูกแบ่งเป็น module ตามทีมแล้ว **ทีมก็เริ่มจัดโครงสร้างตัวเองให้แนบสนิทกับ module ที่มีอยู่มากขึ้นเรื่อยๆ** เพราะการข้าม module boundary มีต้นทุนสูง (ต้องประสานงานข้ามทีม) — สองทิศทางนี้รวมกันเป็น R loop ที่**ล็อกโครงสร้างเดิมไว้แน่นขึ้นเรื่อยๆ** ยิ่งเวลาผ่านไป ยิ่งเปลี่ยนยากขึ้น
+ทิศทางแรก (org → software) คือ Conway's Law แบบที่ทุกคนรู้จัก — ทีมสื่อสารกันยังไง โค้ดก็จะถูกแบ่ง module ตามรอยต่อการสื่อสารนั้น แต่ทิศทางที่สอง (software → org) มักถูกมองข้าม: พอ software ถูกแบ่งเป็น module ตามทีมแล้ว **ทีมก็เริ่มจัดโครงสร้างตัวเองให้แนบสนิทกับ module ที่มีอยู่มากขึ้นเรื่อยๆ** <mark class="hl-insight">เพราะการข้าม module boundary มีต้นทุนสูง (ต้องประสานงานข้ามทีม)</mark> — สองทิศทางนี้รวมกันเป็น R loop ที่**ล็อกโครงสร้างเดิมไว้แน่นขึ้นเรื่อยๆ** ยิ่งเวลาผ่านไป ยิ่งเปลี่ยนยากขึ้น
 
 ## ทำไมการ "สั่งเปลี่ยนสถาปัตยกรรม" ตรงๆ มักล้มเหลว (Fixes That Fail)
 
-บริษัทจำนวนมากพยายามแก้ปัญหานี้ด้วยการประกาศสถาปัตยกรรมใหม่จากบนลงล่าง ("ตอนนี้เราจะใช้ microservices แบบ domain-driven") โดยไม่แตะโครงสร้างทีมเลย — นี่คือ **Fixes That Fail** ที่เจอในโมดูล Systems Archetypes: สั่งเปลี่ยน software structure (parameter-level ตามหลัก leverage point) ในขณะที่ org structure (ตัวขับเคลื่อน R loop ตัวจริง) ยังเหมือนเดิมทุกประการ — ทีมจะค่อยๆ ดึงโค้ดกลับไปอยู่ในรูปแบบเดิมโดยไม่รู้ตัว เพราะ R loop ยังทำงานอยู่เต็มกำลัง สุดท้าย "สถาปัตยกรรมใหม่" กลายเป็นแค่ชื่อโฟลเดอร์ที่เปลี่ยน แต่ coupling จริงยังเหมือนเดิม
+บริษัทจำนวนมากพยายามแก้ปัญหานี้ด้วยการประกาศสถาปัตยกรรมใหม่จากบนลงล่าง ("ตอนนี้เราจะใช้ microservices แบบ domain-driven") โดยไม่แตะโครงสร้างทีมเลย — นี่คือ **Fixes That Fail** ที่เจอในโมดูล Systems Archetypes: สั่งเปลี่ยน software structure (parameter-level ตามหลัก leverage point) ในขณะที่ org structure (ตัวขับเคลื่อน R loop ตัวจริง) ยังเหมือนเดิมทุกประการ — <mark class="hl-warning">ทีมจะค่อยๆ ดึงโค้ดกลับไปอยู่ในรูปแบบเดิมโดยไม่รู้ตัว เพราะ R loop ยังทำงานอยู่เต็มกำลัง สุดท้าย "สถาปัตยกรรมใหม่" กลายเป็นแค่ชื่อโฟลเดอร์ที่เปลี่ยน แต่ coupling จริงยังเหมือนเดิม</mark>
 
 ## Leverage Point ที่แท้จริง: Inverse Conway Maneuver
 

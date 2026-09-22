@@ -32,3 +32,23 @@ flowchart LR
 - **Custom alias** (ผู้ใช้ตั้ง short code เอง) — ต้องเช็คว่า code นั้นถูกใช้ไปแล้วหรือยัง (เหมือนเช็คว่าชื่อโดเมนนี้มีคนจองแล้วหรือยัง)
 - **Analytics** (นับจำนวนคลิก) — <mark class="hl-warning">เขียนถี่มาก ควรทำแบบ async ไม่บล็อกการ redirect ให้ user ต้องรอ</mark> (module Async & Messaging)
 - **URL หมดอายุ** — ใช้ TTL คล้ายกับที่เรียนใน module Caching (ป้ายที่มีวันหมดอายุกำกับ)
+
+## คำถามเจาะลึกที่มักถูกถามต่อ
+
+**ถาม: ทำไมต้องเข้ารหัส ID เป็น base62 แทนสุ่มโค้ดแล้วเช็คซ้ำว่าชนไหม?**
+สุ่มแล้วเช็คต้องมี round-trip ไปถาม Database ก่อนทุกครั้งที่สร้าง code ใหม่ ยิ่ง code เก่าเต็ม namespace มากขึ้น โอกาสสุ่มชนก็สูงขึ้น ต้องวนสุ่มใหม่ซ้ำหลายรอบ <mark class="hl-insight">แปลง auto-increment ID เป็น base62 การันตีไม่ซ้ำได้ในครั้งเดียวจบ ไม่ต้องเช็คซ้ำเลย</mark>
+
+**ถาม: Cache (Redis) ช่วยลด latency การ redirect ได้กี่เท่าเทียบกับอ่านจาก Database ตรงๆ?**
+<mark class="hl-insight">Redis เป็น in-memory ตอบได้ในระดับ sub-millisecond (<1ms) ส่วน Database ต้องอ่าน disk/index มักใช้ 5-20ms ต่อ query</mark> — ถ้า URL ยอดนิยมถูกคลิกซ้ำหลักพัน-หมื่นครั้ง/วินาที ให้ Cache รับส่วนใหญ่แทน ลด latency เฉลี่ยของ redirect ลงหลักสิบเท่า และลด load ที่ Database เหลือแค่ตอน cache miss
+
+**ถาม: ทำไมเลือก key-value/NoSQL แทน SQL ทั้งที่ระบบทั่วไปมักใช้ SQL?**
+ข้อมูลมีแค่ `short_code → long_url` ไม่มี relation ข้ามตารางให้ join เลย SQL ให้ feature (join, complex transaction) ที่ไม่ได้ใช้ แต่แลกกับ overhead ของ schema/lock ที่ไม่จำเป็น key-value store ให้ throughput อ่าน/เขียนสูงกว่าต่อเครื่องเดียวกัน
+
+**ถาม: ไม่มี Load Balancer จะเกิดอะไร ต่างจากมี LB แค่ไหน?**
+ไม่มี LB ทุก request วิ่งไปเครื่องเดียว รับได้จำกัด (เช่นหลักพัน request/วินาที) เกินกว่านี้ request ต่อคิวจนช้าหรือ timeout <mark class="hl-insight">LB กระจาย traffic ไปหลายเครื่องพร้อมกัน เพิ่ม capacity รวมได้เป็นเส้นตรงตามจำนวนเครื่องที่เพิ่ม</mark>
+
+**ถาม: เมื่อไหร่ถึงต้อง Shard Database จริงๆ ไม่ shard ตั้งแต่แรกได้ไหม?**
+ไม่ต้อง shard ตั้งแต่แรก เครื่องเดียวที่มี index ดีรองรับได้หลักสิบล้าน-ร้อยล้านแถวสบายๆ ต้อง shard จริงตอนข้อมูลใหญ่เกินที่เครื่องเดียวเก็บ/ประมวลผลได้อย่างมีประสิทธิภาพ (มักระดับพันล้านแถวขึ้นไป) — shard ก่อนถึงจุดนั้นคือ over-engineering เพิ่มความซับซ้อนโดยไม่จำเป็น
+
+**ถาม: ทำไม Analytics (นับคลิก) ต้อง async ไม่นับพร้อมกับ redirect เลย?**
+ถ้านับแบบ synchronous ทุก redirect ต้องรอเขียน analytics เสร็จก่อนตอบ user เพิ่ม latency ให้ทุกคนโดยไม่จำเป็น (analytics ไม่ต้องรู้ผลทันที) แยกเป็น async ทำให้ user ได้ redirect เร็วเท่าที่ cache ตอบได้จริง (<10ms) ส่วนนับคลิกประมวลผลเบื้องหลังทีหลัง

@@ -31,3 +31,23 @@ flowchart LR
 - **Consistency ของลำดับข้อความ** (module Consistency & CAP) — ข้อความต้องเรียงลำดับถูกต้องแม้มาจากหลาย server เหมือนบทสนทนาที่ต้องอ่านตามลำดับ ไม่ใช่สลับหน้าหลัง
 - <mark class="hl-warning">Connection ค้างไว้กินทรัพยากร server เยอะกว่า HTTP ปกติมาก</mark> — ต้องคำนวณว่า 1 server รับสายค้างไว้พร้อมกันได้กี่คู่สาย (capacity estimation)
 - **Read receipt / "กำลังพิมพ์..."** — เป็น event เล็กๆ ที่ยิงถี่มาก ควรแยกช่องทางจากข้อความจริงเพื่อไม่ให้กระทบ throughput หลัก
+
+## คำถามเจาะลึกที่มักถูกถามต่อ
+
+**ถาม: ทำไม HTTP polling ไม่พอ ต้องใช้ WebSocket ต่างกันแค่ไหนจริงๆ?**
+Polling ทุก 2 วินาที = แต่ละ client ยิง request แม้ไม่มีข้อความใหม่ ถ้ามี user หลักล้านคน <mark class="hl-warning">เท่ากับหลักแสน request/วินาทีที่เปล่าประโยชน์ตลอดเวลา และข้อความจริงอาจมาช้าสุดถึง 2 วินาที (worst case)</mark> WebSocket ส่งถึงทันทีที่มีข้อความ (latency หลัก 10-100ms ตาม network) ไม่ต้องยิง request เปล่าซ้ำๆ เลย
+
+**ถาม: ทำไมต้องมี Redis Pub/Sub ทั้งที่แค่ WebSocket ก็ส่งข้อความได้แล้ว?**
+WebSocket ส่งได้แค่ระหว่าง client กับ server ที่มันต่ออยู่ ถ้า user A ต่อ Server 1 และ user B ต่อ Server 2 (คนละเครื่องเพราะมี Load Balancer) Server 1 ไม่มีทางส่งตรงไป Server 2 ได้เลย <mark class="hl-insight">Pub/Sub เป็นช่องกลางให้ Server 1 ประกาศแล้ว Server 2 ได้ยินโดยไม่ต้องรู้จักกันโดยตรง</mark> — ไม่มี Pub/Sub ข้อความจาก A จะไปไม่ถึง B เลยถ้าคนละเครื่อง
+
+**ถาม: Connection ค้างไว้กินทรัพยากรกว่า HTTP ปกติกี่เท่า?**
+HTTP เปิด-ปิด connection ตามรอบ request/response ไม่ค้างนาน แต่ WebSocket ต้องค้างไว้ตลอดที่ user online กิน memory ต่อ connection (socket state, buffer) แม้ไม่มีข้อความส่งเลย <mark class="hl-warning">เครื่องหนึ่งรับ concurrent WebSocket ได้จำกัดกว่าจำนวน HTTP request/วินาทีที่รับได้มาก (มักหลักหมื่น-แสน connection ต่อเครื่อง ไม่ใช่ไม่จำกัด)</mark> ต้องคำนวณ capacity แยกจาก HTTP ปกติ
+
+**ถาม: ทำไมต้องเขียนข้อความ 2 ที่ (ส่ง real-time + เก็บ Database) ไม่เขียนที่เดียวพอ?**
+ถ้าเขียน Database ก่อนแล้วค่อยส่ง real-time ผู้รับต้องรอ Database เขียนเสร็จก่อน (เพิ่ม latency ข้อความ) ถ้าส่ง real-time อย่างเดียวไม่เก็บ Database ข้อความหายถ้า user offline หรือเปิดแอปใหม่ ต้องทำสองอย่างพร้อมกัน (ส่งทันที + เขียนแบบ async ควบคู่) แลกกับความซับซ้อนเรื่อง consistency ระหว่างสองที่
+
+**ถาม: ถ้า user B offline ตอนส่งข้อความ ระบบ hang รอเหรอ?**
+ไม่ — ข้อความเข้า queue รอไว้ (คล้าย Message Queue) ไม่ block ฝั่งคนส่ง A ได้รับ "ส่งสำเร็จ" ทันทีไม่ต้องรอ B online พอ B online ค่อย deliver ข้อความที่ค้างคิวให้ ถ้า block รอจริงๆ ระบบแชทใช้งานไม่ได้เลยเวลาอีกฝั่ง offline
+
+**ถาม: ทำไม "กำลังพิมพ์..." ต้องแยกช่องทางจากข้อความจริง?**
+Typing indicator ยิงถี่มาก (ทุกครั้งที่กดปุ่ม อาจหลายครั้ง/วินาที) ต่างจากข้อความจริงที่ส่งเป็นครั้งๆ <mark class="hl-insight">ถ้าปนกันในคิวเดียว event เล็กๆ ที่ไม่สำคัญนี้จะแย่ง throughput กับข้อความจริงที่ต้องส่งให้ทันและไม่หาย</mark> แยกช่องทาง (ยอมให้ typing indicator หายได้ ไม่ retry) ป้องกันไม่ให้กระทบข้อความสำคัญ

@@ -10,11 +10,11 @@ Technical debt ไม่ใช่แค่คำเปรียบเปรย�
 
 ```demo
 component: StockFlowDiagram
-props: {"stocks":[{"id":"debt","label":"Technical Debt","x":320,"y":150,"note":"stock — วัดได้จาก code smell, complexity score"}],"flows":[{"id":"in","label":"inflow: ทางลัดใหม่","x1":130,"y1":95,"x2":260,"y2":150,"rateLabel":"ทุก sprint ที่รีบส่ง"},{"id":"out","label":"outflow: refactor","x1":380,"y1":150,"x2":510,"y2":205,"rateLabel":"เวลาที่จัดสรรให้"}],"clouds":[{"x":90,"y":80},{"x":550,"y":220}]}
+props: {"stocks":[{"id":"debt","label":"Technical Debt","x":320,"y":150,"note":"stock — วัดได้จาก code smell, complexity score"}],"flows":[{"id":"in","label":"inflow: ทางลัดใหม่","x1":130,"y1":95,"x2":260,"y2":150,"rateLabel":"ทุก sprint ที่รีบส่ง"},{"id":"out","label":"outflow: refactor","x1":380,"y1":150,"x2":510,"y2":205,"rateLabel":"เวลาที่จัดสรรให้"}],"clouds":[{"x":90,"y":80},{"x":550,"y":220}],"highlightFlows":["out"],"highlightStocks":["debt"]}
 caption: Technical Debt เป็น stock ที่มองไม่เห็นด้วยตาเปล่า แต่มี inflow/outflow เหมือน stock ทุกประการ
 ```
 
-ทีมที่ไม่เคยจัดสรร outflow เลย (ไม่มีเวลา refactor เลยสักสปรินต์เดียว) เท่ากับปิด valve ฝั่ง outflow ไปเลย — ต่อให้ inflow ไม่ได้เยอะมาก stock ก็จะสะสมขึ้นเรื่อยๆ ไม่มีวันลด นี่คือเหตุผลที่ทีม senior มักยืนยันว่าต้องมี "20% time" หรือ sprint slot สำหรับ tech debt เสมอ ไม่ใช่ความหรูหรา แต่เป็นการเปิด outflow valve ที่จำเป็นเพื่อไม่ให้ stock วิ่งไปทาง overshoot ไม่มีที่สิ้นสุด (พฤติกรรมแบบนี้จะพูดถึงลึกๆ ในโมดูล Behavior Patterns ถัดไป)
+ทีมที่ไม่เคยจัดสรร outflow เลย (ไม่มีเวลา refactor เลยสักสปรินต์เดียว) เท่ากับปิด valve ฝั่ง outflow ไปเลย — <mark class="hl-warning">ต่อให้ inflow ไม่ได้เยอะมาก stock ก็จะสะสมขึ้นเรื่อยๆ ไม่มีวันลด</mark> นี่คือเหตุผลที่ทีม senior มักยืนยันว่าต้องมี "20% time" หรือ sprint slot สำหรับ tech debt เสมอ ไม่ใช่ความหรูหรา แต่เป็นการเปิด outflow valve ที่จำเป็นเพื่อไม่ให้ stock วิ่งไปทาง overshoot ไม่มีที่สิ้นสุด (พฤติกรรมแบบนี้จะพูดถึงลึกๆ ในโมดูล Behavior Patterns ถัดไป)
 
 ## Queue คือ Stock ที่วิศวกรระบบคุ้นเคยที่สุด
 
@@ -24,7 +24,7 @@ caption: Technical Debt เป็น stock ที่มองไม่เห็�
 - **Inflow** = อัตราที่ request เข้ามาใหม่ (requests/second)
 - **Outflow** = อัตราที่ server ประมวลผล request เสร็จ (throughput)
 
-ถ้า inflow > outflow ต่อเนื่อง คิวจะยาวขึ้นเรื่อยๆ จนสุดท้าย memory เต็มหรือ latency พุ่งจนผู้ใช้ทนไม่ไหว — นี่คือเหตุผลเชิงโครงสร้างเบื้องหลัง rate limiting, circuit breaker, autoscaling ทั้งหมดที่เรียนใน track System Design: **ทุกกลไกเหล่านั้นคือการควบคุม flow เพื่อไม่ให้ stock (คิว) วิ่งหนีจนควบคุมไม่ได้** — พอมองผ่านเลนส์ stock/flow เครื่องมือที่เคยดูเป็นเรื่องเทคนิคแยกกันคนละเรื่อง จะเห็นเป็นภาพเดียวกันหมดทันที
+ถ้า inflow > outflow ต่อเนื่อง คิวจะยาวขึ้นเรื่อยๆ จนสุดท้าย memory เต็มหรือ latency พุ่งจนผู้ใช้ทนไม่ไหว — นี่คือเหตุผลเชิงโครงสร้างเบื้องหลัง rate limiting, circuit breaker, autoscaling ทั้งหมดที่เรียนใน track System Design: <mark class="hl-insight">**ทุกกลไกเหล่านั้นคือการควบคุม flow เพื่อไม่ให้ stock (คิว) วิ่งหนีจนควบคุมไม่ได้**</mark> — พอมองผ่านเลนส์ stock/flow เครื่องมือที่เคยดูเป็นเรื่องเทคนิคแยกกันคนละเรื่อง จะเห็นเป็นภาพเดียวกันหมดทันที
 
 ## Cash และ Users ก็เป็น Stock เช่นกัน
 

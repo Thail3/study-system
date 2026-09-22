@@ -12,15 +12,15 @@
 
 ```demo
 component: StockFlowDiagram
-props: {"stocks":[{"id":"debt","label":"Technical Debt (checkout)","x":320,"y":150,"note":"stock ที่สะสมมา 6 เดือน"}],"flows":[{"id":"in","label":"inflow: ทางลัดใหม่","x1":130,"y1":95,"x2":260,"y2":150,"rateLabel":"ทุก sprint"},{"id":"out","label":"outflow: refactor","x1":380,"y1":150,"x2":510,"y2":205,"rateLabel":"≈ 0 — ไม่เคยจัดสรรเวลา"}],"clouds":[{"x":90,"y":80},{"x":550,"y":220}]}
+props: {"stocks":[{"id":"debt","label":"Technical Debt (checkout)","x":320,"y":150,"note":"stock ที่สะสมมา 6 เดือน"}],"flows":[{"id":"in","label":"inflow: ทางลัดใหม่","x1":130,"y1":95,"x2":260,"y2":150,"rateLabel":"ทุก sprint"},{"id":"out","label":"outflow: refactor","x1":380,"y1":150,"x2":510,"y2":205,"rateLabel":"≈ 0 — ไม่เคยจัดสรรเวลา"}],"clouds":[{"x":90,"y":80},{"x":550,"y":220}],"highlightFlows":["out"],"highlightStocks":["debt"]}
 caption: Outflow แทบเป็นศูนย์มาตลอด 6 เดือน — stock สะสมทางเดียว ไม่มีอะไรมาคาน
 ```
 
-ไล่ต่อด้วย causal loop diagram พบว่ามี R loop (debt → ทีมช้าลง → ทางลัดเพิ่ม → debt เพิ่ม จากโมดูล Feedback Loops) ผสมกับ Shifting the Burden (จากโมดูล Systems Archetypes) — ทุกครั้งที่ deadline บีบ ทีมเลือก "แก้ด่วนแบบ hardcode" แทนที่จะ refactor เพราะเร็วกว่าในระยะสั้น ทำให้ capability ในการ refactor ถูกกัดกร่อนไปเรื่อยๆ (ไม่มีใครมีเวลาฝึกทำอีกต่อไป)
+ไล่ต่อด้วย causal loop diagram พบว่ามี R loop (debt → ทีมช้าลง → ทางลัดเพิ่ม → debt เพิ่ม จากโมดูล Feedback Loops) ผสมกับ Shifting the Burden (จากโมดูล Systems Archetypes) — <mark class="hl-warning">ทุกครั้งที่ deadline บีบ ทีมเลือก "แก้ด่วนแบบ hardcode" แทนที่จะ refactor เพราะเร็วกว่าในระยะสั้น ทำให้ capability ในการ refactor ถูกกัดกร่อนไปเรื่อยๆ (ไม่มีใครมีเวลาฝึกทำอีกต่อไป)</mark>
 
 ## ระดับที่ 4: Mental Model
 
-สัมภาษณ์ทีมแล้วพบความเชื่อร่วมที่ไม่เคยถูกพูดออกมาตรงๆ: **"Refactor คือสิ่งที่ทำตอนมีเวลาว่างเท่านั้น ไม่ใช่งานที่ควรจัดสรรเวลาไว้ล่วงหน้าเหมือนงานอื่น"** — mental model นี้เองที่ทำให้ outflow ไม่เคยถูกเปิดเลยตลอด 6 เดือน ไม่ใช่เพราะทีมขี้เกียจหรือไม่เห็นปัญหา แต่เพราะความเชื่อพื้นฐานที่ว่า refactor "ไม่ใช่งานจริง" ทำให้มันแพ้ทุกครั้งเวลาต้อง prioritize กับงานอื่นที่ถูกมองว่า "งานจริง" มากกว่า
+สัมภาษณ์ทีมแล้วพบความเชื่อร่วมที่ไม่เคยถูกพูดออกมาตรงๆ: **"Refactor คือสิ่งที่ทำตอนมีเวลาว่างเท่านั้น ไม่ใช่งานที่ควรจัดสรรเวลาไว้ล่วงหน้าเหมือนงานอื่น"** — <mark class="hl-insight">mental model นี้เองที่ทำให้ outflow ไม่เคยถูกเปิดเลยตลอด 6 เดือน ไม่ใช่เพราะทีมขี้เกียจหรือไม่เห็นปัญหา แต่เพราะความเชื่อพื้นฐานที่ว่า refactor "ไม่ใช่งานจริง" ทำให้มันแพ้ทุกครั้งเวลาต้อง prioritize กับงานอื่นที่ถูกมองว่า "งานจริง" มากกว่า</mark>
 
 ## Leverage Point ที่แนะนำ
 
