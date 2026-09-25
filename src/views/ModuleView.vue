@@ -47,7 +47,7 @@ const quizByTopic = computed<Record<string, QuizItem[]>>(() => {
 
   <ModulePage v-else :module="mod">
     <p v-if="!mod.topics.length" class="coming-soon-note">
-      โมดูลนี้ยังไม่ถูกสร้าง — จะสร้างต่อจากโมดูล flagship (Scalability) หลังตกลง pattern ดีไซน์แล้ว
+      โมดูลนี้ยังไม่ถูกสร้าง — เนื้อหากำลังจะตามมา
     </p>
 
     <section v-for="topic in mod.topics" :key="topic.id" :id="topic.id" class="topic-section">

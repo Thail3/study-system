@@ -1,4 +1,4 @@
-export type Track = 'system-design' | 'system-architecture' | 'systems-thinking'
+export type Track = 'system-design' | 'system-architecture' | 'systems-thinking' | 'devops-observability'
 
 export interface TopicMeta {
   id: string
@@ -483,6 +483,104 @@ export const modules: ModuleMeta[] = [
       { id: 'tech-debt-as-stock-flow', title: 'เคส: Tech Debt เป็น Stock/Flow + Feedback Loop', file: '01-tech-debt-as-stock-flow' },
       { id: 'conways-law-systems-view', title: "เคส: Conway's Law ผ่านมุม Systems Thinking", file: '02-conways-law-systems-view' },
       { id: 'cascading-failure-reinforcing-loop', title: 'เคส: Cascading Failure วิเคราะห์ผ่าน Reinforcing Loop', file: '03-cascading-failure-reinforcing-loop' },
+    ],
+  },
+  {
+    id: 31,
+    track: 'devops-observability',
+    slug: 'monitoring-fundamentals',
+    title: 'Monitoring Fundamentals',
+    titleSub: 'Monitoring vs Observability, Four Golden Signals, RED/USE method',
+    status: 'available',
+    position: { x: 120, y: 140 },
+    topics: [
+      { id: 'monitoring-vs-observability', title: 'Monitoring vs Observability: รู้ว่าพัง vs รู้ว่าทำไมพัง', file: '01-monitoring-vs-observability' },
+      { id: 'four-golden-signals', title: 'Four Golden Signals (Google SRE)', file: '02-four-golden-signals' },
+      { id: 'red-and-use-method', title: 'RED Method vs USE Method', file: '03-red-and-use-method' },
+    ],
+  },
+  {
+    id: 32,
+    track: 'devops-observability',
+    slug: 'metrics-and-prometheus',
+    title: 'Metrics & Prometheus',
+    titleSub: 'time-series data, PromQL, cardinality',
+    status: 'available',
+    position: { x: 360, y: 140 },
+    topics: [
+      { id: 'time-series-data-model', title: 'Time-Series Data Model: Metric, Label, Sample', file: '01-time-series-data-model' },
+      { id: 'promql-basics', title: 'PromQL พื้นฐาน: Instant Vector, Range Vector, Rate', file: '02-promql-basics' },
+      { id: 'cardinality-explosion', title: 'Cardinality Explosion: ระเบิดเวลาของ Prometheus', file: '03-cardinality-explosion' },
+    ],
+  },
+  {
+    id: 33,
+    track: 'devops-observability',
+    slug: 'centralized-logging',
+    title: 'Centralized Logging',
+    titleSub: 'structured logging, log levels, ELK/Loki',
+    status: 'available',
+    position: { x: 600, y: 140 },
+    topics: [
+      { id: 'structured-logging', title: 'Structured Logging: จาก Text อิสระสู่ JSON Field', file: '01-structured-logging' },
+      { id: 'log-levels', title: 'Log Levels: DEBUG/INFO/WARN/ERROR/FATAL + Sampling', file: '02-log-levels' },
+      { id: 'centralized-log-pipeline', title: 'Centralized Log Pipeline: ELK vs Loki', file: '03-centralized-log-pipeline' },
+    ],
+  },
+  {
+    id: 34,
+    track: 'devops-observability',
+    slug: 'distributed-tracing',
+    title: 'Distributed Tracing',
+    titleSub: 'span, trace context propagation, OpenTelemetry',
+    status: 'available',
+    position: { x: 840, y: 140 },
+    topics: [
+      { id: 'spans-and-traces', title: 'Span & Trace: จาก Correlation ID สู่ Timing จริง', file: '01-spans-and-traces' },
+      { id: 'trace-context-propagation', title: 'Trace Context Propagation ข้าม Service', file: '02-trace-context-propagation' },
+      { id: 'opentelemetry', title: 'OpenTelemetry: มาตรฐานกลางของ Instrumentation', file: '03-opentelemetry' },
+    ],
+  },
+  {
+    id: 35,
+    track: 'devops-observability',
+    slug: 'dashboards-and-grafana',
+    title: 'Dashboards & Grafana',
+    titleSub: 'SLI/SLO dashboard, visualization',
+    status: 'available',
+    position: { x: 840, y: 340 },
+    topics: [
+      { id: 'dashboard-design-principles', title: 'Dashboard Design Principles: จัดลำดับสิ่งที่ควรอยู่บนจอ', file: '01-dashboard-design-principles' },
+      { id: 'grafana-and-data-sources', title: 'Grafana: Visualization Layer แยกจาก Data Source', file: '02-grafana-and-data-sources' },
+      { id: 'sli-slo-dashboard', title: 'SLI/SLO Dashboard: หน้าจอสุขภาพระบบระดับ Business', file: '03-sli-slo-dashboard' },
+    ],
+  },
+  {
+    id: 36,
+    track: 'devops-observability',
+    slug: 'alerting-and-slo',
+    title: 'Alerting & SLO',
+    titleSub: 'error budget, alert fatigue, on-call/paging',
+    status: 'available',
+    position: { x: 600, y: 340 },
+    topics: [
+      { id: 'error-budget-burn-rate', title: 'Error Budget Burn Rate: Alert ก่อน Budget หมด', file: '01-error-budget-burn-rate' },
+      { id: 'alert-fatigue', title: 'Alert Fatigue: เมื่อแจ้งเตือนเยอะจนไม่มีใครสนใจ', file: '02-alert-fatigue' },
+      { id: 'on-call-and-paging', title: 'On-Call & Paging: Escalation และ Post-Incident Review', file: '03-on-call-and-paging' },
+    ],
+  },
+  {
+    id: 37,
+    track: 'devops-observability',
+    slug: 'devops-observability-case-studies',
+    title: 'Case Studies',
+    titleSub: 'debug production incident ด้วย observability stack',
+    status: 'available',
+    position: { x: 720, y: 520 },
+    topics: [
+      { id: 'case-checkout-latency-incident', title: 'เคส: Checkout Latency พุ่งกลางดึก', file: '01-case-checkout-latency-incident' },
+      { id: 'case-prometheus-cardinality-outage', title: 'เคส: Prometheus ล่มเพราะ Cardinality Explosion', file: '02-case-prometheus-cardinality-outage' },
+      { id: 'case-silent-failure-unknown-unknown', title: 'เคส: Silent Failure ที่ไม่มี Alert เลย', file: '03-case-silent-failure-unknown-unknown' },
     ],
   },
 ]

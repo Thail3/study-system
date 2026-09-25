@@ -10,13 +10,13 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/:track(system-design|system-architecture|systems-thinking)',
+      path: '/:track(system-design|system-architecture|systems-thinking|devops-observability)',
       name: 'track-home',
       component: () => import('../views/TrackHomeView.vue'),
       props: true,
     },
     {
-      path: '/:track(system-design|system-architecture|systems-thinking)/module/:slug',
+      path: '/:track(system-design|system-architecture|systems-thinking|devops-observability)/module/:slug',
       name: 'module',
       component: () => import('../views/ModuleView.vue'),
       props: (route) => ({ slug: route.params.slug }),

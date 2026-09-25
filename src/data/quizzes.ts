@@ -1226,6 +1226,111 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไมการ hardcode credential ในโค้ดถึงเป็นความเสี่ยงสูง และ Secrets Manager แก้ปัญหานี้ยังไง', answer: 'เพราะโค้ดมักถูก commit เข้า git, แชร์กับคนนอกทีมตอน debug, หรือหลุดผ่าน log ได้ง่าย Secrets Manager แก้โดยให้ application ขอ short-lived credential ตอน runtime แทน ไม่ต้องมีใครจำหรือแชร์ password ตรงๆ' },
     { question: 'Trust Boundary ในสถาปัตยกรรมคืออะไร และทำไมต้องระบุให้ชัดใน architecture diagram', answer: 'คือจุดที่ข้อมูลเดินทางจากโซนไม่น่าเชื่อถือ (เช่น internet) เข้าสู่โซนที่เชื่อถือได้มากขึ้น ต้องระบุชัดเพราะทุกจุดที่ข้ามเส้นนี้ต้องมีการตรวจสอบ (validate, authenticate) เสมอ ไม่งั้นจะตกหล่นจุดที่ควรตรวจสอบ' },
   ],
+  'monitoring-fundamentals:monitoring-vs-observability': [
+    { question: 'Monitoring กับ Observability ต่างกันยังไง', answer: 'Monitoring ตอบคำถามที่รู้ล่วงหน้าว่าจะถาม (known-unknowns) ผ่าน dashboard/alert ที่ตั้งไว้ก่อน ส่วน Observability ตอบคำถามที่ไม่เคยคาดคิดมาก่อน (unknown-unknowns) โดย query แบบ ad-hoc บนข้อมูล high-cardinality ตอนสืบสวนจริง' },
+    { question: 'ทำไม metric แบบ pre-aggregated ถึงไม่พอสำหรับ debug ปัญหาที่ไม่เคยเจอมาก่อน', answer: 'เพราะ metric สรุป/aggregate มักถูกบีบอัดจนไม่เหลือ dimension ให้ slice หาสาเหตุ ต้องมีข้อมูลเหตุการณ์ดิบที่ tag ด้วย dimension เยอะๆ (high-cardinality เช่น user_id, request_id) ถึงจะ query หา pattern ที่ไม่เคยตั้งคำถามไว้ล่วงหน้าได้' },
+    { question: 'high-cardinality data คืออะไร ยกตัวอย่าง field ที่ cardinality สูงกับต่ำ', answer: 'คือ field ที่มีค่าไม่ซ้ำจำนวนมาก เช่น user_id หรือ request_id (cardinality สูง) ต่างจาก field อย่าง http_status ที่มีแค่ไม่กี่ค่าซ้ำๆ กัน (cardinality ต่ำ) — cardinality สูงจำเป็นสำหรับ slice/dice หา unknown-unknowns' },
+  ],
+  'monitoring-fundamentals:four-golden-signals': [
+    { question: 'Four Golden Signals มีอะไรบ้าง', answer: 'Latency (นานแค่ไหนกว่าจะตอบ), Traffic (รับ request มากแค่ไหน), Errors (ล้มเหลวกี่ %), Saturation (ทรัพยากรใกล้เต็มแค่ไหน) — เซ็ตขั้นต่ำที่ควร monitor สำหรับทุก service' },
+    { question: 'ทำไมไม่ควรเอา latency ของ request ที่สำเร็จกับที่ error มาเฉลี่ยรวมกัน', answer: 'เพราะ request ที่ error มักตอบกลับเร็วผิดปกติ (fail fast) พอเฉลี่ยรวมกับ request ที่สำเร็จจะทำให้ตัวเลข latency ดูดีเกินจริง ทั้งที่ user จำนวนมากกำลังเจอ error ต้องแยกวัด latency เฉพาะ request ที่สำเร็จ แล้วดู error rate แยกต่างหาก' },
+    { question: 'Saturation ต่างจาก Utilization ยังไง', answer: 'Utilization บอกว่าทรัพยากรถูกใช้งานอยู่กี่ % ส่วน Saturation บอกว่าทรัพยากรรับงานเพิ่มไม่ไหวแล้วหรือยัง (เช่น queue length ที่เพิ่มขึ้นเรื่อยๆ แม้ CPU ยังไม่ถึง 100%) — Saturation สะท้อนว่าระบบกำลังตามงานไม่ทันได้ตรงกว่า' },
+  ],
+  'monitoring-fundamentals:red-and-use-method': [
+    { question: 'RED Method ย่อมาจากอะไร ใช้กับอะไร', answer: 'Rate, Errors, Duration — ออกแบบมาสำหรับ service ที่รับ request (API, microservice) มองจากมุม request-driven' },
+    { question: 'USE Method ย่อมาจากอะไร ต่างจาก RED ยังไง', answer: 'Utilization, Saturation, Errors — ออกแบบมาสำหรับทรัพยากรระบบ (CPU, memory, disk I/O) ต่างจาก RED ที่มองจากมุม request ของ service ส่วน USE มองจากมุมทรัพยากรเบื้องหลัง' },
+    { question: 'database CPU สูงแต่ error rate ของ API ยังปกติ ควรใช้ framework ไหนสืบต่อ และทำไม', answer: 'ใช้ USE Method สืบต่อที่ระดับทรัพยากร เพราะ RED มองจากมุม request ของ service ซึ่งยังปกติอยู่ ต้องดู Saturation ของ USE (เช่น queue รอคิว) เพื่อเช็คว่าทรัพยากรกำลังจะรับงานไม่ไหวหรือยัง ก่อนที่ RED metric ของ service จะเริ่มแย่ลงตามมา' },
+  ],
+  'metrics-and-prometheus:time-series-data-model': [
+    { question: 'metric name กับ label รวมกันเป็นอะไรใน Prometheus', answer: 'metric name บวกกับชุด label ที่ต่างกัน = time series คนละเส้น เช่น http_requests_total{method="GET"} กับ http_requests_total{method="POST"} คือ series แยกกันโดยสมบูรณ์แม้ชื่อ metric เดียวกัน' },
+    { question: 'ทำไมอ่านค่า Counter ตรงๆ ถึงไม่ค่อยมีประโยชน์', answer: 'เพราะ Counter เพิ่มขึ้นอย่างเดียวและ reset เป็น 0 ทุกครั้งที่ process restart การอ่านค่าดิบจึงไม่สะท้อนอัตราการเปลี่ยนแปลงที่แท้จริง ต้องดูอัตราการเพิ่มขึ้น (rate) แทน' },
+    { question: 'ทำไม time-series DB อย่าง Prometheus ถึงเขียนข้อมูลแบบ append-only ไม่ UPDATE ค่าเก่า', answer: 'เพราะ metric เขียนรัวๆ ต่อเนื่องตลอดเวลาทุก scrape interval append-only ทำให้เขียนเร็วไม่ต้องล็อกแถวเดิมเหมือน relational DB ส่วนข้อมูลเก่าจัดการด้วย compaction และ retention policy แทนการ DELETE ทีละแถว' },
+  ],
+  'metrics-and-prometheus:promql-basics': [
+    { question: 'Instant Vector กับ Range Vector ต่างกันยังไง', answer: 'Instant Vector (เช่น http_requests_total) คืนค่าล่าสุดจุดเดียวของแต่ละ series ส่วน Range Vector (เช่น http_requests_total[5m]) คืนค่าทุกจุดย้อนหลังตามช่วงเวลาที่กำหนด ต้องผ่านฟังก์ชันอย่าง rate() ก่อนถึงจะได้ตัวเลขเดียว' },
+    { question: 'rate() จัดการปัญหา counter reset ยังไง', answer: 'rate() รู้ว่าถ้าค่าลดลงทั้งที่ควรเพิ่มอย่างเดียว (เช่น process restart ทำให้ counter กลับไป 0) นั่นคือ reset แล้วชดเชยให้อัตโนมัติ ไม่ทำให้ผลลัพธ์ติดลบผิดปกติ' },
+    { question: 'ทำไมใช้ rate() กับ Gauge ไม่ได้ผลลัพธ์ที่มีความหมาย', answer: 'เพราะ rate() ออกแบบมาสำหรับ Counter ที่เพิ่มขึ้นอย่างเดียวเท่านั้น ส่วน Gauge ขึ้นลงได้เองตามปกติโดยไม่ใช่ reset การใช้ rate() กับ Gauge จึงตีความผิดว่าค่าที่ลดลงคือ reset ทั้งที่ไม่ใช่' },
+  ],
+  'metrics-and-prometheus:cardinality-explosion': [
+    { question: 'ทำไม high-cardinality label อย่าง user_id ถึงอันตรายกับ Prometheus โดยเฉพาะ', answer: 'เพราะทุกค่า user_id ที่ต่างกันจะกลายเป็น series ใหม่ 1 เส้น ถ้ามี user นับล้านคนจะได้ series นับล้านเส้นต่อ metric เดียว Prometheus ต้องเก็บ index ของทุก series ไว้ใน memory ทำให้ memory พุ่งจน OOM' },
+    { question: 'label แบบไหนถือว่าปลอดภัยใส่ใน Prometheus metric', answer: 'label ที่มีค่าจำกัดและรู้ล่วงหน้าได้คร่าวๆ ว่ามีกี่แบบ (bounded cardinality) เช่น method, status, service — ไม่ใช่ label ที่ค่าโตไปเรื่อยๆ ตามจำนวน user หรือ request' },
+    { question: 'ถ้าต้องการสืบปัญหาระดับ user_id เจาะจง ควรทำยังไงแทนการใส่ user_id เป็น metric label', answer: 'ใช้ metric สรุปภาพรวม (aggregate, bounded label) เพื่อบอกว่ามีปัญหา แล้วกระโดดไปดู log หรือ trace ที่ tag ด้วย user_id นั้นเพื่อสืบรายละเอียด เพราะ log/trace ออกแบบมารับ high-cardinality data ได้โดยเฉพาะ ต่างจาก metric label ใน Prometheus' },
+  ],
+  'centralized-logging:structured-logging': [
+    { question: 'Structured Logging ต่างจาก Unstructured Logging ยังไง', answer: 'Structured logging เก็บ log เป็น field แยกชัดเจน (เช่น JSON) query/กรอง/สรุปสถิติได้ตรงๆ ส่วน unstructured logging เป็นข้อความอิสระที่ต้องพึ่ง regex เปราะบางในการค้นหา และพังง่ายถ้าข้อความเปลี่ยน' },
+    { question: 'ทำไมการแก้ข้อความใน unstructured log อาจทำให้ alert เงียบหายไปโดยไม่มีใครรู้ตัว', answer: 'เพราะ alert/dashboard ที่ grep หาข้อความเดิมอิงกับข้อความอิสระที่แก้ได้ตลอดเวลา ถ้ามีคนแก้ถ้อยคำใน log (เช่น เว้นวรรคต่างไป) regex ที่ตั้งไว้จะไม่ match ข้อความใหม่อีกต่อไป โดยไม่มี error แจ้งเตือน' },
+    { question: 'Correlation ID คืออะไร สำคัญยังไงกับระบบที่มีหลาย service', answer: 'คือ field (เช่น req_id) ที่แปะไปกับทุก log ที่เกิดจาก request เดียวกัน ไม่ว่าจะผ่านกี่ service พอเกิดปัญหาแค่ query ด้วย correlation ID เดียวกันก็เห็น log ทุกจุดที่ request นั้นผ่าน เรียงตามเวลาได้ทันที' },
+  ],
+  'centralized-logging:log-levels': [
+    { question: 'Log Level เรียงจากต่ำไปสูงมีอะไรบ้าง', answer: 'DEBUG (รายละเอียดตอน dev), INFO (เหตุการณ์ปกติ), WARN (ผิดปกติแต่ยังทำงานต่อได้), ERROR (งานนี้ล้มเหลว), FATAL (ระบบทำงานต่อไม่ได้)' },
+    { question: 'ทำไมไม่ควรตั้ง production log level เป็น DEBUG ทิ้งไว้ตลอดเวลา', answer: 'เพราะ log ทุกบรรทัดมีต้นทุนจริงทั้งพื้นที่เก็บ ค่า ingest ของระบบ log aggregation และ performance overhead จากการเขียน I/O บ่อยเกินไป DEBUG log ส่วนใหญ่ไม่มีใครเปิดดู ควรเปิดชั่วคราวเฉพาะตอนสืบสวนปัญหาเท่านั้น' },
+    { question: 'ทำไม WARN/ERROR/FATAL ควร sample ที่ 100% เสมอ ต่างจาก INFO ที่ sample ได้', answer: 'เพราะเหตุการณ์ผิดปกติ (WARN/ERROR/FATAL) มีปริมาณน้อยกว่า INFO มากและสำคัญกว่าที่จะไม่พลาด ส่วน INFO เป็นเหตุการณ์ปกติจำนวนมหาศาล sample แบบสุ่มเป็น % เล็กๆ ก็ยังเห็นภาพรวมได้โดยไม่ต้องเก็บครบทุกบรรทัด' },
+  ],
+  'centralized-logging:centralized-log-pipeline': [
+    { question: 'Centralized Logging Pipeline มาตรฐานมีขั้นตอนอะไรบ้าง', answer: 'Service เขียน structured log → Log Shipper (Filebeat/Fluentd/Promtail) อ่านและส่งต่อ → Buffer (เช่น Kafka) กันข้อมูลสูญหายตอน spike → Storage & Index (Elasticsearch/Loki) → Query & Visualize (Kibana/Grafana)' },
+    { question: 'ทำไม service ไม่เขียน log ตรงไปที่ storage เอง แต่ต้องผ่าน Log Shipper', answer: 'เพื่อไม่ให้ปัญหา network หรือ storage ที่ปลายทางกระทบ service หลักโดยตรง Log Shipper แยกหน้าที่อ่าน/ส่ง log ออกจาก business logic ของ service ทำให้ service ไม่ต้องรอหรือ fail เพราะปัญหาฝั่ง logging' },
+    { question: 'ทำไม Grafana Loki ถึงมีต้นทุนต่ำกว่า Elasticsearch มาก ทั้งที่เก็บ log เหมือนกัน', answer: 'Elasticsearch index ทุก field ในทุกบรรทัด log ทำให้ค้นหา full-text ได้ทรงพลังแต่ต้นทุน storage/memory สูงมาก ส่วน Loki index แค่ label จำนวนจำกัด (แนวคิดเดียวกับ Prometheus) แล้วเก็บเนื้อ log แบบบีบอัดไว้ค้นตอน query จริงเท่านั้น จึงประหยัดกว่ามาก แลกกับการค้นข้อความอิสระที่ช้ากว่า' },
+  ],
+  'distributed-tracing:spans-and-traces': [
+    { question: 'Span กับ Trace ต่างกันยังไง', answer: 'Trace คือเส้นทางทั้งหมดของ request เดียวตั้งแต่เข้าระบบจนออก ส่วน Span คือหนึ่งช่วงงานภายใน trace นั้น (เช่น 1 service call) ที่มี start time, end time และ parent span ของตัวเอง' },
+    { question: 'Trace ID ต่างจาก Correlation ID ที่ใช้ใน log ยังไง', answer: 'Correlation ID แค่บอกว่า log กลุ่มไหนมาจาก request เดียวกัน (flat ไม่มีโครงสร้าง) ส่วน Trace ID มาพร้อม span ที่มี start/end time และความสัมพันธ์ parent-child ชัดเจน ทำให้เห็นได้ว่า service ไหนกินเวลาไปเยอะสุด' },
+    { question: 'ทำไมเวลารวมของ parent span อาจไม่เท่ากับผลรวมเวลาของ child span ทุกตัว', answer: 'เพราะถ้า child span หลายตัวทำงานขนานกัน (parallel calls) เวลาของแต่ละ child จะซ้อนทับกัน ไม่ได้ต่อเนื่องกันตามลำดับ ต้องดู waterfall จริงว่า span ไหนซ้อนทับเวลากันบ้าง ไม่ใช่บวกเวลาทุก span ตรงๆ' },
+  ],
+  'distributed-tracing:trace-context-propagation': [
+    { question: 'Trace Context Propagation คืออะไร ทำไมจำเป็น', answer: 'คือการส่ง trace ID และ span ID ต่อไปยัง service ถัดไป (เช่นผ่าน HTTP header traceparent) เพื่อให้ทุก service ในเส้นทางสร้าง span ที่ผูกกับ trace เดียวกัน ถ้าไม่ propagate แต่ละ service จะสร้าง trace ใหม่แยกกัน ไม่เชื่อมโยงกันทั้งที่มาจาก request เดียวกัน' },
+    { question: 'ทำไม trace มักขาดตอนตรงจุดที่ใช้ message queue (เช่น Kafka, RabbitMQ)', answer: 'เพราะ message queue ไม่ใช่ synchronous HTTP call ตรงๆ ถ้าไม่ได้ตั้งใจแนบ trace context ไปกับ message header ตอน publish consumer อีกฝั่งจะเริ่ม trace ใหม่ที่ไม่เชื่อมกับฝั่ง producer เลย' },
+    { question: 'sampling decision ที่แนบไปกับ traceparent header มีไว้ทำไม', answer: 'เพื่อให้ทุก service ในเส้นทางตัดสินใจตรงกันว่า trace นี้จะถูกเก็บ (sampled) หรือไม่ ถ้าแต่ละ service สุ่มตัดสินใจเองอิสระ จะได้ trace ที่เก็บ span ไม่ครบทุกจุด กลายเป็น trace ที่ไม่สมบูรณ์' },
+  ],
+  'distributed-tracing:opentelemetry': [
+    { question: 'OpenTelemetry แก้ปัญหา vendor lock-in ของ tracing ยังไง', answer: 'แยก API มาตรฐานที่โค้ด application เรียกใช้ ออกจาก backend ปลายทางที่เก็บ trace จริง (Jaeger, Datadog, ฯลฯ) ทำให้เปลี่ยน backend ได้แค่ปรับ config ที่ Collector โดยไม่ต้องแก้โค้ด instrument ในแอปใหม่ทั้งหมด' },
+    { question: 'Auto-Instrumentation กับ Manual Instrumentation ต่างกันยังไง ข้อจำกัดของ Auto คืออะไร', answer: 'Auto-instrumentation attach library/agent โดยไม่ต้องแก้โค้ด ได้ trace พื้นฐานเร็ว แต่ครอบคลุมแค่ระดับ framework/library (HTTP, DB) มองไม่เห็น business logic เฉพาะทาง ต้องเพิ่ม manual instrumentation เองในจุดสำคัญทางธุรกิจ' },
+    { question: 'OTel Collector ทำหน้าที่อะไร ทำไมแอปไม่ส่งข้อมูล trace ตรงไปที่ backend เอง', answer: 'Collector รับข้อมูลจากทุกแอป ประมวลผล (filter, sampling, scrub PII, batch) แล้วส่งต่อไปยัง backend แยกหน้าที่นี้ออกจากตัวแอป ทำให้เปลี่ยน backend หรือปรับ sampling ได้จากจุดเดียวโดยไม่ต้อง deploy แอปใหม่ทุกตัว' },
+  ],
+  'dashboards-and-grafana:dashboard-design-principles': [
+    { question: 'ทำไม Four Golden Signals ควรอยู่บนสุดของทุก dashboard เสมอ', answer: 'เพราะตอบคำถามแรกที่ทุกคนอยากรู้เร็วที่สุดคือ "ตอนนี้ปกติไหม" ส่วน metric เฉพาะทางของ business ค่อยอยู่ถัดลงมา ให้คนกวาดตาดูรู้สถานะโดยรวมก่อนค่อยลงรายละเอียด' },
+    { question: 'ทำไมไม่ควรใช้ Single Stat แสดงค่าเฉลี่ย latency เพียงตัวเดียว', answer: 'เพราะค่าเฉลี่ยกลบรายละเอียดสำคัญได้ง่าย (เหมือนปัญหาเดียวกับที่เรียนใน Four Golden Signals เรื่อง p95/p99) latency ควรใช้ time-series ที่ plot หลาย percentile พร้อมกันแทน' },
+    { question: 'ทำไมไม่ควรทำ dashboard เดียวให้ทั้งผู้บริหารและ on-call engineer ใช้ร่วมกัน', answer: 'เพราะสองกลุ่มต้องการข้อมูลคนละระดับ (ภาพรวมเร็วๆ vs รายละเอียด debug) การยัดรวมกันมักทำให้ทั้งสองฝ่ายต้องเลื่อนหาสิ่งที่ตัวเองต้องการ ควรแยกเป็น overview dashboard กับ drill-down dashboard ที่มีผู้ชมชัดเจน' },
+  ],
+  'dashboards-and-grafana:grafana-and-data-sources': [
+    { question: 'Grafana ต่างจาก Prometheus/Loki ยังไง', answer: 'Grafana ไม่ได้เก็บข้อมูลเอง แต่เป็นชั้น visualization ที่ต่อกับ data source ได้หลายชนิดพร้อมกัน (Prometheus, Loki, Elasticsearch, ฯลฯ) ส่วน Prometheus/Loki มี expression browser พื้นฐานแต่ไม่ได้ออกแบบมาสร้าง dashboard ที่แชร์กับทีมหรือรวมหลาย data source' },
+    { question: 'ทำไมการรวม panel จาก Prometheus และ Loki ไว้ใน dashboard เดียวกันถึงมีประโยชน์', answer: 'เพราะเห็นทั้งอาการ (metric error rate พุ่งขึ้นจาก Prometheus) และรายละเอียด (log ที่กรองช่วงเวลาเดียวกันจาก Loki) ในจอเดียว ไม่ต้องสลับแอประหว่างดู metric กับดู log' },
+    { question: 'Template Variable ใน Grafana แก้ปัญหาอะไรเมื่อระบบมี service เยอะ', answer: 'แก้ปัญหาต้อง maintain dashboard แยกทีละ service เป็นสิบๆ ชุด โดยสร้าง dropdown ตัวแปร (เช่น $service) แล้วเขียน query แบบ parameterized ครั้งเดียว ผู้ใช้แค่เปลี่ยนค่าใน dropdown ก็ดู service ไหนก็ได้จาก dashboard เดียวกัน' },
+  ],
+  'dashboards-and-grafana:sli-slo-dashboard': [
+    { question: 'SLI กับ SLO ต่างกันยังไง', answer: 'SLI (Service Level Indicator) คือค่าที่วัดได้จริง เช่น % ของ request ที่สำเร็จ ส่วน SLO (Service Level Objective) คือเป้าหมายที่ตั้งไว้สำหรับ SLI นั้น เช่น ต้อง ≥ 99.9% ในช่วง 30 วันที่ผ่านมา' },
+    { question: 'Error Budget คำนวณยังไง และมีไว้ทำไม', answer: 'Error Budget = 100% - SLO target เช่น SLO 99.9% จะมี error budget 0.1% เป็นโควตาความล้มเหลวที่ยอมรับได้ ใช้เป็นตัวช่วยตัดสินใจว่าควรเน้นความเสถียรหรือเน้นออก feature ใหม่ในช่วงเวลานั้น' },
+    { question: 'ทำไมการตั้ง SLO สูงเกินจริง (เช่น 99.99% ทั้งที่ระบบไม่เคยทำได้) ถึงเป็นปัญหา', answer: 'เพราะ error budget จะหมดตลอดเวลา ทำให้ dashboard แดงอยู่ตลอดจนไม่มีความหมายอีกต่อไป และทีมจะเริ่มเลิกสนใจ ควรตั้ง SLO จากข้อมูลจริงในอดีตบวกกับสิ่งที่ business ยอมรับได้ ไม่ใช่ตั้งให้สูงที่สุดเท่าที่จะทำได้' },
+  ],
+  'alerting-and-slo:error-budget-burn-rate': [
+    { question: 'Burn Rate คืออะไร', answer: 'อัตราที่ error budget กำลังถูกใช้ไป เทียบกับอัตราที่ควรใช้ถ้าจะพอดีหมดตอนสิ้นรอบ SLO burn rate = 1x คือใช้ตามแผนปกติ ส่วน burn rate สูงกว่านั้นแปลว่ากำลังเผา budget เร็วกว่าปกติ' },
+    { question: 'ทำไมการ alert ด้วย burn rate ถึงเร็วกว่าการรอดู SLI ตกต่ำกว่า SLO ตรงๆ', answer: 'เพราะถ้ารอให้ SLI ทั้งรอบ 30 วันตกต่ำกว่า SLO จริงๆ ถึงจะ alert ก็สายเกินไปแล้ว burn rate จับสัญญาณ "กำลังจะพัง" ได้ตั้งแต่ชั่วโมงแรกๆ ของปัญหาโดยไม่ต้องรอครบรอบ' },
+    { question: 'ทำไมต้องใช้ Multi-Window Multi-Burn-Rate แทนการตั้งเงื่อนไขเดียว', answer: 'เพราะ window สั้นเกินไปจะ alert ไวเกินจาก error ชั่วครู่ที่หายเอง (false positive) ส่วน window ยาวเกินไปจะรู้ตัวช้ากับปัญหารุนแรงที่เกิดฉับพลัน การผสม window สั้น+ยาวพร้อมกันช่วยยืนยันว่าปัญหาเกิดขึ้นจริงและต่อเนื่อง ไม่ใช่ noise' },
+  ],
+  'alerting-and-slo:alert-fatigue': [
+    { question: 'Alert Fatigue คืออะไร เกิดจากอะไร', answer: 'คือภาวะที่คนเริ่มเมิน alert เพราะได้รับบ่อยเกินไปโดยส่วนใหญ่เป็น false positive ที่ไม่มีอะไรต้องทำจริง สาเหตุหลักมาจาก alert ที่ไม่ actionable หรือตั้ง threshold แคบเกินจนจับ noise ปกติของระบบ' },
+    { question: 'กฎทองของการตั้ง alert ระดับ Page (ปลุกกลางดึก) คืออะไร', answer: 'ทุก alert ที่ปลุกคนกลางดึกต้องมีสิ่งที่คนคนนั้นทำได้จริงทันที ถ้า alert ไปแล้วสิ่งเดียวที่ทำได้คือรอดูไปก่อน แปลว่าตั้งผิดจุด ควรเปลี่ยนเป็น ticket หรือ dashboard ให้เช็คตอนเช้าแทน' },
+    { question: 'ทำไมการตั้งทุก alert เป็น Page เพราะ "เผื่อไว้ก่อน" ถึงเป็นปัญหา', answer: 'เพราะ on-call จะถูกปลุกทุกคืนด้วยเรื่องที่ไม่ต้องรีบแก้ พอเจอเหตุการณ์จริงที่ต้องรีบ คนที่ควรตื่นมาแก้ก็เหนื่อยล้าจาก alert ก่อนหน้าจนตอบสนองช้าลง หรือ mute การแจ้งเตือนไปเลย' },
+  ],
+  'alerting-and-slo:on-call-and-paging': [
+    { question: 'ทำไมต้องมี On-Call Rotation แทนที่จะให้คนเดียวรับผิดชอบตลอด', answer: 'เพื่อไม่ให้ on-call กระจุกอยู่ที่คนเดียวตลอดซึ่งนำไปสู่ burnout เร็วมาก การหมุนเวรให้แต่ละคนเป็น primary สลับกันไปตามรอบช่วยกระจายภาระให้ทั่วถึง' },
+    { question: 'Escalation Policy มีไว้ทำไม', answer: 'เพื่อเผื่อกรณีที่ primary on-call ไม่ตอบสนอง (โทรศัพท์ไม่ดัง, หลับลึก, เน็ตหลุด) ถ้าไม่มี escalation policy สำรอง alert วิกฤตอาจถูกปล่อยทิ้งไว้โดยไม่มีใครแก้เลย ต้องไล่ระดับไปหา secondary on-call แล้วไปหา manager ตามลำดับ' },
+    { question: 'ทำไมเหตุการณ์ที่ error budget burn rate สูงผิดปกติควรนำไปสู่ Post-Incident Review เสมอ', answer: 'เพราะเป็นสัญญาณว่าเกิดปัญหาที่ส่งผลกระทบจริง ผลของ review มักย้อนกลับไปปรับปรุงจุดต่างๆ เช่น เพิ่ม metric ใหม่ ปรับ dashboard หรือแก้ runbook ให้ชัดขึ้น ทำให้ระบบแข็งแรงขึ้นเรื่อยๆ ทุกครั้งที่มีเหตุการณ์ ไม่ใช่แค่แก้แล้วจบ' },
+  ],
+  'devops-observability-case-studies:case-checkout-latency-incident': [
+    { question: 'ลำดับการสืบสวน incident ในเคส checkout latency เป็นยังไง', answer: 'Alert (burn rate สูงผิดปกติ) → Dashboard (Golden Signals ชี้ว่า Errors พุ่ง) → Metric (PromQL แยกตาม endpoint หาจุดที่ error กระจุก) → Trace (waterfall ชี้ span ที่ช้า) → Log (กรองด้วย trace_id หา error message เป๊ะๆ)' },
+    { question: 'ถ้าระบบไม่มี Distributed Tracing เคสนี้จะสืบสวนยากขึ้นตรงไหน', answer: 'จะรู้แค่ว่า endpoint ไหน error แต่ไม่รู้ว่า span ไหนในเส้นทางข้าม service ที่เป็นสาเหตุ ต้องไล่เปิด log ทีละ service เดา trace ID เอง ซึ่งช้ากว่ามาก' },
+    { question: 'ทำไมการมี trace ID เชื่อมโยงกับ log ถึงย่นเวลาสืบสวนได้มาก', answer: 'เพราะสามารถกรอง log ด้วย trace_id เดียวกับ span ที่ช้าได้ตรงๆ แทนที่จะต้องเดาว่า log บรรทัดไหนเกี่ยวข้องกับ request ที่ error จริงๆ ท่ามกลาง log นับพันบรรทัดต่อวินาที' },
+  ],
+  'devops-observability-case-studies:case-prometheus-cardinality-outage': [
+    { question: 'ทำไม Prometheus ถึง OOM crash ในเคสนี้', answer: 'เพราะ deploy ใหม่เพิ่ม label user_id เข้าไปใน metric ทำให้จำนวน series ระเบิดตามจำนวน user (unbounded high-cardinality label) Prometheus ต้องเก็บ index ของทุก series ไว้ใน memory จนล้น' },
+    { question: 'ทำไมเมื่อ Prometheus ล่ม alert ทุกตัวถึงหยุดทำงานไปด้วย', answer: 'เพราะ alert ทั้งหมดผูกกับ Prometheus ตัวเดียวกันเป็นแหล่งข้อมูล เมื่อ Prometheus เองตาย ไม่มีระบบไหนเหลืออยู่ที่จะยิง alert แจ้งเตือนว่า Prometheus กำลังพัง กลายเป็น blind spot' },
+    { question: 'ทางป้องกันที่แนะนำในเคสนี้คืออะไร', answer: 'ต้องมี external uptime checker ที่เป็นอิสระจาก Prometheus/Grafana คอยเฝ้าดูว่า monitoring stack เองยังทำงานปกติอยู่ไหม ไม่ใช่พึ่งพา Prometheus ตัวเดียวกันวัดตัวเอง เพราะระบบ critical ไม่ควรมี single point of failure' },
+  ],
+  'devops-observability-case-studies:case-silent-failure-unknown-unknown': [
+    { question: 'ทำไมทีมในเคสนี้ถึงไม่มี alert ยิงเลยทั้งที่ปัญหาเกิดขึ้นจริงหลายสัปดาห์', answer: 'เพราะ metric ที่มีอยู่วัดแค่ว่า API call ไปหา email provider สำเร็จไหม (HTTP 200) ไม่ได้วัดว่าอีเมลไปถึงกล่องข้อความจริงไหม ทำให้ error rate ยังเขียวปกติแม้ผลลัพธ์จริงที่ user ได้รับจะผิดพลาด' },
+    { question: 'บทเรียนหลักของเคสนี้คืออะไร', answer: 'การมีเครื่องมือ observability ครบไม่ได้แปลว่าจะเห็นปัญหาจริงเสมอไป ต้องเลือกวัด SLI ที่สะท้อนผลลัพธ์ที่ user สัมผัสจริง ไม่ใช่แค่สิ่งที่วัดง่ายอย่าง HTTP status code ของ service ตัวเอง' },
+    { question: 'เคสนี้เชื่อมโยงกลับไปหาแนวคิดอะไรจากหัวข้อแรกสุดของ track', answer: 'Monitoring vs Observability — ทีมมี known-unknowns ที่เตรียมไว้ล่วงหน้าครบ (dashboard, alert) แต่ metric ที่เลือกวัดไม่ใช่ตัวที่สะท้อนผลลัพธ์ทางธุรกิจจริง สะท้อนว่าเครื่องมือครบไม่ได้การันตีว่าระบบ observable จริง' },
+  ],
 }
 
 // Stable hash of the question text — so a question's id (and its

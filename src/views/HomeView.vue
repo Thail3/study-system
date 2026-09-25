@@ -31,6 +31,12 @@ const subjects: SubjectCard[] = [
     title: 'Systems Thinking',
     sub: 'stocks & flows, feedback loops, behavior patterns, systems archetypes, leverage points, system traps, case studies',
   },
+  {
+    track: 'devops-observability',
+    annotation: 'TRACK 04',
+    title: 'DevOps & Observability',
+    sub: 'monitoring fundamentals, metrics & Prometheus, centralized logging, distributed tracing, dashboards & Grafana, alerting & SLO, case studies',
+  },
 ]
 
 function trackStats(track: Track) {
