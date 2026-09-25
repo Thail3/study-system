@@ -1421,6 +1421,111 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไมทั้ง CODEOWNERS และ semantic-release ทำงานถูกต้องตามออกแบบ แต่ยังเกิด incident ได้', answer: 'CODEOWNERS แก้ปัญหาใครควรรีวิว ไม่ใช่รีวิวละเอียดพอไหม reviewer เห็น diff เล็กเลยไม่คิดต่อว่ากระทบ consumer ยังไง semantic-release เชื่อ commit message 100% ตามที่ออกแบบไว้ จุดอ่อนอยู่ที่ input ไม่ใช่ตัว pipeline เอง' },
     { question: 'ทางแก้ที่ทีมเลือกใช้หลัง incident คืออะไร ทำไมถึงตรงจุดกว่าทางอื่น', answer: 'เพิ่ม review guideline เฉพาะ library ที่มี consumer เยอะ ให้ CODEOWNERS กำหนดว่าต้องมี reviewer อาวุโสเช็กเรื่อง breaking change โดยเฉพาะ เพราะจุดอ่อนคือ automation เชื่อ input โดยไม่เช็กเชิงความหมาย ซึ่งเป็นสิ่งที่เครื่องมือทำไม่ได้ ต้องพึ่งกระบวนการที่มนุษย์ทำอยู่แล้วคือ code review' },
   ],
+  'ood-fundamentals:encapsulation-and-abstraction': [
+    { question: 'Encapsulation กับ Abstraction ต่างกันยังไง', answer: 'Encapsulation คือการรวมข้อมูลกับพฤติกรรมไว้ด้วยกันแล้วจำกัดการเข้าถึงโดยตรงจากภายนอก เป็นกลไกในการซ่อน ส่วน Abstraction คือการตัดสินใจว่าอะไรคือสิ่งจำเป็นที่ผู้ใช้ class ต้องรู้แล้วเปิดเผยแค่นั้น เป็นการตัดสินใจเชิงออกแบบว่าจะซ่อนอะไรเปิดอะไร' },
+    { question: 'ทำไม getter/setter ทุก field โดยไม่มี validation ถึงไม่ใช่ encapsulation ที่มีความหมาย', answer: 'เพราะโค้ดภายนอกยังคง set ค่าอะไรก็ได้ผ่าน setter เหมือนเดิม แค่เปลี่ยนรูปแบบการเข้าถึงจาก field ตรงๆ เป็น method ไม่ได้ป้องกันอะไรเลย encapsulation ที่มีความหมายต้องมีกฎทางธุรกิจอยู่ในจุดที่ข้อมูลถูกแก้ไข' },
+    { question: 'ความสัมพันธ์ระหว่าง encapsulation กับ abstraction คืออะไร', answer: 'Encapsulation เป็นเครื่องมือที่ทำให้ abstraction เป็นจริงได้ ออกแบบ abstraction ที่ดีแค่ไหนก็ไร้ประโยชน์ถ้าไม่มี encapsulation บังคับว่าโค้ดภายนอกต้องผ่าน interface ที่ออกแบบไว้เท่านั้น' },
+  ],
+  'ood-fundamentals:coupling-and-cohesion': [
+    { question: 'Tight coupling กับ loose coupling ต่างกันยังไง', answer: 'Tight coupling คือโมดูลหนึ่งสร้างหรือรู้จัก class ของอีกโมดูลตรงๆ ผูกติดกันแยกไม่ออก ส่วน loose coupling คือโมดูลรู้จักแค่ interface ไม่สนว่าเบื้องหลังเป็น implementation ไหน สลับได้โดยไม่ต้องแก้โค้ดที่เรียกใช้' },
+    { question: 'เป้าหมายของการออกแบบที่ดีเกี่ยวกับ coupling และ cohesion คืออะไร', answer: 'low coupling และ high cohesion พร้อมกัน ถ้ามีแค่อย่างใดอย่างหนึ่งจะยังมีปัญหาอยู่ดี เช่น cohesion สูงแต่ coupling สูงการแก้โมดูลเดียวก็ยังกระทบทั้งระบบ หรือ coupling ต่ำแต่ cohesion ต่ำโค้ดจะกระจัดกระจายหาไม่เจอ' },
+    { question: 'Shotgun Surgery คืออาการยังไง เกิดจากอะไร', answer: 'อาการที่แก้ feature เล็กน้อยต้องไล่แก้หลายไฟล์ที่กระจายอยู่ทั่ว codebase เกิดจาก coupling สูงเกินไป โมดูลที่ควรเป็นอิสระต่อกันกลับผูกติดกันแน่น logic ที่เกี่ยวข้องกระจายอยู่หลายที่โดยไม่มีจุดรวมศูนย์' },
+  ],
+  'ood-fundamentals:composition-vs-inheritance': [
+    { question: 'Fragile Base Class Problem คืออะไร', answer: 'ปัญหาที่การเปลี่ยนแปลงใน parent class ส่งผลกระทบต่อ subclass ทุกตัวที่ inherit มา แม้บาง subclass จะไม่ต้องการพฤติกรรมนั้นเลย เช่น Penguin extends Bird ที่มี fly() ทั้งที่เพนกวินบินไม่ได้ ต้อง override ทิ้งหรือ throw error' },
+    { question: 'ทำไม composition ถึงยืดหยุ่นกว่า inheritance', answer: 'Inheritance ผูกความสัมพันธ์ที่ compile time เปลี่ยนไม่ได้หลัง build ส่วน composition ให้ object มีพฤติกรรมเป็น field ที่ inject เข้ามา สลับ implementation ได้ที่ runtime โดยไม่กระทบโครงสร้าง class อื่น' },
+    { question: 'เมื่อไหร่ที่ inheritance ยังสมเหตุสมผล ไม่ต้องเปลี่ยนเป็น composition', answer: 'เมื่อความสัมพันธ์ is-a เป็นจริงเสมอไม่มีข้อยกเว้น และ subclass ทุกตัวใช้พฤติกรรมของ parent ได้ครบทุกอย่างจริงๆ โดยไม่ต้อง override ทิ้งหรือ throw error เช่น Circle extends Shape ที่ Shape มีแค่ abstract method ให้ subclass implement เอง' },
+  ],
+  'solid-principles:srp-and-ocp': [
+    { question: 'SRP หมายถึง class ควรมี method เดียวใช่ไหม', answer: 'ไม่ใช่ SRP หมายถึง class ควรมีเหตุผลให้เปลี่ยนแปลงแค่เหตุผลเดียว เป็นเรื่องของ actor หรือ stakeholder ที่เป็นเจ้าของ logic นั้น ถ้าหลาย method เปลี่ยนพร้อมกันเสมอเพราะ stakeholder เดียวกันสั่ง มันคือความรับผิดชอบเดียวกัน อยู่ class เดียวกันได้' },
+    { question: 'OCP บอกอะไร แสดงออกเป็นโค้ดยังไง', answer: 'Module ควรเปิดสำหรับการขยายแต่ปิดสำหรับการแก้ไข เพิ่มพฤติกรรมใหม่ได้โดยไม่ต้องแก้โค้ดเดิม เช่นใช้ interface กับ polymorphism แทน if-else ที่ยาวขึ้นทุกครั้งที่มี case ใหม่ เพิ่ม class ใหม่ implement interface แทนที่จะแก้ function เดิม' },
+    { question: 'ทำไมการเขียนโค้ดตาม OCP เป๊ะตั้งแต่วันแรกไม่ใช่แนวทางที่ดีเสมอไป', answer: 'เพราะ OCP มีต้นทุนต้องสร้าง abstraction เพิ่ม ถ้าเผื่อขยายล่วงหน้าสำหรับ requirement ที่ไม่เคยเกิดขึ้นจริงคือ over-engineering ควรเขียนตรงไปตรงมาก่อนแล้ว refactor ตาม OCP เมื่อเริ่มเห็นสัญญาณจริงว่าจุดนั้นมีแนวโน้มขยายบ่อย' },
+  ],
+  'solid-principles:liskov-substitution-principle': [
+    { question: 'LSP บอกอะไร ต่างจากแค่ type signature ตรงกันยังไง', answer: 'Subtype ต้องสามารถแทนที่ base type ได้โดยไม่ทำให้ความถูกต้องของโปรแกรมเปลี่ยนไป ไม่ใช่แค่ compile ผ่านหรือมี method ครบตาม type signature แต่พฤติกรรมต้องใช้แทนกันได้จริงในทุกจุดที่โค้ดคาดหวัง contract ของ base class ไว้' },
+    { question: 'ทำไม Square extends Rectangle ถึงละเมิด LSP', answer: 'Square.setWidth ต้องบังคับ height ให้เท่ากันด้วย ซึ่งทำลาย postcondition เดิมของ Rectangle.setWidth ที่ว่า height ไม่เปลี่ยน ทำให้โค้ดที่คาดหวังพฤติกรรมของ Rectangle ได้ผลลัพธ์ผิดทันทีที่ได้รับ Square มาแทน' },
+    { question: 'กฎ precondition/postcondition ของ LSP คืออะไร', answer: 'Subclass ห้ามเข้มงวดกว่า base class ในเงื่อนไขก่อนทำงาน (precondition) และห้ามหย่อนกว่า base class ในผลลัพธ์ที่รับประกัน (postcondition) มีรากฐานจากแนวคิด design by contract' },
+  ],
+  'solid-principles:isp-and-dip': [
+    { question: 'ISP บอกอะไร แก้ปัญหา fat interface ยังไง', answer: 'Client ไม่ควรถูกบังคับให้พึ่งพา method ที่ตัวเองไม่ได้ใช้ แก้ด้วยการแตก interface ใหญ่เป็น interface เล็กๆ ตามความสามารถจริง เช่น Printable, Scannable, Faxable แยกกัน แทน MultiFunctionDevice รวมทุกอย่างไว้ที่เดียว' },
+    { question: 'DIP บอกอะไร ตัวอย่าง OrderService กับ database คืออะไร', answer: 'High-level module ไม่ควรพึ่งพา low-level module โดยตรง ทั้งคู่ควรพึ่งพา abstraction ร่วมกัน OrderService ควร depend on interface OrderRepository แทนที่จะ import MySQLDatabase ตรงๆ ทำให้สลับ database ได้โดยไม่ต้องแตะ OrderService' },
+    { question: 'ทำไมการสร้าง interface ให้ทุก class ในระบบไม่ใช่การทำตาม DIP ที่ถูกต้อง', answer: 'DIP ไม่ได้บอกให้สร้าง interface ทุกจุด แต่บอกให้ high-level business logic ไม่ผูกติดกับ low-level implementation detail ที่มีแนวโน้มเปลี่ยนจริง สร้าง interface ทุก class โดยไม่มีเหตุผลคือ over-abstraction เพิ่ม indirection โดยไม่ได้ประโยชน์' },
+  ],
+  'creational-design-patterns:singleton': [
+    { question: 'Singleton Pattern ทำอะไรสองอย่างพร้อมกัน', answer: 'ทำ constructor เป็น private ป้องกันไม่ให้สร้าง instance ใหม่ตรงๆ ด้วย new และเก็บ instance เดียวไว้ใน static field แล้วให้ getInstance() เป็นจุดเข้าถึงเดียวที่คืนค่า instance เดิมเสมอไม่ว่าจะเรียกกี่ครั้งก็ตาม' },
+    { question: 'ทำไม Singleton ที่เรียกผ่าน static getInstance() ถึงขัดกับ Dependency Inversion Principle', answer: 'เพราะ class ที่เรียก getInstance() ตรงๆ มี dependency ที่ซ่อนอยู่ ไม่ปรากฏใน constructor หรือ parameter เลย ขัดกับ DIP ที่บอกว่า high-level module ควรพึ่งพา abstraction ที่ inject เข้ามา ทำให้ mock ตอน test ไม่ได้' },
+    { question: 'ทางเลือกที่ดีกว่า Singleton แบบ static method ทั่วโค้ดคืออะไร', answer: 'ยังคงรักษา instance เดียวไว้ตามที่ธุรกิจต้องการจริง แต่เปลี่ยนวิธีส่งต่อจากการเรียก static method ทั่วโค้ด มาเป็น dependency injection ผ่าน constructor หรือ DI container แทน ได้ประโยชน์ของ instance เดียวครบโดยไม่เสีย testability' },
+  ],
+  'creational-design-patterns:factory-method-and-abstract-factory': [
+    { question: 'Factory Method Pattern แก้ปัญหาอะไร เชื่อมกับ OCP ยังไง', answer: 'ย้าย logic การตัดสินใจว่าจะสร้าง concrete class ไหนมารวมไว้จุดเดียว โค้ดที่เรียกใช้ไม่ต้องรู้จัก concrete class ตรงๆ เมื่อเพิ่มชนิดใหม่แก้แค่ใน factory function จุดเดียว เป็นการนำ OCP มาทำเป็นรูปธรรม' },
+    { question: 'Abstract Factory ต่างจาก Factory Method ยังไง', answer: 'Factory Method สร้าง object ชนิดเดียวต่อการเรียกแต่เลือกได้หลาย concrete class ส่วน Abstract Factory สร้าง object หลายชนิดพร้อมกันเป็นตระกูลที่ต้องเข้ากันได้ เช่น UI theme ที่ button กับ checkbox ต้องมาจาก theme เดียวกันเสมอ' },
+    { question: 'เมื่อไหร่ที่การสร้าง Factory เป็นการเพิ่ม complexity โดยไม่จำเป็น', answer: 'เมื่อมีแค่ concrete class เดียวที่ไม่มีแนวโน้มเพิ่มชนิดใหม่เลย การสร้าง factory function ห่อ new ClassName() ไว้คือ over-engineering เพิ่ม indirection โดยไม่ได้ประโยชน์ Factory คุ้มค่าตอนมีมากกว่าหนึ่งชนิดที่ต้องเลือกจริง' },
+  ],
+  'creational-design-patterns:builder': [
+    { question: 'Telescoping Constructor คืออาการยังไง Builder แก้ยังไง', answer: 'Constructor รับ parameter จำนวนมาก บาง optional ทำให้ต้องใส่ undefined คั่นตำแหน่ง อ่านไม่ออกว่าค่าไหนคืออะไร Builder แก้ด้วยการแยกสร้างทีละขั้นผ่าน method ที่ตั้งชื่อชัดเจน แล้วจบด้วย build() ที่ validate ครบถ้วนก่อนคืน object' },
+    { question: 'ประโยชน์ที่แท้จริงของ method chaining ใน Builder คืออะไร ไม่ใช่แค่ syntax สวย', answer: 'เลื่อน validation ไปรวมที่จุดเดียวคือ build() แทนที่จะ validate ทุกครั้งที่ตั้งค่าแต่ละ field ทำให้สร้าง object ที่ยังไม่สมบูรณ์ระหว่างทางได้อย่างอิสระ โดยรับประกันว่า object สุดท้ายจาก build() ถูกต้องครบถ้วนเสมอ' },
+    { question: 'เมื่อไหร่ไม่ควรใช้ Builder Pattern', answer: 'เมื่อ object มีแค่ไม่กี่ field (2-3 ตัว) ที่ required ทั้งหมดไม่มี optional การสร้าง Builder class แยกต่างหากคือการเพิ่ม boilerplate โดยไม่ได้ประโยชน์ ควรใช้ constructor ธรรมดาหรือ object literal ตรงไปตรงมาแทน' },
+  ],
+  'structural-design-patterns:adapter-and-facade': [
+    { question: 'Adapter Pattern แก้ปัญหาอะไร', answer: 'ความเข้ากันไม่ได้ของ interface ระหว่างสองระบบที่มีอยู่แล้ว Adapter แปลงการเรียกจาก interface หนึ่งไปยังอีก interface หนึ่งโดยไม่ต้องแก้โค้ดฝั่งไหนเลย มักใช้ตอนรวม library ภายนอกหรือระบบเก่าเข้ากับโค้ดใหม่' },
+    { question: 'Facade Pattern แก้ปัญหาอะไร ต่างจาก Adapter ยังไง', answer: 'Facade แก้ปัญหาความซับซ้อนในการใช้งานระบบที่มีหลายส่วนประสานกัน รวมหลาย service เข้าเป็นจุดเรียกเดียว ต่างจาก Adapter ที่แก้ปัญหาความเข้ากันไม่ได้ของ interface ระหว่าง 2 ระบบที่มีอยู่แล้วโดยไม่ได้ลดจำนวน service ที่ต้องเรียก' },
+    { question: 'ทำไม Facade ไม่ควรใช้ปิดบังปัญหา coupling สูงระหว่าง service', answer: 'เพราะ Facade ควรใช้ลดความยุ่งยากในการเรียกใช้ ไม่ใช่ปิดบังความยุ่งเหยิงในการออกแบบ ถ้า service ต่างๆ coupling สูงเกินไปโดยไม่แก้ที่ต้นตอ ปัญหาที่แท้จริงยังอยู่เหมือนเดิม แค่มองไม่เห็นจากภายนอกเท่านั้น' },
+  ],
+  'structural-design-patterns:decorator-and-proxy': [
+    { question: 'Decorator Pattern ทำงานยังไง เชื่อมกับ composition over inheritance ยังไง', answer: 'ห่อ object เดิมด้วย object ใหม่ที่ implement interface เดียวกัน แล้วเพิ่มพฤติกรรมก่อนหรือหลังเรียก method ของ object ที่ห่อไว้ ซ้อนกันได้หลายชั้นอย่างอิสระโดยไม่ต้องแก้ class เดิม เป็นรูปธรรมของหลักการ favor composition over inheritance' },
+    { question: 'Proxy Pattern ต่างจาก Decorator ตรงเจตนายังไง', answer: 'ทั้งคู่ implement interface เดียวกับ object ที่ห่อไว้เหมือนกัน แต่ Decorator มีเจตนาเพิ่มความสามารถให้ object ส่วน Proxy มีเจตนาควบคุมการเข้าถึง object โดยพฤติกรรมสุดท้ายเหมือนเดิมทุกประการ เช่น lazy loading, access control, caching' },
+    { question: 'ข้อควรระวังของการซ้อน Decorator หลายชั้นคืออะไร', answer: 'ซ้อนหลายชั้นเกินไป (5-6 ชั้นขึ้นไป) ทำให้ debug ยากมาก เพราะ error stack trace ต้องไล่ผ่านทุกชั้น decorator ก่อนถึง object จริง ควรซ้อนเท่าที่จำเป็นและตั้งชื่อ decorator ให้สื่อความหมายชัดเจน' },
+  ],
+  'structural-design-patterns:composite': [
+    { question: 'Composite Pattern แก้ปัญหาอะไร', answer: 'ให้ leaf (เช่น File) และ composite (เช่น Folder) implement interface เดียวกัน ทำให้ client ปฏิบัติต่อ object เดี่ยวและกลุ่ม object แบบเดียวกันได้ ไม่ต้องเช็ค type ก่อนแล้วเขียน logic ต่างกันสองแบบ' },
+    { question: 'ทำไม Folder.getSize() ทำงานถูกต้องไม่ว่าต้นไม้จะลึกกี่ชั้น', answer: 'เพราะเรียก child.getSize() แบบ recursive โดยไม่สนใจว่า child เป็น File หรือ Folder ย่อยอีกที ทุก node ไม่ว่า leaf หรือ composite คุยผ่าน interface เดียวกัน client ไม่จำเป็นต้องรู้โครงสร้างต้นไม้ข้างในเลย' },
+    { question: 'ทำไม Composite Pattern มักปะทะกับ Interface Segregation Principle', answer: 'ถ้าใส่ method อย่าง add()/remove() ไว้ใน interface ร่วมเพื่อความสม่ำเสมอ leaf อย่าง File ต้อง implement แล้ว throw error ทิ้งเพราะไม่มีความหมายกับมัน ขัดกับ ISP ที่บอกว่า client ไม่ควรถูกบังคับพึ่งพา method ที่ตัวเองไม่ได้ใช้ ต้องชั่งน้ำหนักระหว่าง uniformity กับ type safety' },
+  ],
+  'behavioral-design-patterns:strategy-and-template-method': [
+    { question: 'Strategy Pattern ทำงานยังไง เชื่อมกับ Composition vs Inheritance ยังไง', answer: 'Encapsulate อัลกอริทึมทั้งชุดไว้เป็น object แยก แล้วให้ context class ถือ reference ผ่าน composition สลับอัลกอริทึมได้ที่ runtime โดยไม่ต้องแก้ context class เป็นรูปธรรมของหลักการ favor composition over inheritance และเป็นการทำตาม OCP' },
+    { question: 'Template Method ต่างจาก Strategy ตรงกลไกยังไง', answer: 'Template Method ใช้ inheritance กำหนดลำดับขั้นตอนของอัลกอริทึมไว้ตายตัวใน method เดียว แล้วให้ subclass override แค่บางขั้นตอนย่อย ต่างจาก Strategy ที่ใช้ composition สลับอัลกอริทึมทั้งชุดได้ที่ runtime' },
+    { question: 'ทำไม Template Method ถึงมีความเสี่ยงแบบเดียวกับที่เรียนในหัวข้อ Liskov Substitution Principle', answer: 'เพราะพึ่งพา inheritance ถ้า subclass override ขั้นตอนใดขั้นตอนหนึ่งแล้วทำลาย invariant ที่ template method คาดหวังไว้ จะเกิดปัญหาแบบเดียวกับ Fragile Base Class Problem ควรพิจารณา Strategy แทนถ้าต้องการความยืดหยุ่นสูงและกังวลเรื่องนี้' },
+  ],
+  'behavioral-design-patterns:observer': [
+    { question: 'Observer Pattern ทำงานยังไง แก้ปัญหาอะไร', answer: 'Subject เก็บรายชื่อ Observer ที่สนใจการเปลี่ยนแปลงไว้ เมื่อ state เปลี่ยนเรียก notify() วนแจ้งทุก observer โดย Subject ไม่ต้องรู้ concrete type ของ observer เลย แก้ปัญหาเดียวกับ Coupling & Cohesion และ OCP คือเพิ่ม observer ใหม่ได้โดยไม่ต้องแก้ Subject' },
+    { question: 'ปัญหา memory leak ของ Observer Pattern เกิดจากอะไร แก้ยังไง', answer: 'เกิดจากลืม unsubscribe observer ที่ถูกทำลายไปแล้ว ทำให้ Subject ยังถือ reference ค้างไว้ ป้องกัน garbage collector เก็บไปได้ ทางแก้คือต้อง unsubscribe เสมอในจังหวะที่ observer ถูกทำลาย ซึ่ง framework สมัยใหม่มักผูกไว้กับ lifecycle hook อัตโนมัติ' },
+    { question: 'Observer Pattern เป็นรากฐานของอะไรในระดับสถาปัตยกรรม', answer: 'เป็นรากฐานระดับ OOD ของระบบ event-driven ขนาดใหญ่ เช่น message queue, pub-sub, event bus ที่ทำ decoupling ระหว่างผู้ส่งกับผู้รับแบบเดียวกันแต่ในระดับสถาปัตยกรรมทั้งระบบ' },
+  ],
+  'behavioral-design-patterns:command-and-state': [
+    { question: 'Command Pattern ทำอะไร ทำให้ทำอะไรได้บ้างที่เรียก method ตรงๆ ทำไม่ได้', answer: 'Encapsulate การเรียก method หนึ่งครั้งให้กลายเป็น object ที่มี execute() ทำให้เข้าคิวคำสั่งได้ log คำสั่งไว้เป็น audit trail ได้ และ undo ได้เพราะ command เก็บทั้งวิธีทำและวิธีย้อนกลับไว้คู่กัน' },
+    { question: 'State Pattern แก้ปัญหาอะไร ต่างจาก if-else เช็ค state ยังไง', answer: 'ย้าย logic การเปลี่ยนสถานะออกจาก context class ไปเป็น class แยกต่อ state หนึ่ง แต่ละ state object รู้เองว่าต้องเปลี่ยนไปเป็น state ไหนต่อ แทนที่จะมี if-else เช็ค state กระจายอยู่ทุกที่ในโค้ด' },
+    { question: 'ทำไม State Pattern ถึงถูกมองว่าเป็น Strategy Pattern แบบพิเศษ', answer: 'ทั้งสองใช้กลไกเดียวกันคือ context ถือ reference ไปยัง object ที่ implement interface ร่วมแล้วมอบหมายพฤติกรรมให้ทำแทน แต่ State เพิ่มความสามารถพิเศษคือ state object รู้เองว่าควรเปลี่ยนไปเป็น state ไหนต่อ ขณะที่ Strategy ทั่วไปไม่มีความรับผิดชอบเรื่องสลับตัวเอง' },
+  ],
+  'clean-architecture-and-folder-structure:layered-architecture': [
+    { question: 'Layered Architecture แบบดั้งเดิมมีปัญหาอะไรซ่อนอยู่ ทั้งที่แบ่งเป็นชั้นชัดเจนแล้ว', answer: 'Business Layer มักยัง import concrete class ของ Data Access Layer ตรงๆ (เช่น MySQLUserRepository) ทำให้ high-level module ผูกติดกับ low-level module โดยตรง ขัดกับ Dependency Inversion Principle แม้การแบ่งชั้นจะดูเป็นระเบียบแล้วก็ตาม' },
+    { question: 'ผลที่ตามมาเมื่อ business logic ผูกติดกับ concrete repository โดยตรงคืออะไร', answer: 'เขียน unit test ให้ business logic โดยไม่ต่อ database จริงไม่ได้ และสลับ implementation ของ data access (เช่นเปลี่ยนจาก MySQL เป็น PostgreSQL) ไม่ได้โดยไม่แก้ business layer' },
+    { question: 'The Dependency Rule ของ Clean Architecture มีไว้ตอบคำถามอะไรที่ Layered Architecture แบบดั้งเดิมตอบไม่ได้', answer: 'ตอบคำถามว่า business logic ทดสอบได้โดยไม่ต้องต่อ database จริงไหม และสลับ implementation ของ data access ได้โดยไม่แก้ business layer ไหม ด้วยการบังคับทิศทาง dependency ให้ถูกต้องผ่าน interface แทนการ import concrete class ตรงๆ' },
+  ],
+  'clean-architecture-and-folder-structure:the-dependency-rule': [
+    { question: 'The Dependency Rule บอกอะไร', answer: 'Source code dependency ต้องชี้เข้าหาศูนย์กลางเท่านั้น ห้ามชี้ออก Entities ไม่รู้จักอะไรนอกวงตัวเอง Use Cases รู้จักแค่ Entities ไม่รู้จัก Interface Adapters หรือ Frameworks เลย ยิ่งเข้าใกล้ศูนย์กลางยิ่งเป็น business logic ล้วนๆ ที่ไม่ผูกกับ framework หรือ database' },
+    { question: 'The Dependency Rule เชื่อมกับ Dependency Inversion Principle ยังไง', answer: 'เป็นการนำ DIP ไปใช้ทั้งสถาปัตยกรรมแทนที่จะใช้แค่ระดับ class เดียว use case พึ่งพา interface (port) ไม่รู้จัก concrete implementation (adapter) เลย การประกอบร่างว่าจะใช้ adapter ไหนเกิดที่จุดเริ่มต้นโปรแกรม (composition root)' },
+    { question: 'การละเมิด Dependency Rule ที่พบบ่อยที่สุดคืออะไร', answer: 'การ import type หรือ class ของ framework เข้าไปใน Entities/Use Cases โดยไม่รู้ตัว เช่น use case ที่รับ parameter เป็น Express.Request ตรงๆ ทำให้ business logic ผูกติดกับ web framework ทั้งที่ไม่ควรรู้จักเลย' },
+  ],
+  'clean-architecture-and-folder-structure:folder-structure-in-practice': [
+    { question: 'Layer-based กับ Feature-based folder structure ต่างกันยังไง', answer: 'Layer-based จัดโฟลเดอร์ตามชั้นของ Clean Architecture โดยตรง เห็นภาพรวม use case ทั้งหมดง่ายแต่แก้ feature เดียวต้องกระโดดหลายโฟลเดอร์ Feature-based จัดตาม domain รวมทุกชั้นของ feature เดียวกันไว้ที่เดียว ตรงกับหลัก high cohesion แต่มองภาพรวมทั้งระบบยากกว่า' },
+    { question: 'Folder structure บังคับ The Dependency Rule ได้จริงไหม', answer: 'ไม่ได้ folder structure เป็นแค่การจัดระเบียบการมองเห็นไฟล์ ไม่ใช่ตัวบังคับทิศทาง dependency จริง ต้องบังคับด้วยวินัยการเขียน import statement เสริมด้วย lint rule อัตโนมัติได้ เช่น ESLint boundaries plugin' },
+    { question: 'เมื่อไหร่ที่ใช้ Clean Architecture แบบเต็มรูปแบบคือการทำเกินความจำเป็น', answer: 'เมื่อระบบเป็น CRUD app เล็กๆ ที่มี business logic น้อยมาก แทบจะแค่ read/write database ตรงๆ ต้นทุนของการเขียน interface, dependency injection, composition root อาจไม่คุ้มค่า คุ้มค่าที่สุดเมื่อ business logic ซับซ้อนจริงและมีแนวโน้มต้องสลับ infrastructure บ่อย' },
+  ],
+  'lld-case-studies:case-parking-lot': [
+    { question: 'การแบ่ง ParkingSpot, Ticket, ParkingLot เป็น class แยกกันในเคส Parking Lot สะท้อนหลักการอะไร', answer: 'Single Responsibility Principle แต่ละ class มีเหตุผลให้เปลี่ยนแปลงแค่เหตุผลเดียว ParkingSpot รู้แค่สถานะตัวเอง Ticket รู้แค่ข้อมูลการจอด ParkingLot รับผิดชอบหาช่องว่างและออกตั๋ว ถ้ายัดรวมกันจะกลายเป็น God Class' },
+    { question: 'ทำไมการคำนวณค่าจอดรถถึงเหมาะกับ Strategy Pattern', answer: 'เพราะอัตราค่าจอดมีแนวโน้มเปลี่ยนบ่อย (โปรโมชั่น, รายชั่วโมงเทียบเหมาจ่าย, ส่วนลดสมาชิก) encapsulate การคำนวณแต่ละแบบเป็น object แยกทำให้เพิ่มอัตราใหม่ได้โดยไม่แก้โค้ดเดิม ตรงตาม OCP' },
+    { question: 'ทำไมการหาช่องว่างแล้ว occupy ต้องเป็น atomic operation เดียวกัน', answer: 'เพราะถ้าแยกเป็นสองขั้นตอน (หาช่องว่างแล้วค่อย occupy) ระหว่างสองขั้นตอนนี้อาจมีคำขอที่สองมาแทรกได้ ทำให้สองคันจองช่องเดียวกันพร้อมกัน (race condition) ต้องออกแบบเป็น method เดียวที่ atomic เช่น findAndOccupySpot()' },
+  ],
+  'lld-case-studies:case-rate-limiter': [
+    { question: 'ทำไม RateLimiter ควรออกแบบให้พึ่งพา interface RateLimitStrategy ตั้งแต่แรก', answer: 'เพราะ rate limiting เป็นโดเมนที่รู้ล่วงหน้าว่ามีอัลกอริทึมหลายแบบใช้จริงในอุตสาหกรรม (fixed window, sliding window, token bucket) แต่ละแบบมี trade-off ต่างกัน การออกแบบให้สลับได้ตั้งแต่แรกจึงตอบสนองสัญญาณจริง ไม่ใช่การเผื่อขยายแบบเดาตาม YAGNI' },
+    { question: 'Token Bucket algorithm ทำงานยังไง ข้อดีเทียบกับ Fixed Window คืออะไร', answer: 'แต่ละ client มีถังเก็บ token ทุก request เบิก token ไป 1 หน่วย ถังเติม token กลับตามอัตราที่กำหนด รองรับ burst traffic ได้ในระดับหนึ่งถ้าถังเต็มพอดี ต่างจาก Fixed Window ที่มีปัญหา burst ที่ขอบหน้าต่างเวลา' },
+    { question: 'ทำไม thread safety ถึงเป็นจุดที่มักถูกมองข้ามในการออกแบบ Rate Limiter', answer: 'เพราะการอ่าน-แก้ไขค่า token ต้องเป็น atomic operation ถ้าใช้ Map ธรรมดาในระบบ concurrent จริง สอง request ที่มาพร้อมกันอาจอ่านค่า token ก่อนอีกฝ่ายเขียนค่าใหม่ ทำให้ปล่อยผ่าน request มากกว่าที่ควร ต้องใช้ atomic counter หรือ distributed lock แทน' },
+  ],
+  'lld-case-studies:case-elevator-system': [
+    { question: 'ทำไมลิฟต์ถึงเป็นตัวอย่างคลาสสิกของ State Pattern', answer: 'เพราะพฤติกรรมเปลี่ยนตามสถานะปัจจุบันชัดเจนมาก เช่นลิฟต์ที่กำลังเปิดประตูไม่ควรตอบสนองคำสั่งเคลื่อนที่ ทั้งที่ลิฟต์ idle ตอบสนองได้ปกติ State Pattern ย้าย logic นี้ไปไว้ที่ state object แต่ละตัวแทนการเช็ค if-else กระจายทั่วโค้ด' },
+    { question: 'Command Pattern มีบทบาทอะไรในระบบลิฟต์', answer: 'Encapsulate การกดปุ่มแต่ละครั้งให้เป็น object ที่เข้าคิวได้ ทำให้ระบบรับคำสั่งจากหลายชั้นพร้อมกันได้ต่อเนื่องแม้ลิฟต์จะไม่ว่าง แทนที่จะประมวลผลทันทีที่กด และเปิดโอกาส log คำสั่งไว้ตรวจสอบย้อนหลังได้' },
+    { question: 'ทำไมโจทย์ Elevator System ถึงใช้ pattern สามตัวพร้อมกัน (State, Command, Strategy)', answer: 'เพราะปัญหามีสามมิติต่างกันพร้อมกัน: พฤติกรรมที่เปลี่ยนตามสถานะ (State) คำขอที่ต้องเข้าคิว (Command) และอัลกอริทึมจัดสรรลิฟต์ที่ต้องสลับได้ (Strategy) การแตกปัญหาใหญ่ให้เห็นมิติย่อยแล้วเลือก pattern ที่ตรงกับแต่ละมิติคือทักษะหลักของ LLD ไม่ใช่การยัดทุกอย่างไว้ใน class เดียว' },
+  ],
 }
 
 // Stable hash of the question text — so a question's id (and its

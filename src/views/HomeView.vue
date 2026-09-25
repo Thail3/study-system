@@ -43,6 +43,12 @@ const subjects: SubjectCard[] = [
     title: 'Source Control & Codebase Strategy',
     sub: 'monorepo vs polyrepo, branching strategies, code review & merge strategy, versioning & release management, git workflow at scale, case studies',
   },
+  {
+    track: 'low-level-design',
+    annotation: 'TRACK 06',
+    title: 'Low-Level Design',
+    sub: 'OOD fundamentals, SOLID principles, creational patterns, structural patterns, behavioral patterns, clean architecture & folder structure, case studies',
+  },
 ]
 
 function trackStats(track: Track) {

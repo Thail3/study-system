@@ -34,6 +34,11 @@ const TRACK_META: Record<Track, { annotation: string; title: string; sub: string
     title: 'เรียน Source Control & Codebase Strategy',
     sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
   },
+  'low-level-design': {
+    annotation: 'LOW-LEVEL DESIGN — BLUEPRINT MAP',
+    title: 'เรียน Low-Level Design',
+    sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
+  },
 }
 
 const router = useRouter()

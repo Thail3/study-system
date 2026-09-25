@@ -1,4 +1,4 @@
-export type Track = 'system-design' | 'system-architecture' | 'systems-thinking' | 'devops-observability' | 'source-control'
+export type Track = 'system-design' | 'system-architecture' | 'systems-thinking' | 'devops-observability' | 'source-control' | 'low-level-design'
 
 export interface TopicMeta {
   id: string
@@ -665,6 +665,104 @@ export const modules: ModuleMeta[] = [
       { id: 'case-polyrepo-to-monorepo-migration', title: 'เคส: ย้ายจาก Polyrepo สู่ Monorepo กลางทางองค์กร', file: '01-case-polyrepo-to-monorepo-migration' },
       { id: 'case-hotfix-under-gitflow', title: 'เคส: Hotfix กลางดึกที่ติดกับดัก GitFlow', file: '02-case-hotfix-under-gitflow' },
       { id: 'case-broken-release-from-bad-version-bump', title: 'เคส: Version Bump ผิดพลาดที่ทำ Production พัง', file: '03-case-broken-release-from-bad-version-bump' },
+    ],
+  },
+  {
+    id: 44,
+    track: 'low-level-design',
+    slug: 'ood-fundamentals',
+    title: 'OOD Fundamentals',
+    titleSub: 'encapsulation, abstraction, coupling & cohesion',
+    status: 'available',
+    position: { x: 120, y: 140 },
+    topics: [
+      { id: 'encapsulation-and-abstraction', title: 'Encapsulation และ Abstraction', file: '01-encapsulation-and-abstraction' },
+      { id: 'coupling-and-cohesion', title: 'Coupling และ Cohesion', file: '02-coupling-and-cohesion' },
+      { id: 'composition-vs-inheritance', title: 'Composition vs Inheritance', file: '03-composition-vs-inheritance' },
+    ],
+  },
+  {
+    id: 45,
+    track: 'low-level-design',
+    slug: 'solid-principles',
+    title: 'SOLID Principles',
+    titleSub: 'SRP, OCP, LSP, ISP, DIP',
+    status: 'available',
+    position: { x: 360, y: 140 },
+    topics: [
+      { id: 'srp-and-ocp', title: 'Single Responsibility และ Open/Closed Principle', file: '01-srp-and-ocp' },
+      { id: 'liskov-substitution-principle', title: 'Liskov Substitution Principle', file: '02-liskov-substitution-principle' },
+      { id: 'isp-and-dip', title: 'Interface Segregation และ Dependency Inversion', file: '03-isp-and-dip' },
+    ],
+  },
+  {
+    id: 46,
+    track: 'low-level-design',
+    slug: 'creational-design-patterns',
+    title: 'Creational Design Patterns',
+    titleSub: 'Singleton, Factory Method, Abstract Factory, Builder',
+    status: 'available',
+    position: { x: 600, y: 140 },
+    topics: [
+      { id: 'singleton', title: 'Singleton Pattern', file: '01-singleton' },
+      { id: 'factory-method-and-abstract-factory', title: 'Factory Method และ Abstract Factory', file: '02-factory-method-and-abstract-factory' },
+      { id: 'builder', title: 'Builder Pattern', file: '03-builder' },
+    ],
+  },
+  {
+    id: 47,
+    track: 'low-level-design',
+    slug: 'structural-design-patterns',
+    title: 'Structural Design Patterns',
+    titleSub: 'Adapter, Decorator, Facade, Composite, Proxy',
+    status: 'available',
+    position: { x: 840, y: 140 },
+    topics: [
+      { id: 'adapter-and-facade', title: 'Adapter และ Facade', file: '01-adapter-and-facade' },
+      { id: 'decorator-and-proxy', title: 'Decorator และ Proxy', file: '02-decorator-and-proxy' },
+      { id: 'composite', title: 'Composite Pattern', file: '03-composite' },
+    ],
+  },
+  {
+    id: 48,
+    track: 'low-level-design',
+    slug: 'behavioral-design-patterns',
+    title: 'Behavioral Design Patterns',
+    titleSub: 'Strategy, Observer, Command, State, Template Method',
+    status: 'available',
+    position: { x: 840, y: 340 },
+    topics: [
+      { id: 'strategy-and-template-method', title: 'Strategy และ Template Method', file: '01-strategy-and-template-method' },
+      { id: 'observer', title: 'Observer Pattern', file: '02-observer' },
+      { id: 'command-and-state', title: 'Command และ State', file: '03-command-and-state' },
+    ],
+  },
+  {
+    id: 49,
+    track: 'low-level-design',
+    slug: 'clean-architecture-and-folder-structure',
+    title: 'Clean Architecture & Folder Structure',
+    titleSub: 'layered architecture, dependency rule, folder structure',
+    status: 'available',
+    position: { x: 600, y: 340 },
+    topics: [
+      { id: 'layered-architecture', title: 'Layered Architecture และปัญหาที่ซ่อนอยู่', file: '01-layered-architecture' },
+      { id: 'the-dependency-rule', title: 'The Dependency Rule', file: '02-the-dependency-rule' },
+      { id: 'folder-structure-in-practice', title: 'Folder Structure ในทางปฏิบัติ', file: '03-folder-structure-in-practice' },
+    ],
+  },
+  {
+    id: 50,
+    track: 'low-level-design',
+    slug: 'lld-case-studies',
+    title: 'Case Studies',
+    titleSub: 'ออกแบบ LLD จริงในสัมภาษณ์: parking lot, rate limiter, elevator',
+    status: 'available',
+    position: { x: 720, y: 520 },
+    topics: [
+      { id: 'case-parking-lot', title: 'เคส: ออกแบบระบบลานจอดรถ', file: '01-case-parking-lot' },
+      { id: 'case-rate-limiter', title: 'เคส: ออกแบบ Rate Limiter', file: '02-case-rate-limiter' },
+      { id: 'case-elevator-system', title: 'เคส: ออกแบบระบบลิฟต์', file: '03-case-elevator-system' },
     ],
   },
 ]
