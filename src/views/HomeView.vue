@@ -37,6 +37,12 @@ const subjects: SubjectCard[] = [
     title: 'DevOps & Observability',
     sub: 'monitoring fundamentals, metrics & Prometheus, centralized logging, distributed tracing, dashboards & Grafana, alerting & SLO, case studies',
   },
+  {
+    track: 'source-control',
+    annotation: 'TRACK 05',
+    title: 'Source Control & Codebase Strategy',
+    sub: 'monorepo vs polyrepo, branching strategies, code review & merge strategy, versioning & release management, git workflow at scale, case studies',
+  },
 ]
 
 function trackStats(track: Track) {

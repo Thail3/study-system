@@ -29,6 +29,11 @@ const TRACK_META: Record<Track, { annotation: string; title: string; sub: string
     title: 'เรียน DevOps & Observability',
     sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
   },
+  'source-control': {
+    annotation: 'SOURCE CONTROL & CODEBASE STRATEGY — BLUEPRINT MAP',
+    title: 'เรียน Source Control & Codebase Strategy',
+    sub: 'คลิก node ไหนก่อนก็ได้ ไม่ต้องเรียงลำดับ — สถานะบน map จะอัปเดตตามที่อ่านแล้ว',
+  },
 }
 
 const router = useRouter()

@@ -1,4 +1,4 @@
-export type Track = 'system-design' | 'system-architecture' | 'systems-thinking' | 'devops-observability'
+export type Track = 'system-design' | 'system-architecture' | 'systems-thinking' | 'devops-observability' | 'source-control'
 
 export interface TopicMeta {
   id: string
@@ -581,6 +581,90 @@ export const modules: ModuleMeta[] = [
       { id: 'case-checkout-latency-incident', title: 'เคส: Checkout Latency พุ่งกลางดึก', file: '01-case-checkout-latency-incident' },
       { id: 'case-prometheus-cardinality-outage', title: 'เคส: Prometheus ล่มเพราะ Cardinality Explosion', file: '02-case-prometheus-cardinality-outage' },
       { id: 'case-silent-failure-unknown-unknown', title: 'เคส: Silent Failure ที่ไม่มี Alert เลย', file: '03-case-silent-failure-unknown-unknown' },
+    ],
+  },
+  {
+    id: 38,
+    track: 'source-control',
+    slug: 'monorepo-vs-polyrepo',
+    title: 'Monorepo vs Polyrepo',
+    titleSub: 'trade-off, tooling, เมื่อไหร่ควรใช้แบบไหน',
+    status: 'available',
+    position: { x: 120, y: 140 },
+    topics: [
+      { id: 'monorepo-fundamentals', title: 'Monorepo คืออะไร: Atomic Change และข้อจำกัด', file: '01-monorepo-fundamentals' },
+      { id: 'polyrepo-fundamentals', title: 'Polyrepo คืออะไร: Isolation และ Version Drift', file: '02-polyrepo-fundamentals' },
+      { id: 'choosing-repo-strategy', title: 'เลือก Repo Strategy: Decision Framework', file: '03-choosing-repo-strategy' },
+    ],
+  },
+  {
+    id: 39,
+    track: 'source-control',
+    slug: 'branching-strategies',
+    title: 'Branching Strategies',
+    titleSub: 'GitFlow, Trunk-Based Development, GitHub Flow',
+    status: 'available',
+    position: { x: 360, y: 140 },
+    topics: [
+      { id: 'gitflow', title: 'GitFlow: Branch ถาวร + Release/Hotfix', file: '01-gitflow' },
+      { id: 'trunk-based-development', title: 'Trunk-Based Development + Feature Flag', file: '02-trunk-based-development' },
+      { id: 'choosing-branching-strategy', title: 'GitHub Flow และเลือก Branching Strategy', file: '03-choosing-branching-strategy' },
+    ],
+  },
+  {
+    id: 40,
+    track: 'source-control',
+    slug: 'code-review-and-merge-strategy',
+    title: 'Code Review & Merge Strategy',
+    titleSub: 'PR review culture, merge vs squash vs rebase, branch protection',
+    status: 'available',
+    position: { x: 600, y: 140 },
+    topics: [
+      { id: 'pr-review-culture', title: 'PR Review Culture: ทำไม Review เรื่องสำคัญ', file: '01-pr-review-culture' },
+      { id: 'merge-vs-squash-vs-rebase', title: 'Merge vs Squash vs Rebase', file: '02-merge-vs-squash-vs-rebase' },
+      { id: 'branch-protection', title: 'Branch Protection: บังคับกฎให้เกิดขึ้นจริง', file: '03-branch-protection' },
+    ],
+  },
+  {
+    id: 41,
+    track: 'source-control',
+    slug: 'versioning-and-release-management',
+    title: 'Versioning & Release Management',
+    titleSub: 'semver, changelog automation, monorepo versioning',
+    status: 'available',
+    position: { x: 840, y: 140 },
+    topics: [
+      { id: 'semantic-versioning', title: 'Semantic Versioning: MAJOR.MINOR.PATCH', file: '01-semantic-versioning' },
+      { id: 'changelog-and-release-automation', title: 'Conventional Commits และ Release Automation', file: '02-changelog-and-release-automation' },
+      { id: 'monorepo-versioning', title: 'Monorepo Versioning: Independent vs Fixed', file: '03-monorepo-versioning' },
+    ],
+  },
+  {
+    id: 42,
+    track: 'source-control',
+    slug: 'git-workflow-at-scale',
+    title: 'Git Workflow at Scale',
+    titleSub: 'CODEOWNERS, commit convention, large repo practices',
+    status: 'available',
+    position: { x: 840, y: 340 },
+    topics: [
+      { id: 'codeowners', title: 'CODEOWNERS: แผนที่ความเป็นเจ้าของโค้ด', file: '01-codeowners' },
+      { id: 'commit-convention-at-scale', title: 'Commit Convention ในสเกลใหญ่: Git Hooks และ Commitlint', file: '02-commit-convention-at-scale' },
+      { id: 'large-repo-practices', title: 'Large Repo Practices: Shallow, Partial, Sparse Checkout', file: '03-large-repo-practices' },
+    ],
+  },
+  {
+    id: 43,
+    track: 'source-control',
+    slug: 'source-control-case-studies',
+    title: 'Case Studies',
+    titleSub: 'ตัดสินใจ repo/branching strategy จริงในองค์กร',
+    status: 'available',
+    position: { x: 720, y: 520 },
+    topics: [
+      { id: 'case-polyrepo-to-monorepo-migration', title: 'เคส: ย้ายจาก Polyrepo สู่ Monorepo กลางทางองค์กร', file: '01-case-polyrepo-to-monorepo-migration' },
+      { id: 'case-hotfix-under-gitflow', title: 'เคส: Hotfix กลางดึกที่ติดกับดัก GitFlow', file: '02-case-hotfix-under-gitflow' },
+      { id: 'case-broken-release-from-bad-version-bump', title: 'เคส: Version Bump ผิดพลาดที่ทำ Production พัง', file: '03-case-broken-release-from-bad-version-bump' },
     ],
   },
 ]

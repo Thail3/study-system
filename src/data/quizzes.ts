@@ -1331,6 +1331,96 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'บทเรียนหลักของเคสนี้คืออะไร', answer: 'การมีเครื่องมือ observability ครบไม่ได้แปลว่าจะเห็นปัญหาจริงเสมอไป ต้องเลือกวัด SLI ที่สะท้อนผลลัพธ์ที่ user สัมผัสจริง ไม่ใช่แค่สิ่งที่วัดง่ายอย่าง HTTP status code ของ service ตัวเอง' },
     { question: 'เคสนี้เชื่อมโยงกลับไปหาแนวคิดอะไรจากหัวข้อแรกสุดของ track', answer: 'Monitoring vs Observability — ทีมมี known-unknowns ที่เตรียมไว้ล่วงหน้าครบ (dashboard, alert) แต่ metric ที่เลือกวัดไม่ใช่ตัวที่สะท้อนผลลัพธ์ทางธุรกิจจริง สะท้อนว่าเครื่องมือครบไม่ได้การันตีว่าระบบ observable จริง' },
   ],
+  'monorepo-vs-polyrepo:monorepo-fundamentals': [
+    { question: 'ทำไม monorepo ถึงช่วยจัดการ breaking change ของ shared library ได้ดีกว่า', answer: 'เพราะแก้ library และทุก consumer ที่ต้องปรับตามได้ใน pull request เดียว ตรวจสอบและ merge พร้อมกันทีเดียว ไม่มีช่วงเวลาที่ library เวอร์ชันใหม่ถูก publish แล้วแต่ consumer บางตัวยังไม่ได้อัปเดตตาม' },
+    { question: 'ทำไม monorepo ขนาดใหญ่ถึงต้องการ tooling พิเศษอย่าง incremental build', answer: 'เพราะถ้า build/test ทั้ง repo ทุกครั้งที่มีการเปลี่ยนแปลง (แม้แก้แค่ project เดียว) เวลา CI จะยืดยาวขึ้นตามขนาด repo ทั้งหมด ไม่ใช่ตามขนาดของสิ่งที่เปลี่ยนจริง ต้องใช้ dependency graph วิเคราะห์และ build เฉพาะส่วนที่ได้รับผลกระทบ' },
+    { question: 'ทำไม monorepo ถึงมีข้อจำกัดด้าน access control มากกว่า polyrepo', answer: 'เพราะทุกคนเห็นโค้ดทุก project ใน repo เดียวกัน การจำกัดสิทธิ์แบบละเอียด (เช่น ทีม A ห้ามเห็นโค้ดทีม B) ทำได้ยากกว่า repo ที่แยกกันโดยธรรมชาติ' },
+  ],
+  'monorepo-vs-polyrepo:polyrepo-fundamentals': [
+    { question: 'จุดแข็งหลักของ polyrepo คืออะไร', answer: 'ความเป็นอิสระ (isolation) — แต่ละทีมมี repo ของตัวเอง กำหนด access control, branch protection, CI pipeline ได้ตามที่ทีมต้องการโดยไม่กระทบทีมอื่น และ build/test จำกัดอยู่แค่ scope ของ repo นั้น' },
+    { question: 'Version Drift ใน polyrepo คืออะไร เกิดขึ้นได้ยังไง', answer: 'คือช่วงเวลาที่ consumer repo ต่างๆ ใช้ shared library คนละเวอร์ชันกัน เกิดเพราะต้อง publish library เวอร์ชันใหม่ก่อน แล้วแต่ละ repo ต้องอัปเดต dependency เองแยกกันทีละที่ ระหว่างนั้นบาง repo อาจยังไม่ได้อัปเดตตาม' },
+    { question: 'ทำไมการ refactor ทั่วองค์กรถึงทำยากกว่าใน polyrepo', answer: 'เพราะการเปลี่ยน pattern ที่ใช้ทุกที่ต้องไล่ทำทีละ repo แยกกัน ไม่มีทางทำเป็น atomic change ครั้งเดียวจบเหมือน monorepo ที่ทุก project อยู่ใน repository เดียวกัน' },
+  ],
+  'monorepo-vs-polyrepo:choosing-repo-strategy': [
+    { question: 'Conway\'s Law เกี่ยวข้องกับการเลือก repo strategy ยังไง', answer: 'ทีมที่สื่อสารกันบ่อย ทำงานใกล้ชิดกัน (ต้องประสานการเปลี่ยนแปลงบ่อย) มักได้ประโยชน์จาก monorepo มากกว่า ส่วนทีมที่เป็นอิสระต่อกันสูง แยก domain ชัดเจน มักเหมาะกับ polyrepo มากกว่า เพราะโครงสร้าง repo มักสะท้อนโครงสร้างการสื่อสารขององค์กร' },
+    { question: 'ทำไมองค์กรที่ย้ายไป monorepo โดยไม่ลงทุน tooling ที่เหมาะสมถึงมักเจอปัญหา', answer: 'เพราะ CI จะช้าลงเรื่อยๆ ตามขนาด repo ที่โตขึ้น กลายเป็นคอขวดของทั้งทีม ต้องมี build system ที่รองรับ incremental build และ affected-only testing (เช่น Nx, Turborepo, Bazel) ไม่ใช่ git เปล่าๆ' },
+    { question: 'แนวทาง Hybrid "monorepo ต่อ domain" คืออะไร', answer: 'คือรวม project ที่เกี่ยวข้องกันใกล้ชิด (ทีมเดียวกัน แก้โค้ดร่วมกันบ่อย) ไว้ใน monorepo เล็กๆ ของ domain นั้น แต่แยก domain ที่ไม่เกี่ยวข้องกันออกเป็น repo ต่างหาก ได้ประโยชน์ของ atomic change ภายใน domain โดยไม่ต้องแบกรับความซับซ้อนของ monorepo ระดับทั้งองค์กร' },
+  ],
+  'branching-strategies:gitflow': [
+    { question: 'GitFlow มี branch ถาวรกี่เส้น อะไรบ้าง', answer: '2 เส้น คือ main (production) และ develop (รวมงานที่พัฒนาเสร็จ) ส่วน feature/*, release/*, hotfix/* เป็น branch ชั่วคราวที่แตกออกมาแล้ว merge กลับ' },
+    { question: 'ทำไม hotfix/* ถึงแตกจาก main โดยตรง ไม่แตกจาก develop', answer: 'เพราะต้องแก้ปัญหาด่วนบน production โดยไม่รวมงานที่ยังไม่เสร็จจาก develop เข้าไปด้วย แก้เฉพาะจุด merge เข้า main ตรงๆ แล้วค่อย merge กลับ develop ทีหลังเพื่อให้ fix อยู่ในรอบถัดไปด้วย' },
+    { question: 'ทำไม GitFlow ถึงไม่เหมาะกับทีมที่ deploy วันละหลายครั้ง', answer: 'เพราะ feature branch ที่แยกจาก develop นานก่อน merge จะสะสม merge conflict มากขึ้นเรื่อยๆ และขั้นตอน develop → release → main ที่ต้องผ่านหลายชั้นทำให้ commit หนึ่งกว่าจะถึง production ใช้เวลานานเกินความจำเป็น' },
+  ],
+  'branching-strategies:trunk-based-development': [
+    { question: 'หัวใจของ Trunk-Based Development คืออะไร', answer: 'ทุกคน commit เข้า branch หลัก (trunk) บ่อยที่สุดเท่าที่จะทำได้ (อย่างน้อยวันละครั้ง) feature branch ที่มีก็มีอายุสั้นมาก (ชั่วโมงถึงไม่เกิน 1 วัน) ทำให้ merge conflict เกิดน้อยกว่า GitFlow มาก' },
+    { question: 'Feature Flag แก้ปัญหาอะไรใน Trunk-Based Development', answer: 'แก้ปัญหาโค้ดที่ยังทำไม่เสร็จถูก commit เข้า trunk และ deploy ขึ้น production โดยไม่กระทบ user เพราะถูกครอบด้วยเงื่อนไข flag ที่ปิดอยู่ ทำให้ user ไม่เห็นหรือได้รับผลกระทบจนกว่าทีมจะพร้อมเปิด flag จริง' },
+    { question: 'Feature Flag กับ Canary Deployment เหมือนหรือต่างกันยังไง', answer: 'ทั้งคู่คือการแยกขั้นตอน "deploy โค้ดขึ้นระบบ" ออกจาก "เปิดให้ user ใช้งานจริง" เหมือนกัน แต่ feature flag ควบคุมที่ระดับ code path (เปิด/ปิดเงื่อนไขในโค้ด) ส่วน canary ควบคุมที่ระดับ traffic routing (ส่ง request บางส่วนไปยัง version ใหม่)' },
+  ],
+  'branching-strategies:choosing-branching-strategy': [
+    { question: 'GitHub Flow ต่างจาก GitFlow ยังไง', answer: 'GitHub Flow มีแค่ main branch เดียวที่ถือว่า deploy-ready ตลอดเวลา ไม่มี develop หรือ release/* แบบ GitFlow ทุก feature แตก branch จาก main เปิด PR ผ่าน review และ CI แล้ว merge กลับเข้า main และ deploy ทันที' },
+    { question: 'ทำไมการเลือก GitFlow เพราะ "ดูเป็นมาตรฐานที่เคยได้ยิน" ทั้งที่ deploy ทุกวันถึงเป็นปัญหา', answer: 'เพราะทีมจะแบกรับ overhead ของ release branch และขั้นตอนหลายชั้นโดยไม่ได้ประโยชน์เพิ่ม เนื่องจากไม่มีความจำเป็นต้อง stabilize ก่อนออกแบบมีรอบชัดเจนตั้งแต่แรก ควรเลือกตามความถี่การ deploy จริง ไม่ใช่ตามความคุ้นเคย' },
+    { question: 'ก่อนย้ายจาก GitFlow ไป Trunk-Based Development ต้องมีพื้นฐานอะไรรองรับก่อน', answer: 'CI ที่รันเร็วและน่าเชื่อถือ, feature flag system, automated testing coverage ที่สูง, และวัฒนธรรม code review ที่รวดเร็ว เพราะสิ่งเหล่านี้ทดแทนความปลอดภัยที่ GitFlow ได้จากขั้นตอน release/stabilize ที่ยาวนาน' },
+  ],
+  'code-review-and-merge-strategy:pr-review-culture': [
+    { question: 'Code Review มีคุณค่า 3 ด้านอะไรบ้าง ไม่ใช่แค่หาบั๊ก', answer: 'จับบั๊ก/edge case ที่คนเขียนมองข้าม, ถ่ายทอดความรู้ให้คนอื่นเข้าใจโค้ดส่วนนี้ด้วย (ลด bus factor), และรักษาความสอดคล้องของ pattern/convention ทั่วทั้ง codebase' },
+    { question: 'ทำไม PR ขนาดใหญ่ถึงมีความเสี่ยงที่บั๊กจะหลุดผ่าน review มากกว่า PR เล็ก', answer: 'เพราะความสามารถของคนในการตรวจจับรายละเอียดลดลงเมื่อปริมาณโค้ดที่ต้องอ่านเพิ่มขึ้น PR ใหญ่มักถูกไถผ่านเร็วๆ แล้ว approve เพราะอ่านละเอียดทุกบรรทัดไม่ไหว' },
+    { question: 'ทำไมทีมควรให้ automated tooling (linter, formatter) จัดการเรื่อง style แทนที่จะให้ human review', answer: 'เพื่อให้ human reviewer เหลือเวลาไปโฟกัสกับสิ่งที่เครื่องมือตรวจไม่ได้ เช่น logic, edge case, และความเหมาะสมของ design ซึ่งเป็นคุณค่าที่แท้จริงของการมีคนมา review' },
+  ],
+  'code-review-and-merge-strategy:merge-vs-squash-vs-rebase': [
+    { question: 'Squash Merge ทำอะไรกับ commit history เทียบกับ Merge Commit', answer: 'Squash Merge รวมทุก commit ใน branch เป็น commit เดียวบน main ทำให้ history สะอาดและอ่านง่าย ส่วน Merge Commit เก็บทุก commit เดิมครบพร้อมเพิ่ม merge commit ต่อท้าย ทำให้ history รกกว่าถ้ามี PR จำนวนมาก' },
+    { question: 'ทำไมทีมที่ทำ trunk-based development มักเลือก Squash Merge เป็นค่าเริ่มต้น', answer: 'เพราะให้ history บน main เป็นเส้นตรงและอ่านง่าย (1 PR = 1 commit) เข้ากับหลักการ merge บ่อยๆ ด้วย change เล็กๆ และช่วยให้ debug/bisect หาที่มาของบั๊กได้เร็ว' },
+    { question: 'ทำไมห้าม rebase แล้ว force-push branch ที่คนอื่นกำลังใช้งานร่วมอยู่', answer: 'เพราะ rebase เขียนประวัติ commit ใหม่ทั้งหมด (commit hash เปลี่ยนหมด) ถ้า branch นั้นมีคนอื่นดึงไปทำงานต่อแล้ว การ force-push ทับจะทำให้ประวัติของคนอื่นขัดแย้งกับ remote ทันที ควร rebase เฉพาะ branch ส่วนตัวที่ยังไม่มีใคร pull ไปใช้เท่านั้น' },
+  ],
+  'code-review-and-merge-strategy:branch-protection': [
+    { question: 'Branch Protection มีไว้ทำไม ต่างจากการตกลงกันปากเปล่าในทีมยังไง', answer: 'เป็นกลไกที่บังคับให้กฎ (เช่น ต้องมี review, ต้องผ่าน CI) เกิดขึ้นจริงทุกครั้งในระดับระบบ ต่างจากข้อตกลงปากเปล่าที่พึ่งพาวินัยของคน ซึ่งลืมหรือรีบได้ ระบบจะปฏิเสธการ merge ที่ไม่ผ่านเงื่อนไขโดยอัตโนมัติ' },
+    { question: 'ทำไมกฎ "Require branch up-to-date ก่อน merge" ถึงสำคัญ', answer: 'เพราะ PR อาจผ่าน CI ตอนที่แตก branch แต่ main เปลี่ยนไปแล้วระหว่างวันจากการ merge PR อื่น การ merge เข้าไปโดยไม่ update ก่อนอาจทำให้ main พังได้ทั้งที่ CI ของ PR เราเขียวตลอด เพราะ CI รันตอนที่ยังไม่เห็นการเปลี่ยนแปลงล่าสุด' },
+    { question: 'CODEOWNERS ต่างจาก "require PR review" ธรรมดายังไง', answer: '"require PR review" แค่บังคับว่าต้องมีคน approve แต่ไม่ระบุว่าใคร ส่วน CODEOWNERS กำหนดได้ว่าใครต้องเป็นคน approve เฉพาะสำหรับไฟล์/ส่วนที่เกี่ยวข้อง เช่น การเปลี่ยนแปลงไฟล์ payment ต้องมี reviewer จากทีม payment approve เสมอ' },
+  ],
+  'versioning-and-release-management:semantic-versioning': [
+    { question: 'SemVer เพิ่มเลข MAJOR, MINOR, PATCH เมื่อไหร่บ้าง', answer: 'MAJOR เพิ่มเมื่อมี breaking change ที่โค้ดเดิมของ consumer อาจพัง, MINOR เพิ่มเมื่อเพิ่ม feature ใหม่แบบ backward compatible, PATCH เพิ่มเมื่อแก้บั๊กโดยไม่เปลี่ยน API เลย' },
+    { question: 'ทำไม SemVer ถึงเรียกว่าเป็น "สัญญา" ระหว่างผู้ maintain library กับ consumer', answer: 'เพราะเลขเวอร์ชันบอกระดับความเสี่ยงของการอัปเกรดได้ทันที โดยไม่ต้องอ่าน changelog ก่อน — PATCH อัปเกรดได้ทันที, MINOR อัปเกรดได้อย่างมั่นใจว่าโค้ดเดิมไม่พัง, ส่วน MAJOR ต้องหยุดอ่าน changelog ก่อนเสมอเพราะมีโอกาสสูงที่โค้ดเดิมจะพัง' },
+    { question: 'สัญลักษณ์ ^ กับ ~ ใน package.json ต่างกันยังไง', answer: '^4.17.21 ยอมรับ MINOR/PATCH ใหม่ทั้งหมดของ major version 4 โดยอัตโนมัติ ส่วน ~4.17.21 ยอมรับแค่ PATCH ใหม่ของ 4.17.x เท่านั้น ทั้งคู่ทำงานถูกต้องได้ก็ต่อเมื่อ library ปฏิบัติตามกฎ SemVer จริง' },
+  ],
+  'versioning-and-release-management:changelog-and-release-automation': [
+    { question: 'Conventional Commits คืออะไร มีไว้ทำไม', answer: 'คือมาตรฐานข้อความ commit ที่มี prefix สื่อความหมายชัดเจน (feat:, fix:, docs:) ทำให้เครื่องมือ automation อ่านแล้วตัดสินใจ version bump และสร้าง changelog ได้เองโดยไม่ต้องมีคนมานั่งตัดสินใจ' },
+    { question: 'ทำไม changelog ที่เขียนด้วยมือถึงมักมีปัญหาไม่ครบและไม่สม่ำเสมอ', answer: 'เพราะคนเขียนอาจลืม change เล็กๆ ที่ดูไม่สำคัญ หรือจัดกลุ่มไม่ตรงกันระหว่างแต่ละ release เมื่อ commit message เป็นระบบตาม Conventional Commits การสร้าง changelog กลายเป็นแค่การ parse และจัดกลุ่มอัตโนมัติ ได้ผลลัพธ์สม่ำเสมอทุกครั้ง' },
+    { question: 'ทำไมทีมที่ใช้ semantic-release ถึงต้องเข้มงวดกับรูปแบบ commit message', answer: 'เพราะเครื่องมืออ่าน commit message เพื่อตัดสินใจ version bump และสร้าง changelog แบบอัตโนมัติทั้งหมด ถ้า commit message ไม่ตรงรูปแบบ เครื่องมือจะตีความผิดหรือมองข้าม commit นั้นไป ทำให้ version bump ผิดหรือ changelog ไม่ครบ โดยไม่มีคนมาตรวจสอบซ้ำ' },
+  ],
+  'versioning-and-release-management:monorepo-versioning': [
+    { question: 'Independent Versioning กับ Fixed/Lockstep Versioning ต่างกันยังไง', answer: 'Independent Versioning แต่ละ package มีเลขเวอร์ชันเป็นของตัวเองตาม change ที่เกิดจริง ส่วน Fixed/Lockstep Versioning ทุก package ขึ้นเวอร์ชันพร้อมกันเป็นชุดเดียว แม้บาง package จะไม่มีอะไรเปลี่ยนเลยก็ตาม' },
+    { question: 'ข้อเสียหลักของ Fixed Versioning คืออะไร', answer: 'package ที่ไม่มีการเปลี่ยนแปลงเลยก็ยังต้องขึ้นเวอร์ชันตามไปด้วยทุกครั้งที่ package อื่นใน monorepo เปลี่ยน สร้างความสับสนให้ consumer ที่เห็น version bump บ่อยผิดปกติทั้งที่ไม่มีอะไรเปลี่ยนสำหรับ package ที่ตัวเองใช้' },
+    { question: 'เมื่อไหร่ควรเลือก Fixed Versioning แทน Independent Versioning', answer: 'เมื่อ package ทั้งหมดถูกออกแบบให้ใช้ร่วมกันเป็นชุดเสมอ เช่น framework ที่มี core กับ plugin ที่ผูกกันแน่นต้องใช้ version ตรงกันเป๊ะถึงทำงานได้ Fixed Versioning จะลดความสับสนเรื่อง compatibility ได้มากกว่า' },
+  ],
+  'git-workflow-at-scale:codeowners': [
+    { question: 'CODEOWNERS คืออะไร ทำงานร่วมกับ branch protection ยังไง', answer: 'ไฟล์ที่แมป path ในโค้ดกับทีมหรือคนที่เป็นเจ้าของ เมื่อมี PR แก้ไฟล์ใน path นั้นระบบจะเพิ่ม owner เป็น required reviewer อัตโนมัติ แต่ต้องเปิด branch protection rule "Require review from Code Owners" ควบคู่กันด้วย ไม่งั้น CODEOWNERS แค่บอกความเป็นเจ้าของ ไม่มีผลบังคับอะไรเลย' },
+    { question: 'CODEOWNERS match rule ทำงานแบบไหน ทำไมลำดับการเขียนถึงสำคัญ', answer: 'ทำงานแบบ rule สุดท้ายที่ match ชนะ (คล้าย .gitignore) ถ้าเขียน path เฉพาะทางไว้บนแล้ว * ไว้ล่างสุด * จะ override ทุกอย่างก่อนหน้าโดยไม่มี error เตือน ต้องเขียน * ไว้บนสุดแล้วตามด้วย path เฉพาะทางด้านล่างเสมอ' },
+    { question: 'ทีมมี CODEOWNERS ครบทุก path แล้วแต่ PR ยังค้างนานเพราะ owner ไม่ว่าง ควรแก้ยังไง', answer: 'กำหนดหลาย owner ต่อ path เพื่อกระจายภาระ ตั้ง SLA ว่า PR ต้องได้ review ภายในกี่ชั่วโมง และพิจารณาว่าทีมนั้น owner หลาย path เกินไปจนเป็นคอขวดหรือเปล่า ซึ่งอาจสะท้อนปัญหา team topology ที่ต้องแก้ที่ต้นตอ' },
+  ],
+  'git-workflow-at-scale:commit-convention-at-scale': [
+    { question: 'commit-msg hook กับ commitlint ทำงานร่วมกันยังไง', answer: 'commit-msg hook คือสคริปต์ที่ git รันอัตโนมัติก่อน commit จะสำเร็จ commitlint ผูกกับ hook นี้ผ่าน husky เพื่อตรวจสอบว่าข้อความ commit ตรงตาม Conventional Commits ก่อนปล่อยให้ commit เกิดขึ้นจริง ทำให้ทุกคนที่ clone repo ได้ hook เดียวกันอัตโนมัติ' },
+    { question: 'scope ใน Conventional Commits (feat(scope):) มีประโยชน์ยังไงในบริบท monorepo', answer: 'บอกว่า commit กระทบ package ไหนโดยเฉพาะ เครื่องมือ release automation ในสเกล monorepo ใช้ scope นี้ตัดสินใจว่า package ไหนควรขึ้นเวอร์ชัน โดยไม่กระทบ package อื่นที่ไม่เกี่ยวข้อง ทีมมักบังคับให้ scope ตรงกับชื่อ package จริงกัน typo' },
+    { question: 'ทีมติดตั้ง commitlint ผ่าน husky แล้วแต่ยังมี commit ผิดฟอร์แมตหลุดเข้า main ได้ ควรแก้ยังไง', answer: 'local hook ถูกข้ามได้ด้วย git commit --no-verify หรือบางคนอาจไม่ได้ install hook ครบ ต้องมี CI job เช็ก commit message ซ้ำอีกชั้นก่อนอนุญาตให้ merge เข้า main เสมอ ไม่ควรพึ่ง local hook อย่างเดียวเพราะ bypass ได้ ต้องมี server-side enforcement เป็นด่านสุดท้าย' },
+  ],
+  'git-workflow-at-scale:large-repo-practices': [
+    { question: 'Shallow clone, Partial clone, และ Sparse checkout ต่างกันยังไง', answer: 'Shallow clone ตัด commit history เก่า ดึงมาแค่ commit ล่าสุด Partial clone (--filter=blob:none) ไม่ดาวน์โหลดเนื้อไฟล์จนกว่าจะถูกเปิดอ่านจริง Sparse checkout ทำงานบนดิสก์แค่บาง directory ที่เลือกไว้ ใช้ร่วมกันได้เพื่อลดขนาด checkout ในสเกลใหญ่' },
+    { question: 'Git LFS แก้ปัญหาอะไร', answer: 'ไฟล์ไบนารีขนาดใหญ่ทำให้ repo บวมเร็วเพราะ git เก็บทุกเวอร์ชันเต็มไฟล์ซ้ำๆ ใน history Git LFS เก็บแค่ pointer เล็กๆ ไว้ใน git history ส่วนเนื้อไฟล์จริงเก็บแยกไว้ใน storage ต่างหาก ดาวน์โหลดเฉพาะตอน checkout เวอร์ชันนั้นจริงๆ' },
+    { question: 'นักพัฒนาบ่นว่า clone monorepo ใช้เวลานานมาก ควรแก้ยังไงโดยไม่ย้ายกลับ polyrepo', answer: 'ใช้ partial clone ร่วมกับ sparse checkout ให้นักพัฒนาแต่ละคน checkout เฉพาะ directory ที่ทีมตัวเองทำงานจริง และถ้า repo มี asset ไบนารีใหญ่ปนอยู่ควรย้ายเข้า Git LFS แยกจาก history หลัก ทำให้ clone เบาลงมากโดยยังคงข้อดีของ monorepo ไว้ครบ' },
+  ],
+  'source-control-case-studies:case-polyrepo-to-monorepo-migration': [
+    { question: 'ปัญหา version drift ในเคส polyrepo 3 repo เกิดจากอะไร', answer: 'shared-types เปลี่ยนแต่ web team ไม่รู้ทันทีว่าต้อง bump dependency เพราะข้าม repo กัน กว่าจะรู้ตัวคือตอน production error type mismatch เพราะ CI ของแต่ละ repo แยกกันไม่มีที่ไหนรัน integration check ข้าม repo แบบ atomic' },
+    { question: 'ทำไมทีมถึงตัดสินใจย้ายมา monorepo ไม่ใช่เพราะ monorepo ดีกว่าเสมอ', answer: 'เพราะอาการที่เจอ (version drift, ต้องเปิดหลาย PR ข้าม repo ต่อ 1 feature, CI แยกกันจับ integration bug ไม่ได้) ตรงกับปัญหาที่ monorepo แก้ได้ตรงจุดพอดี atomic commit ข้าม package และ CI ที่เห็นทั้งระบบในคอมมิตเดียว' },
+    { question: 'สิ่งที่ต้องเตรียมก่อนย้าย polyrepo เป็น monorepo จริงมีอะไรบ้าง', answer: 'Nx/Turborepo สำหรับ incremental build, CODEOWNERS สำหรับกำหนด ownership ชัดเจน, sparse checkout ให้แต่ละทีมไม่ต้อง checkout โค้ดทั้งหมด, และ Conventional Commits พร้อม scope เพื่อให้ release automation รู้ว่า commit กระทบ package ไหน' },
+  ],
+  'source-control-case-studies:case-hotfix-under-gitflow': [
+    { question: 'ทำไม hotfix กลางดึกในทีมที่ใช้ GitFlow ถึงช้ากว่าที่ควร', answer: 'ต้อง merge เข้า main แล้วยังต้อง merge กลับเข้า develop อีกรอบไม่งั้น release ถัดไปจะไม่มี fix นี้ และการ merge กลับนี้เจอ conflict เพราะ develop กับ main ห่างกันไปแล้วหลายสัปดาห์ ยิ่ง branch อายุยืนยิ่ง merge เจ็บปวด' },
+    { question: 'ทำไม postmortem ไม่สรุปว่า GitFlow แย่ แต่แนะนำ Trunk-Based Development แทน', answer: 'เพราะ GitFlow เหมาะกับบริบทที่ต้อง maintain หลาย version พร้อมกันจริงๆ แต่ทีมนี้ deploy แค่ version เดียว ไม่เคยต้อง maintain version เก่าคู่ขนาน ตรงกับสัญญาณที่ควรใช้ Trunk-Based Development หรือ GitHub Flow แทนเพราะ deploy บ่อยไม่มี parallel release ให้ sync' },
+    { question: 'Trunk-Based Development ต้องการวินัยอะไรเพิ่มขึ้นเทียบกับ GitFlow', answer: 'ทุก merge เข้า trunk ต้อง deploy ได้ทันทีเพราะไม่มี develop เป็นกันชน ต้องพึ่ง feature flags หนักขึ้นสำหรับงานที่ทำไม่เสร็จในวันเดียว และ CI ต้องเร็วและน่าเชื่อถือพอที่จะให้ merge บ่อยๆ ได้อย่างปลอดภัย' },
+  ],
+  'source-control-case-studies:case-broken-release-from-bad-version-bump': [
+    { question: 'ทำไม commit "fix: เปลี่ยน default timeout" ถึงทำให้ 6 ทีมพัง ทั้งที่ commitlint ผ่าน', answer: 'commit เปลี่ยน default behavior ซึ่งควรเป็น breaking change (fix! หรือ BREAKING CHANGE footer) แต่ใช้ fix: ธรรมดา commitlint เช็กได้แค่รูปแบบว่ามี prefix ถูกไหม เช็กเนื้อหาว่าควรเป็น breaking change หรือไม่ไม่ได้เลย consumer ที่ใช้ ^ รับ PATCH อัตโนมัติเลยพังพร้อมกัน' },
+    { question: 'ทำไมทั้ง CODEOWNERS และ semantic-release ทำงานถูกต้องตามออกแบบ แต่ยังเกิด incident ได้', answer: 'CODEOWNERS แก้ปัญหาใครควรรีวิว ไม่ใช่รีวิวละเอียดพอไหม reviewer เห็น diff เล็กเลยไม่คิดต่อว่ากระทบ consumer ยังไง semantic-release เชื่อ commit message 100% ตามที่ออกแบบไว้ จุดอ่อนอยู่ที่ input ไม่ใช่ตัว pipeline เอง' },
+    { question: 'ทางแก้ที่ทีมเลือกใช้หลัง incident คืออะไร ทำไมถึงตรงจุดกว่าทางอื่น', answer: 'เพิ่ม review guideline เฉพาะ library ที่มี consumer เยอะ ให้ CODEOWNERS กำหนดว่าต้องมี reviewer อาวุโสเช็กเรื่อง breaking change โดยเฉพาะ เพราะจุดอ่อนคือ automation เชื่อ input โดยไม่เช็กเชิงความหมาย ซึ่งเป็นสิ่งที่เครื่องมือทำไม่ได้ ต้องพึ่งกระบวนการที่มนุษย์ทำอยู่แล้วคือ code review' },
+  ],
 }
 
 // Stable hash of the question text — so a question's id (and its
