@@ -497,6 +497,7 @@ export const modules: ModuleMeta[] = [
       { id: 'monitoring-vs-observability', title: 'Monitoring vs Observability: รู้ว่าพัง vs รู้ว่าทำไมพัง', file: '01-monitoring-vs-observability' },
       { id: 'four-golden-signals', title: 'Four Golden Signals (Google SRE)', file: '02-four-golden-signals' },
       { id: 'red-and-use-method', title: 'RED Method vs USE Method', file: '03-red-and-use-method' },
+      { id: 'synthetic-monitoring-and-rum', title: 'ขั้นสูง: Synthetic Monitoring & RUM มองระบบจากมุมผู้ใช้จริง', file: '04-synthetic-monitoring-and-rum' },
     ],
   },
   {
@@ -511,6 +512,7 @@ export const modules: ModuleMeta[] = [
       { id: 'time-series-data-model', title: 'Time-Series Data Model: Metric, Label, Sample', file: '01-time-series-data-model' },
       { id: 'promql-basics', title: 'PromQL พื้นฐาน: Instant Vector, Range Vector, Rate', file: '02-promql-basics' },
       { id: 'cardinality-explosion', title: 'Cardinality Explosion: ระเบิดเวลาของ Prometheus', file: '03-cardinality-explosion' },
+      { id: 'advanced-promql', title: 'ขั้นสูง: PromQL — Recording Rules, Federation, Remote Write', file: '04-advanced-promql' },
     ],
   },
   {
@@ -525,6 +527,7 @@ export const modules: ModuleMeta[] = [
       { id: 'structured-logging', title: 'Structured Logging: จาก Text อิสระสู่ JSON Field', file: '01-structured-logging' },
       { id: 'log-levels', title: 'Log Levels: DEBUG/INFO/WARN/ERROR/FATAL + Sampling', file: '02-log-levels' },
       { id: 'centralized-log-pipeline', title: 'Centralized Log Pipeline: ELK vs Loki', file: '03-centralized-log-pipeline' },
+      { id: 'log-correlation-and-exemplars', title: 'ขั้นสูง: Log Correlation — เชื่อม Log-Trace-Metric ด้วย Exemplar', file: '04-log-correlation-and-exemplars' },
     ],
   },
   {
@@ -539,6 +542,7 @@ export const modules: ModuleMeta[] = [
       { id: 'spans-and-traces', title: 'Span & Trace: จาก Correlation ID สู่ Timing จริง', file: '01-spans-and-traces' },
       { id: 'trace-context-propagation', title: 'Trace Context Propagation ข้าม Service', file: '02-trace-context-propagation' },
       { id: 'opentelemetry', title: 'OpenTelemetry: มาตรฐานกลางของ Instrumentation', file: '03-opentelemetry' },
+      { id: 'trace-sampling-strategies', title: 'ขั้นสูง: Head-based vs Tail-based Sampling', file: '04-trace-sampling-strategies' },
     ],
   },
   {
@@ -553,6 +557,7 @@ export const modules: ModuleMeta[] = [
       { id: 'dashboard-design-principles', title: 'Dashboard Design Principles: จัดลำดับสิ่งที่ควรอยู่บนจอ', file: '01-dashboard-design-principles' },
       { id: 'grafana-and-data-sources', title: 'Grafana: Visualization Layer แยกจาก Data Source', file: '02-grafana-and-data-sources' },
       { id: 'sli-slo-dashboard', title: 'SLI/SLO Dashboard: หน้าจอสุขภาพระบบระดับ Business', file: '03-sli-slo-dashboard' },
+      { id: 'dashboard-and-alerting-as-code', title: 'ขั้นสูง: Dashboard-as-Code & Alerting-as-Code', file: '04-dashboard-and-alerting-as-code' },
     ],
   },
   {
@@ -567,6 +572,7 @@ export const modules: ModuleMeta[] = [
       { id: 'error-budget-burn-rate', title: 'Error Budget Burn Rate: Alert ก่อน Budget หมด', file: '01-error-budget-burn-rate' },
       { id: 'alert-fatigue', title: 'Alert Fatigue: เมื่อแจ้งเตือนเยอะจนไม่มีใครสนใจ', file: '02-alert-fatigue' },
       { id: 'on-call-and-paging', title: 'On-Call & Paging: Escalation และ Post-Incident Review', file: '03-on-call-and-paging' },
+      { id: 'sre-practice-toil-and-postmortem', title: 'ขั้นสูง: SRE Practice — Toil, SLA vs SLO vs SLI, Blameless Postmortem', file: '04-sre-practice-toil-and-postmortem' },
     ],
   },
   {
@@ -581,6 +587,49 @@ export const modules: ModuleMeta[] = [
       { id: 'case-checkout-latency-incident', title: 'เคส: Checkout Latency พุ่งกลางดึก', file: '01-case-checkout-latency-incident' },
       { id: 'case-prometheus-cardinality-outage', title: 'เคส: Prometheus ล่มเพราะ Cardinality Explosion', file: '02-case-prometheus-cardinality-outage' },
       { id: 'case-silent-failure-unknown-unknown', title: 'เคส: Silent Failure ที่ไม่มี Alert เลย', file: '03-case-silent-failure-unknown-unknown' },
+      { id: 'case-alert-storm-multi-service-deploy', title: 'ขั้นสูง เคส: Alert Storm ตอน Deploy พร้อมกันหลาย Service', file: '04-case-alert-storm-multi-service-deploy' },
+    ],
+  },
+  {
+    id: 51,
+    track: 'devops-observability',
+    slug: 'ci-cd-and-gitops',
+    title: 'CI/CD & GitOps',
+    titleSub: 'pipeline anatomy, reconcile loop, progressive delivery',
+    status: 'available',
+    position: { x: 240, y: 700 },
+    topics: [
+      { id: 'cicd-pipeline-anatomy', title: 'CI/CD Pipeline Anatomy: จาก Commit ถึง Production', file: '01-cicd-pipeline-anatomy' },
+      { id: 'gitops', title: 'GitOps: Git เป็น Source of Truth ของ Infra', file: '02-gitops' },
+      { id: 'progressive-delivery', title: 'Progressive Delivery: ปล่อย Feature อย่างมีการควบคุม', file: '03-progressive-delivery' },
+    ],
+  },
+  {
+    id: 52,
+    track: 'devops-observability',
+    slug: 'iac-and-chaos-engineering',
+    title: 'Infrastructure as Code & Chaos Engineering',
+    titleSub: 'declarative infra, immutable server, fault injection',
+    status: 'available',
+    position: { x: 480, y: 700 },
+    topics: [
+      { id: 'iac-fundamentals', title: 'Infrastructure as Code พื้นฐาน: Declarative vs Imperative', file: '01-iac-fundamentals' },
+      { id: 'immutable-infrastructure', title: 'Immutable Infrastructure & Config Management', file: '02-immutable-infrastructure' },
+      { id: 'chaos-engineering', title: 'Chaos Engineering: ทดลองพังระบบตั้งใจ ก่อนมันพังเอง', file: '03-chaos-engineering' },
+    ],
+  },
+  {
+    id: 53,
+    track: 'devops-observability',
+    slug: 'advanced-observability-internals',
+    title: 'Advanced Observability Internals',
+    titleSub: 'eBPF, continuous profiling, observability cost/FinOps',
+    status: 'available',
+    position: { x: 720, y: 700 },
+    topics: [
+      { id: 'ebpf-observability', title: 'eBPF: Zero-Instrumentation Observability', file: '01-ebpf-observability' },
+      { id: 'continuous-profiling', title: 'Continuous Profiling: หาโค้ดที่กินเวลาจริงด้วย Flame Graph', file: '02-continuous-profiling' },
+      { id: 'observability-cost-finops', title: 'Observability Cost & FinOps: คุมบิลของ Log/Metric/Trace', file: '03-observability-cost-finops' },
     ],
   },
   {

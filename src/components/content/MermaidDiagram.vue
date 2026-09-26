@@ -1,11 +1,32 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import type { Mermaid } from 'mermaid'
+import { useScrollReveal } from '../../composables/useScrollReveal'
 
 const props = defineProps<{ code: string; caption?: string }>()
 
 const container = ref<HTMLDivElement | null>(null)
 let renderToken = 0
+
+// flowchart/graph get a per-node/edge staggered reveal; other diagram kinds
+// (sequence, state, xychart, ...) don't share mermaid's .node/.edgePaths
+// structure, so they fall back to a single whole-figure fade.
+const { revealed } = useScrollReveal(container, true)
+watch(revealed, (isRevealed) => {
+  if (isRevealed) container.value?.classList.add('is-revealed')
+})
+
+function setupReveal(root: HTMLDivElement, code: string) {
+  const stagger = /^\s*(flowchart|graph)\b/i.test(code)
+  root.classList.remove('mode-stagger', 'mode-fade')
+  root.classList.add(stagger ? 'mode-stagger' : 'mode-fade')
+  if (!stagger) return
+  const els = [
+    ...root.querySelectorAll<SVGElement>('.node'),
+    ...root.querySelectorAll<SVGElement>('.edgePaths path'),
+  ]
+  els.forEach((el, i) => el.style.setProperty('--reveal-delay', `${i * 80}ms`))
+}
 
 let mermaidPromise: Promise<Mermaid> | null = null
 
@@ -77,6 +98,7 @@ async function render() {
     if (token === renderToken && container.value) {
       container.value.innerHTML = svg
       colorizeNodes(container.value)
+      setupReveal(container.value, props.code)
     }
   } catch (err) {
     if (token === renderToken && container.value) {
@@ -125,5 +147,50 @@ figcaption {
   color: var(--mark-red);
   font-size: 0.8rem;
   white-space: pre-wrap;
+}
+.mermaid-mount.mode-stagger :deep(.node) {
+  /* opacity-only: mermaid positions nodes via an SVG transform="translate(...)"
+     ATTRIBUTE, and a CSS transform property here would override (not compose
+     with) that attribute, collapsing every node to the same origin. */
+  opacity: 0;
+}
+.mermaid-mount.mode-stagger.is-revealed :deep(.node) {
+  animation: mermaid-node-in 0.4s ease forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+.mermaid-mount.mode-stagger :deep(.edgePaths path) {
+  opacity: 0;
+}
+.mermaid-mount.mode-stagger.is-revealed :deep(.edgePaths path) {
+  animation: mermaid-edge-in 0.3s ease forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+.mermaid-mount.mode-fade {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.mermaid-mount.mode-fade.is-revealed {
+  opacity: 1;
+}
+@keyframes mermaid-node-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mermaid-edge-in {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mermaid-mount.mode-stagger :deep(.node),
+  .mermaid-mount.mode-stagger :deep(.edgePaths path) {
+    opacity: 1;
+    animation: none !important;
+  }
+  .mermaid-mount.mode-fade {
+    opacity: 1;
+    transition: none;
+  }
 }
 </style>

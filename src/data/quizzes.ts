@@ -1241,6 +1241,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'USE Method ย่อมาจากอะไร ต่างจาก RED ยังไง', answer: 'Utilization, Saturation, Errors — ออกแบบมาสำหรับทรัพยากรระบบ (CPU, memory, disk I/O) ต่างจาก RED ที่มองจากมุม request ของ service ส่วน USE มองจากมุมทรัพยากรเบื้องหลัง' },
     { question: 'database CPU สูงแต่ error rate ของ API ยังปกติ ควรใช้ framework ไหนสืบต่อ และทำไม', answer: 'ใช้ USE Method สืบต่อที่ระดับทรัพยากร เพราะ RED มองจากมุม request ของ service ซึ่งยังปกติอยู่ ต้องดู Saturation ของ USE (เช่น queue รอคิว) เพื่อเช็คว่าทรัพยากรกำลังจะรับงานไม่ไหวหรือยัง ก่อนที่ RED metric ของ service จะเริ่มแย่ลงตามมา' },
   ],
+  'monitoring-fundamentals:synthetic-monitoring-and-rum': [
+    { question: 'Synthetic Monitoring กับ RUM ต่างกันยังไง', answer: 'Synthetic Monitoring ยิง request จำลองจากภายนอกตามตารางเวลา ทำงานได้แม้ไม่มี user จริงใช้งาน จึงเจอปัญหาก่อน user จริงเจอ (proactive) ส่วน RUM เก็บข้อมูลจาก browser/app ของ user จริง ครอบคลุมหลากหลายกว่าแต่ต้องมี user เจอปัญหาก่อนถึงจะรู้ (reactive)' },
+    { question: 'APM กับ RUM มองระบบจากมุมไหนต่างกัน', answer: 'APM มองจากมุม server-side วัดว่า server ตอบเร็วแค่ไหน ส่วน RUM มองจากมุม client-side คือสิ่งที่ browser/mobile app ของ user เห็นจริงๆ server อาจตอบเร็วมาก (APM ปกติ) แต่ user ยังรู้สึกช้าเพราะปัญหาที่ client-side เช่น bundle size ใหญ่ ซึ่ง APM มองไม่เห็น' },
+    { question: 'ทำไม Synthetic Monitoring ถึงเจอปัญหาได้ "ก่อน" user จริงเจอ', answer: 'เพราะมันยิง request จำลองเป็นระยะตามตารางเวลาที่ตั้งไว้ ทำงานได้ตลอดแม้กลางดึกที่ไม่มี user จริงใช้งานเลย จึงตรวจจับความผิดปกติของ endpoint สำคัญได้ก่อนที่ user จริงจะมาเจอปัญหานั้น' },
+  ],
   'metrics-and-prometheus:time-series-data-model': [
     { question: 'metric name กับ label รวมกันเป็นอะไรใน Prometheus', answer: 'metric name บวกกับชุด label ที่ต่างกัน = time series คนละเส้น เช่น http_requests_total{method="GET"} กับ http_requests_total{method="POST"} คือ series แยกกันโดยสมบูรณ์แม้ชื่อ metric เดียวกัน' },
     { question: 'ทำไมอ่านค่า Counter ตรงๆ ถึงไม่ค่อยมีประโยชน์', answer: 'เพราะ Counter เพิ่มขึ้นอย่างเดียวและ reset เป็น 0 ทุกครั้งที่ process restart การอ่านค่าดิบจึงไม่สะท้อนอัตราการเปลี่ยนแปลงที่แท้จริง ต้องดูอัตราการเพิ่มขึ้น (rate) แทน' },
@@ -1255,6 +1260,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไม high-cardinality label อย่าง user_id ถึงอันตรายกับ Prometheus โดยเฉพาะ', answer: 'เพราะทุกค่า user_id ที่ต่างกันจะกลายเป็น series ใหม่ 1 เส้น ถ้ามี user นับล้านคนจะได้ series นับล้านเส้นต่อ metric เดียว Prometheus ต้องเก็บ index ของทุก series ไว้ใน memory ทำให้ memory พุ่งจน OOM' },
     { question: 'label แบบไหนถือว่าปลอดภัยใส่ใน Prometheus metric', answer: 'label ที่มีค่าจำกัดและรู้ล่วงหน้าได้คร่าวๆ ว่ามีกี่แบบ (bounded cardinality) เช่น method, status, service — ไม่ใช่ label ที่ค่าโตไปเรื่อยๆ ตามจำนวน user หรือ request' },
     { question: 'ถ้าต้องการสืบปัญหาระดับ user_id เจาะจง ควรทำยังไงแทนการใส่ user_id เป็น metric label', answer: 'ใช้ metric สรุปภาพรวม (aggregate, bounded label) เพื่อบอกว่ามีปัญหา แล้วกระโดดไปดู log หรือ trace ที่ tag ด้วย user_id นั้นเพื่อสืบรายละเอียด เพราะ log/trace ออกแบบมารับ high-cardinality data ได้โดยเฉพาะ ต่างจาก metric label ใน Prometheus' },
+  ],
+  'metrics-and-prometheus:advanced-promql': [
+    { question: 'Recording Rule คืออะไร แก้ปัญหาอะไร', answer: 'คือการบอก Prometheus ให้คำนวณ query ที่หนักหรือใช้บ่อยไว้ล่วงหน้าเป็นระยะ แล้วเก็บผลลัพธ์เป็น metric ใหม่ตัวเล็ก แก้ปัญหา dashboard ที่มีคนเปิดดูพร้อมกันหลายคนแล้ว query หนักถูกคำนวณสดใหม่ซ้ำทุกครั้งจนช้า' },
+    { question: 'Federation ใน Prometheus ใช้ตอนไหน', answer: 'ใช้ตอนมี Prometheus หลายตัวแยกกันตาม cluster/region แล้วต้องการ dashboard เดียวเห็นภาพรวมทั้งองค์กร โดย Prometheus ตัวกลางจะดึงข้อมูลสรุปจาก Prometheus ตัวลูกหลายตัวมารวมกัน' },
+    { question: 'ทำไมต้องใช้ Remote Write ทั้งที่มี Prometheus อยู่แล้ว', answer: 'เพราะ Prometheus ถูกออกแบบมาให้เก็บข้อมูลระยะสั้น-กลางเท่านั้น ถ้าต้องการเก็บ metric ย้อนหลังเป็นเดือน-ปีเพื่อดู trend ต้องส่งข้อมูลออกไปเก็บที่ long-term storage ภายนอก (เช่น Thanos, Mimir, Cortex) ผ่านกลไก Remote Write' },
   ],
   'centralized-logging:structured-logging': [
     { question: 'Structured Logging ต่างจาก Unstructured Logging ยังไง', answer: 'Structured logging เก็บ log เป็น field แยกชัดเจน (เช่น JSON) query/กรอง/สรุปสถิติได้ตรงๆ ส่วน unstructured logging เป็นข้อความอิสระที่ต้องพึ่ง regex เปราะบางในการค้นหา และพังง่ายถ้าข้อความเปลี่ยน' },
@@ -1271,6 +1281,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไม service ไม่เขียน log ตรงไปที่ storage เอง แต่ต้องผ่าน Log Shipper', answer: 'เพื่อไม่ให้ปัญหา network หรือ storage ที่ปลายทางกระทบ service หลักโดยตรง Log Shipper แยกหน้าที่อ่าน/ส่ง log ออกจาก business logic ของ service ทำให้ service ไม่ต้องรอหรือ fail เพราะปัญหาฝั่ง logging' },
     { question: 'ทำไม Grafana Loki ถึงมีต้นทุนต่ำกว่า Elasticsearch มาก ทั้งที่เก็บ log เหมือนกัน', answer: 'Elasticsearch index ทุก field ในทุกบรรทัด log ทำให้ค้นหา full-text ได้ทรงพลังแต่ต้นทุน storage/memory สูงมาก ส่วน Loki index แค่ label จำนวนจำกัด (แนวคิดเดียวกับ Prometheus) แล้วเก็บเนื้อ log แบบบีบอัดไว้ค้นตอน query จริงเท่านั้น จึงประหยัดกว่ามาก แลกกับการค้นข้อความอิสระที่ช้ากว่า' },
   ],
+  'centralized-logging:log-correlation-and-exemplars': [
+    { question: 'Exemplar คืออะไร แก้ปัญหาอะไร', answer: 'คือตัวอย่าง trace_id ที่แนบไปกับ metric sample จุดหนึ่ง ทำให้เวลาเห็นกราฟ metric ผิดปกติที่จุดใดจุดหนึ่ง สามารถจิ้มไปหา trace จริงที่ทำให้ค่านั้นเกิดขึ้นได้ทันที แก้ปัญหาที่ก่อนหน้านี้ต้องเดาช่วงเวลาแล้วกรอง trace เอาเอง' },
+    { question: 'การเชื่อม Log กับ Trace ทำได้ยังไง ต้องมีอะไรเป็นเงื่อนไข', answer: 'ทำได้โดยให้ log แต่ละบรรทัดมี field trace_id เดียวกับ trace ที่ request นั้นสร้างขึ้น เงื่อนไขคือทุกระบบต้องใช้ trace_id เดียวกันตลอดทาง (trace context ต้อง propagate ข้าม service ได้ถูกต้อง) ไม่งั้นการเชื่อมจะขาดตอน' },
+    { question: 'ก่อนมี Exemplar คนสืบสวนเชื่อม Metric กับ Trace กันยังไง มีข้อเสียอะไร', answer: 'ต้องเดาช่วงเวลาที่ metric ผิดปกติ แล้วไปกรอง trace ในช่วงเวลานั้นเอง ข้อเสียคืออาจมี trace หลายร้อยตัวในช่วงเวลานั้นให้ไล่ดู ไม่รู้ตัวไหนคือตัวที่ทำให้ metric ผิดปกติจริง' },
+  ],
   'distributed-tracing:spans-and-traces': [
     { question: 'Span กับ Trace ต่างกันยังไง', answer: 'Trace คือเส้นทางทั้งหมดของ request เดียวตั้งแต่เข้าระบบจนออก ส่วน Span คือหนึ่งช่วงงานภายใน trace นั้น (เช่น 1 service call) ที่มี start time, end time และ parent span ของตัวเอง' },
     { question: 'Trace ID ต่างจาก Correlation ID ที่ใช้ใน log ยังไง', answer: 'Correlation ID แค่บอกว่า log กลุ่มไหนมาจาก request เดียวกัน (flat ไม่มีโครงสร้าง) ส่วน Trace ID มาพร้อม span ที่มี start/end time และความสัมพันธ์ parent-child ชัดเจน ทำให้เห็นได้ว่า service ไหนกินเวลาไปเยอะสุด' },
@@ -1285,6 +1300,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'OpenTelemetry แก้ปัญหา vendor lock-in ของ tracing ยังไง', answer: 'แยก API มาตรฐานที่โค้ด application เรียกใช้ ออกจาก backend ปลายทางที่เก็บ trace จริง (Jaeger, Datadog, ฯลฯ) ทำให้เปลี่ยน backend ได้แค่ปรับ config ที่ Collector โดยไม่ต้องแก้โค้ด instrument ในแอปใหม่ทั้งหมด' },
     { question: 'Auto-Instrumentation กับ Manual Instrumentation ต่างกันยังไง ข้อจำกัดของ Auto คืออะไร', answer: 'Auto-instrumentation attach library/agent โดยไม่ต้องแก้โค้ด ได้ trace พื้นฐานเร็ว แต่ครอบคลุมแค่ระดับ framework/library (HTTP, DB) มองไม่เห็น business logic เฉพาะทาง ต้องเพิ่ม manual instrumentation เองในจุดสำคัญทางธุรกิจ' },
     { question: 'OTel Collector ทำหน้าที่อะไร ทำไมแอปไม่ส่งข้อมูล trace ตรงไปที่ backend เอง', answer: 'Collector รับข้อมูลจากทุกแอป ประมวลผล (filter, sampling, scrub PII, batch) แล้วส่งต่อไปยัง backend แยกหน้าที่นี้ออกจากตัวแอป ทำให้เปลี่ยน backend หรือปรับ sampling ได้จากจุดเดียวโดยไม่ต้อง deploy แอปใหม่ทุกตัว' },
+  ],
+  'distributed-tracing:trace-sampling-strategies': [
+    { question: 'Head-based Sampling ทำงานยังไง มีข้อเสียอะไร', answer: 'ตัดสินใจสุ่มเก็บหรือทิ้ง trace ตั้งแต่ span แรกเริ่ม ก่อนรู้ผลลัพธ์สุดท้ายของ request ข้อเสียคือเสี่ยงพลาด trace ที่จะกลายเป็น error หรือช้าผิดปกติ เพราะถูกสุ่มทิ้งไปตั้งแต่ต้นโดยไม่รู้ตัว' },
+    { question: 'Tail-based Sampling ต่างจาก Head-based ยังไง แลกกับอะไร', answer: 'Tail-based รอให้ trace จบก่อนถึงจะตัดสินใจเก็บหรือทิ้ง ทำให้เก็บ trace ที่ error/ช้าได้แม่นยำ 100% แลกกับต้อง buffer span ทุกตัวของทุก trace ไว้ก่อนจนกว่าจะจบ ทำให้ใช้ memory/cost ของ collector สูงกว่า head-based' },
+    { question: 'ระบบที่ traffic สูงมากเจอปัญหา trace ของ incident สำคัญไม่ถูกเก็บไว้เลย ควรใช้ sampling แบบไหน', answer: 'ควรใช้ Tail-based Sampling เพราะรอดูผลลัพธ์ก่อนตัดสินใจ จะเก็บ trace ที่ error หรือ latency สูงผิดปกติได้เสมอ 100% ไม่พลาดเหมือน head-based ที่ตัดสินใจสุ่มทิ้งก่อนรู้ผลลัพธ์' },
   ],
   'dashboards-and-grafana:dashboard-design-principles': [
     { question: 'ทำไม Four Golden Signals ควรอยู่บนสุดของทุก dashboard เสมอ', answer: 'เพราะตอบคำถามแรกที่ทุกคนอยากรู้เร็วที่สุดคือ "ตอนนี้ปกติไหม" ส่วน metric เฉพาะทางของ business ค่อยอยู่ถัดลงมา ให้คนกวาดตาดูรู้สถานะโดยรวมก่อนค่อยลงรายละเอียด' },
@@ -1301,6 +1321,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'Error Budget คำนวณยังไง และมีไว้ทำไม', answer: 'Error Budget = 100% - SLO target เช่น SLO 99.9% จะมี error budget 0.1% เป็นโควตาความล้มเหลวที่ยอมรับได้ ใช้เป็นตัวช่วยตัดสินใจว่าควรเน้นความเสถียรหรือเน้นออก feature ใหม่ในช่วงเวลานั้น' },
     { question: 'ทำไมการตั้ง SLO สูงเกินจริง (เช่น 99.99% ทั้งที่ระบบไม่เคยทำได้) ถึงเป็นปัญหา', answer: 'เพราะ error budget จะหมดตลอดเวลา ทำให้ dashboard แดงอยู่ตลอดจนไม่มีความหมายอีกต่อไป และทีมจะเริ่มเลิกสนใจ ควรตั้ง SLO จากข้อมูลจริงในอดีตบวกกับสิ่งที่ business ยอมรับได้ ไม่ใช่ตั้งให้สูงที่สุดเท่าที่จะทำได้' },
   ],
+  'dashboards-and-grafana:dashboard-and-alerting-as-code': [
+    { question: 'ปัญหาของ Dashboard ที่คลิกสร้างผ่าน UI คืออะไร', answer: 'ไม่มี history ว่าใครแก้อะไรเมื่อไหร่ ไม่มี review ก่อนเปลี่ยนแปลง และ rollback ยากเพราะต้องจำค่าเดิมเอง เหมือนปัญหา Pet Server ที่ไม่มีใครจำได้ครบว่า config อะไรถูกเปลี่ยนไปแล้วบ้าง' },
+    { question: 'Dashboard-as-Code แก้ปัญหาข้างต้นยังไง', answer: 'เก็บ dashboard เป็นไฟล์ JSON/YAML ใน Git ทำให้เห็น diff ก่อน merge ผ่าน pull request มี history ครบใน git log และ rollback ได้ง่ายด้วยการ revert commit' },
+    { question: 'ทำไม Alerting-as-Code ถึงเชื่อมกับหลักการของ GitOps', answer: 'เพราะทั้งสองยึดหลักการเดียวกันคือ Git เป็น source of truth ของ config ถ้ามีคนคลิกแก้ alert rule ผ่าน UI ตรงๆโดยไม่ผ่าน Git การเปลี่ยนแปลงนั้นเสี่ยงถูกทับหายไปตอน deploy รอบถัดไป เหมือน drift ที่เรียนไปแล้วในโมดูล IaC' },
+  ],
   'alerting-and-slo:error-budget-burn-rate': [
     { question: 'Burn Rate คืออะไร', answer: 'อัตราที่ error budget กำลังถูกใช้ไป เทียบกับอัตราที่ควรใช้ถ้าจะพอดีหมดตอนสิ้นรอบ SLO burn rate = 1x คือใช้ตามแผนปกติ ส่วน burn rate สูงกว่านั้นแปลว่ากำลังเผา budget เร็วกว่าปกติ' },
     { question: 'ทำไมการ alert ด้วย burn rate ถึงเร็วกว่าการรอดู SLI ตกต่ำกว่า SLO ตรงๆ', answer: 'เพราะถ้ารอให้ SLI ทั้งรอบ 30 วันตกต่ำกว่า SLO จริงๆ ถึงจะ alert ก็สายเกินไปแล้ว burn rate จับสัญญาณ "กำลังจะพัง" ได้ตั้งแต่ชั่วโมงแรกๆ ของปัญหาโดยไม่ต้องรอครบรอบ' },
@@ -1316,6 +1341,11 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'Escalation Policy มีไว้ทำไม', answer: 'เพื่อเผื่อกรณีที่ primary on-call ไม่ตอบสนอง (โทรศัพท์ไม่ดัง, หลับลึก, เน็ตหลุด) ถ้าไม่มี escalation policy สำรอง alert วิกฤตอาจถูกปล่อยทิ้งไว้โดยไม่มีใครแก้เลย ต้องไล่ระดับไปหา secondary on-call แล้วไปหา manager ตามลำดับ' },
     { question: 'ทำไมเหตุการณ์ที่ error budget burn rate สูงผิดปกติควรนำไปสู่ Post-Incident Review เสมอ', answer: 'เพราะเป็นสัญญาณว่าเกิดปัญหาที่ส่งผลกระทบจริง ผลของ review มักย้อนกลับไปปรับปรุงจุดต่างๆ เช่น เพิ่ม metric ใหม่ ปรับ dashboard หรือแก้ runbook ให้ชัดขึ้น ทำให้ระบบแข็งแรงขึ้นเรื่อยๆ ทุกครั้งที่มีเหตุการณ์ ไม่ใช่แค่แก้แล้วจบ' },
   ],
+  'alerting-and-slo:sre-practice-toil-and-postmortem': [
+    { question: 'SLI, SLO, SLA ต่างกันยังไง', answer: 'SLI คือตัวเลขที่วัดได้จริงจากระบบ เช่น availability SLO คือเป้าที่ทีมตั้งขึ้นเองจาก SLI นั้น เช่น ต้องอยู่เหนือ 99.9% SLA คือสัญญากับลูกค้าที่มีผลทางธุรกิจ/กฎหมายถ้าทำไม่ถึง เช่น คืนเงินถ้าต่ำกว่าเกณฑ์ที่ตกลงไว้' },
+    { question: 'Toil คืออะไร ทำไม SRE ให้ความสำคัญกับการลด Toil', answer: 'Toil คือ งานที่ทำซ้ำๆแบบ manual ไม่สร้างมูลค่าที่ยั่งยืน เช่น restart service เดิมทุกเช้า สำคัญเพราะถ้า toil กินเวลาทีมมากเกินไป (เช่น 50%+) ทีมจะไม่มีเวลาไปแก้ต้นเหตุที่ทำให้ต้องทำงานซ้ำๆแบบนี้ต่อไป' },
+    { question: 'ทำไม Blameless Postmortem ถึงสำคัญ ไม่ใช่แค่เรื่องมารยาท', answer: 'เพราะถ้าวัฒนธรรมองค์กรมีการโทษคน คนจะเริ่มปกปิดข้อผิดพลาดหรือรายงานไม่ครบตอน incident ครั้งถัดไป ทำให้ root cause จริงถูกซ่อนไว้ ส่วนวัฒนธรรม blameless ทำให้คนกล้ารายงานทุกรายละเอียดตามจริง เพราะรู้ว่าจะไม่ถูกตำหนิเป็นการส่วนตัว' },
+  ],
   'devops-observability-case-studies:case-checkout-latency-incident': [
     { question: 'ลำดับการสืบสวน incident ในเคส checkout latency เป็นยังไง', answer: 'Alert (burn rate สูงผิดปกติ) → Dashboard (Golden Signals ชี้ว่า Errors พุ่ง) → Metric (PromQL แยกตาม endpoint หาจุดที่ error กระจุก) → Trace (waterfall ชี้ span ที่ช้า) → Log (กรองด้วย trace_id หา error message เป๊ะๆ)' },
     { question: 'ถ้าระบบไม่มี Distributed Tracing เคสนี้จะสืบสวนยากขึ้นตรงไหน', answer: 'จะรู้แค่ว่า endpoint ไหน error แต่ไม่รู้ว่า span ไหนในเส้นทางข้าม service ที่เป็นสาเหตุ ต้องไล่เปิด log ทีละ service เดา trace ID เอง ซึ่งช้ากว่ามาก' },
@@ -1330,6 +1360,56 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไมทีมในเคสนี้ถึงไม่มี alert ยิงเลยทั้งที่ปัญหาเกิดขึ้นจริงหลายสัปดาห์', answer: 'เพราะ metric ที่มีอยู่วัดแค่ว่า API call ไปหา email provider สำเร็จไหม (HTTP 200) ไม่ได้วัดว่าอีเมลไปถึงกล่องข้อความจริงไหม ทำให้ error rate ยังเขียวปกติแม้ผลลัพธ์จริงที่ user ได้รับจะผิดพลาด' },
     { question: 'บทเรียนหลักของเคสนี้คืออะไร', answer: 'การมีเครื่องมือ observability ครบไม่ได้แปลว่าจะเห็นปัญหาจริงเสมอไป ต้องเลือกวัด SLI ที่สะท้อนผลลัพธ์ที่ user สัมผัสจริง ไม่ใช่แค่สิ่งที่วัดง่ายอย่าง HTTP status code ของ service ตัวเอง' },
     { question: 'เคสนี้เชื่อมโยงกลับไปหาแนวคิดอะไรจากหัวข้อแรกสุดของ track', answer: 'Monitoring vs Observability — ทีมมี known-unknowns ที่เตรียมไว้ล่วงหน้าครบ (dashboard, alert) แต่ metric ที่เลือกวัดไม่ใช่ตัวที่สะท้อนผลลัพธ์ทางธุรกิจจริง สะท้อนว่าเครื่องมือครบไม่ได้การันตีว่าระบบ observable จริง' },
+  ],
+  'devops-observability-case-studies:case-alert-storm-multi-service-deploy': [
+    { question: 'ทำไมทีมในเคสนี้เห็น 12 alert แล้วไม่ได้แปลว่ามี 12 ปัญหาแยกกัน', answer: 'เพราะ payment-service และ notification-service เป็นแค่อาการลูกโซ่ที่ไล่ตามมาจาก dependency chain เดียวกัน โดยมี root cause จริงแค่ตัวเดียวคือ inventory-service ที่เพิ่ง deploy เวอร์ชันช้าลง alert อื่นๆเป็นผลกระทบที่กระจายไปตาม dependency graph ไม่ใช่ปัญหาที่เกิดขึ้นเองอิสระ' },
+    { question: 'วิธีหา Root Cause จาก Alert Storm ทำได้ยังไง', answer: 'เปิด distributed trace ของ request ที่ error ดู dependency chain จริงว่า span แรกที่เริ่มช้า/error คือ service ไหน แทนที่จะไล่ ack alert ตามลำดับเวลาที่ยิงเข้ามา เพราะ alert ที่ยิงก่อนไม่จำเป็นต้องเป็น root cause เสมอไป' },
+    { question: 'บทเรียนเรื่อง Progressive Delivery เชื่อมกับเคสนี้ยังไง', answer: 'ถ้าทีมทำ progressive delivery (canary/staged rollout) แทนการ deploy 3 service พร้อมกันแบบเต็ม 100% ทันที จะจำกัด blast radius ของ deploy ที่มีปัญหาให้เล็กลง ลดความเสี่ยงที่จะเกิด alert storm ขนาดใหญ่แบบในเคสนี้' },
+  ],
+  'ci-cd-and-gitops:cicd-pipeline-anatomy': [
+    { question: 'ทำไม CI/CD Pipeline ถึงเปรียบเหมือนสายพานที่มี Gate ตรวจคุณภาพ', answer: 'เพราะโค้ดที่ commit เข้ามาต้องผ่านการตรวจสอบอัตโนมัติหลายจุด (build, unit test, integration test) ก่อนถึงจะถูกส่งต่อไปจุดถัดไปได้ ถ้าจุดไหนล้มเหลว โค้ดจะหยุดอยู่ที่จุดนั้น ไม่ไหลต่อไปทำร้าย production' },
+    { question: 'Continuous Integration, Continuous Delivery, และ Continuous Deployment ต่างกันยังไง', answer: 'CI คือ build+test อัตโนมัติทุก commit เท่านั้น ไม่เกี่ยวกับการ deploy, Continuous Delivery คือทำจนพร้อม deploy ได้ทุกเมื่อแต่ยังต้องมีคนกดปุ่มปล่อยขึ้น production เอง, Continuous Deployment คือทุกอย่างอัตโนมัติจนถึง production โดยไม่มีคนกดเลย' },
+    { question: '"Build Once, Deploy Many" คืออะไร ทำไมสำคัญ', answer: 'คือหลักการ build/compile ครั้งเดียวได้ artifact ก้อนเดียว แล้วโปรโมท artifact ก้อนนั้นไล่ไปทุก environment โดยไม่ build ใหม่ สำคัญเพราะการันตีว่าสิ่งที่ทดสอบผ่านบน staging คือไบต์เดียวกันเป๊ะกับที่ขึ้น production ไม่มีความเสี่ยงจาก dependency ที่ได้คนละเวอร์ชันตอน build แยกรอบ' },
+  ],
+  'ci-cd-and-gitops:gitops': [
+    { question: 'GitOps คืออะไร ต่างจากการ deploy แบบ push-based ยังไง', answer: 'GitOps คือให้ Git repo เป็น single source of truth ของ desired state แล้วมี agent (reconciler) ที่อยู่ในคลัสเตอร์เองคอยดึง (pull) มาเทียบกับสภาพจริงและปรับให้ตรง ต่างจาก push-based ที่ CI pipeline ภายนอกวิ่งเข้าไป apply ตรงๆ และต้องถือ credential เข้าคลัสเตอร์เอง' },
+    { question: 'ทำไมถ้ามีคนแก้ cluster ตรงๆ (kubectl edit) โดยไม่ผ่าน Git ค่าที่แก้ถึง "หายไป" เอง', answer: 'เพราะ reconcile loop ของ GitOps agent คอยเทียบสภาพจริงกับ Git อยู่ตลอดเวลา พอเจอว่าไม่ตรงกับ Git (ซึ่งยังเป็นค่าเดิม) มันจะปรับ cluster ให้กลับไปตรงกับ Git อัตโนมัติ (self-healing) เป็นพฤติกรรมที่ออกแบบไว้ตั้งใจ ไม่ใช่บั๊ก' },
+    { question: 'ข้อดีด้านความปลอดภัยของ pull-based GitOps เทียบกับ push-based คืออะไร', answer: 'ไม่มีระบบภายนอก (เช่น CI pipeline) ต้องถือ credential ที่เข้าคลัสเตอร์ได้เลย เพราะ agent ที่ดึงข้อมูลอยู่ข้างในคลัสเตอร์เอง ทำให้ผิวการโจมตี (attack surface) เล็กกว่า push-based ที่ถ้า CI ถูกแฮ็กเท่ากับมีทางเข้าคลัสเตอร์ทันที' },
+  ],
+  'ci-cd-and-gitops:progressive-delivery': [
+    { question: 'Deploy กับ Release ต่างกันยังไง ทำไมการแยกสองอย่างนี้มีประโยชน์', answer: 'Deploy คือเอาโค้ดขึ้น production ส่วน Release คือเปิดให้ user เห็น feature นั้นจริง — แยกกันได้ด้วย Feature Flag ทำให้ deploy ได้บ่อยๆแบบเงียบๆทุกวันโดยไม่ต้องกลัว user เจอของที่ยังไม่พร้อม เพราะสวิตช์ยังปิดอยู่ พอพร้อมค่อยเปิด flag ทีละนิดโดยไม่ต้อง deploy ใหม่' },
+    { question: 'Progressive Delivery ต่างจาก Canary Release แบบพื้นฐานยังไง', answer: 'Canary แบบพื้นฐานให้คนคอยเฝ้าดู dashboard เองว่าเวอร์ชันใหม่โอเคไหมก่อนขยาย traffic ส่วน Progressive Delivery ให้ระบบเฝ้าดูและตัดสินใจเองโดยอิงจาก metric จริง (error rate, latency) ถ้าไม่ผ่านเกณฑ์จะ auto-rollback ทันทีโดยไม่ต้องรอคนมาเห็นก่อน' },
+    { question: 'ทำไม Canary ที่ metric ปกติดีทุกอย่างตอนทดสอบ 5% แรก อาจยังพังตอนปล่อย 100% ได้', answer: 'เพราะกลุ่ม user ที่ได้ traffic ช่วงแรกอาจไม่ representative ของ user ทั้งหมด (เช่น สุ่มได้แต่ user ที่ใช้ browser รุ่นใหม่ แต่ปัญหาจริงอยู่ที่ browser รุ่นเก่าที่ไม่ได้อยู่ในกลุ่มทดสอบ) วิธีป้องกันคือทำให้การสุ่มกลุ่ม canary กระจายตัวแทน user จริงข้าม region/device type ไม่ใช่สุ่มตามลำดับ request ที่มาถึงก่อน' },
+  ],
+  'iac-and-chaos-engineering:iac-fundamentals': [
+    { question: 'Imperative กับ Declarative ต่างกันยังไงในบริบทของ Infrastructure as Code', answer: 'Imperative คือสั่งทีละคำสั่งตามลำดับขั้นตอน ผลลัพธ์ขึ้นกับลำดับคำสั่งที่รัน ส่วน Declarative คือเขียนแค่สภาพสุดท้ายที่ต้องการ แล้วให้เครื่องมือ IaC ไปคิดวิธีทำเอง เทียบกับสภาพจริงก่อนตัดสินใจว่าจะสร้าง/แก้/ลบอะไร' },
+    { question: 'Idempotency ใน IaC คืออะไร ทำไมสำคัญ', answer: 'คือคุณสมบัติที่รันไฟล์ config ซ้ำกี่ครั้งก็ได้ผลลัพธ์เดิมเสมอ ไม่สร้างของซ้ำ สำคัญเพราะทำให้รันซ้ำได้อย่างปลอดภัยโดยไม่ต้องกลัวผลข้างเคียง ต่างจาก imperative script ที่รันซ้ำอาจสร้างทรัพยากรซ้ำโดยไม่ตั้งใจ' },
+    { question: 'Drift ใน IaC คืออะไร เกิดจากอะไรบ่อยที่สุด', answer: 'คือสภาพจริงของ infrastructure ไม่ตรงกับที่ไฟล์ IaC บอกไว้ เกิดบ่อยที่สุดจาก ClickOps คือมีคนเข้าไปคลิกแก้ค่าตรงบน cloud console โดยไม่ผ่านไฟล์ config ทำให้รอบถัดไปที่รัน plan จะเจอ diff ที่ไม่ตรงกัน' },
+  ],
+  'iac-and-chaos-engineering:immutable-infrastructure': [
+    { question: 'Pets vs Cattle คืออะไร ใช้อธิบายอะไร', answer: 'เป็นคำเปรียบเทียบสองสายพันธุ์ของการดูแล server — Pet คือ server ที่ดูแลเป็นรายตัว มีสถานะเฉพาะตัว ถ้าตายกู้คืนยาก ส่วน Cattle คือ server ที่เกิดจาก image เดียวกันหมด ตายแล้วสร้างตัวใหม่แทนได้ทันทีโดยไม่เสียอะไร ใช้อธิบายความต่างระหว่าง mutable server กับ immutable infrastructure' },
+    { question: 'Snowflake Server คืออะไร เกิดขึ้นได้ยังไง', answer: 'คือ server ที่มีสภาพเฉพาะตัวจนไม่มีใครสร้างซ้ำได้เหมือนเดิม 100% เกิดจากการ SSH เข้าไป patch/config มือทีละครั้งสะสมมาเรื่อยๆ โดยไม่มีการบันทึกครบว่าทำอะไรไปแล้วบ้าง ถ้าเครื่องพังจริงกู้คืนได้ยากมาก' },
+    { question: 'ทำไม Rollback ของ Immutable Infrastructure ง่ายกว่า Mutable Server ที่ใช้ Config Management', answer: 'เพราะ immutable infra แค่สลับกลับไปใช้ image เวอร์ชันก่อนหน้าที่เก็บไว้ครบสมบูรณ์อยู่แล้ว ส่วน mutable server ต้องรัน script ย้อนกลับการเปลี่ยนแปลงทั้งหมดที่เคย patch มา ซึ่งมักไม่มี script ย้อนกลับที่ครบถ้วนอยู่แล้ว' },
+  ],
+  'iac-and-chaos-engineering:chaos-engineering': [
+    { question: 'Steady State Hypothesis ใน Chaos Engineering คืออะไร', answer: 'คือการนิยามก่อนทดลองว่า "ระบบปกติ" หน้าตาเป็นยังไง (วัดด้วย metric จาก RED/USE Method) แล้วตั้งสมมติฐานว่าถึงมี fault เกิดขึ้น ค่า metric นี้ก็ควรยังอยู่ในเกณฑ์เดิม เป็นหัวใจที่ทำให้ chaos engineering เป็นการทดลองแบบวิทยาศาสตร์ ไม่ใช่การทำลายแบบสุ่ม' },
+    { question: 'ทำไม Chaos Experiment ต้องเริ่มจาก Blast Radius เล็กที่สุดก่อนเสมอ', answer: 'เพราะยังไม่รู้ว่าระบบจะรับมือได้จริงแค่ไหน การเริ่มจากผลกระทบเล็กสุด (เช่น traffic ทดสอบ หรือช่วงคนใช้น้อย) ช่วยจำกัดความเสียหายถ้าสมมติฐานผิด และต้องมี kill switch พร้อมหยุดทดลองทันทีถ้ากระทบ user จริงเกินคาด ก่อนจะค่อยขยับขยายไปทดสอบสถานการณ์รุนแรงขึ้น' },
+    { question: 'ทีมทำ chaos experiment มานานแต่ไม่เจอปัญหาเลยทุกครั้ง ควรตีความว่ายังไง', answer: 'ไม่ควรรีบสรุปว่าระบบทนทานสมบูรณ์แล้วหยุดทดลอง เพราะอาจหมายถึง fault type หรือ blast radius ที่เลือกไม่ท้าทายพอ ควรค่อยๆขยับความรุนแรงของการทดลองขึ้นเรื่อยๆจนกว่าจะเจอจุดที่ระบบเริ่มมีปัญหาจริง ถึงจะรู้ขอบเขตความทนทานที่แท้จริง' },
+  ],
+  'advanced-observability-internals:ebpf-observability': [
+    { question: 'eBPF คืออะไร ต่างจาก Manual Instrumentation (OpenTelemetry SDK) ยังไง', answer: 'eBPF คือโปรแกรมเล็กๆที่รันในเคอร์เนล Linux hook เข้าจุดต่างๆของ kernel (syscall, network) เพื่อดึงข้อมูลได้โดยไม่ต้องแก้โค้ด application เลย ต่างจาก manual instrumentation ที่ต้องเพิ่ม SDK เข้าโค้ดทุก service แล้ว build/deploy ใหม่ถึงจะเห็นข้อมูล' },
+    { question: 'ทำไม eBPF ถึงเหมาะกับ legacy service ที่แก้โค้ดไม่ได้แล้ว', answer: 'เพราะ eBPF ทำงานที่ระดับ kernel ไม่สนใจว่า application ข้างบนเขียนด้วยภาษาอะไรหรือมีคนดูแลหรือไม่ จึงเห็นข้อมูล network/syscall ของ process ได้ทันทีโดยไม่ต้องแตะโค้ดเดิมสักบรรทัด' },
+    { question: 'ข้อจำกัดของ eBPF ที่ทำให้ยังต้องมี Manual Instrumentation อยู่คืออะไร', answer: 'eBPF เห็นแค่ระดับ network/syscall ไม่รู้ business context เช่น request นี้เป็นของ user คนไหน กำลังทำ transaction อะไรอยู่ context แบบนั้นต้องมาจาก custom span attribute ที่เขียนผ่าน OpenTelemetry เท่านั้น ทั้งสองวิธีจึงต้องใช้เสริมกัน ไม่ใช่เลือกอย่างเดียว' },
+  ],
+  'advanced-observability-internals:continuous-profiling': [
+    { question: 'Metric, Trace, และ Profile ต่างกันในระดับความละเอียดยังไง', answer: 'Metric บอกว่ามีปัญหาไหม (เช่น p99 latency สูง), Trace บอกว่า service ไหนช้า (เห็นระดับ span), Profile บอกว่าฟังก์ชันไหนในโค้ดที่กินเวลาจริง เป็นลำดับการสืบสวนที่ลึกขึ้นทีละขั้นจากภาพรวมไปถึงระดับโค้ด' },
+    { question: 'Flame Graph อ่านยังไง แกนนอนกับแกนตั้งหมายถึงอะไร', answer: 'แกนนอนคือสัดส่วนเวลาที่ใช้ (กว้าง = ใช้เวลานาน), แกนตั้งคือความลึกของการเรียกฟังก์ชัน (function A เรียก B เรียก C ซ้อนกันลงมา) ฟังก์ชันที่กินเวลามากที่สุดจะเป็นแถบที่กว้างที่สุดในกราฟ' },
+    { question: 'Continuous Profiling ทำให้ overhead ต่ำจนรันบน production 24/7 ได้ยังไง', answer: 'ใช้วิธี sampling คือสุ่มถ่ายภาพ call stack เป็นระยะ (เช่นทุก 10ms) แทนการติดตามทุก function call แบบละเอียด 100% ฟังก์ชันที่กินเวลานานมีโอกาสถูกจับภาพได้บ่อยกว่าตามสัดส่วนสถิติ ทำให้ผลลัพธ์แม่นยำพอใช้งานจริงโดย overhead ต่ำมาก' },
+  ],
+  'advanced-observability-internals:observability-cost-finops': [
+    { question: 'ทำไม Logs มักเป็นสัญญาณที่มีต้นทุนสูงที่สุดในสาม Log/Metric/Trace', answer: 'เพราะ volume ต่อ request สูงกว่า metric/trace มาก metric คือตัวเลขสรุป trace คือ span ไม่กี่สิบต่อ request แต่ log อาจมีหลายสิบบรรทัดต่อ request ถ้า verbosity สูง การคุมต้นทุนจึงมักเริ่มจากฝั่ง log ก่อนเป็นอันดับแรก' },
+    { question: 'Tiered Retention คืออะไร ช่วยลดต้นทุนยังไง', answer: 'คือการแบ่งชั้นเก็บข้อมูลตามอายุ — Hot storage (0-7 วัน) query เร็วแต่แพงสุด, Warm storage (7-30 วัน) ถูกลง, Cold/Archive (30 วันขึ้นไป) ถูกสุดสำหรับ compliance เพราะข้อมูลใหม่ถูก query บ่อยกว่าข้อมูลเก่ามาก ไม่จำเป็นต้องเก็บทุกอย่างไว้ใน storage แพงสุดตลอดไป' },
+    { question: 'ทำไมการ Sample Log แบบ Uniform (เก็บ 1% ของทุก request เท่ากันหมด) ถึงเสี่ยงพลาด Incident สำคัญ', answer: 'เพราะถ้า incident เกิดกับ request แค่ 0.1% ของทั้งหมด โอกาสที่ log ของ incident นั้นจะอยู่ใน 1% ที่สุ่มเก็บไว้ต่ำมาก วิธีที่ถูกกว่าคือ sample แบบมีเงื่อนไข เช่น เก็บ log ระดับ error/warning ไว้ 100% เสมอ แล้ว sample เฉพาะ log ระดับ info/debug ที่ volume สูงแต่ไม่ critical' },
   ],
   'monorepo-vs-polyrepo:monorepo-fundamentals': [
     { question: 'ทำไม monorepo ถึงช่วยจัดการ breaking change ของ shared library ได้ดีกว่า', answer: 'เพราะแก้ library และทุก consumer ที่ต้องปรับตามได้ใน pull request เดียว ตรวจสอบและ merge พร้อมกันทีเดียว ไม่มีช่วงเวลาที่ library เวอร์ชันใหม่ถูก publish แล้วแต่ consumer บางตัวยังไม่ได้อัปเดตตาม' },

@@ -41,4 +41,7 @@ export const demoRegistry: Record<string, Component> = {
   StockFlowDiagram: defineDemo(() => import('../diagrams/StockFlowDiagram.vue')),
   StockFlowSimulator: defineDemo(() => import('./StockFlowSimulator.vue')),
   FeedbackLoopSimulator: defineDemo(() => import('./FeedbackLoopSimulator.vue')),
+  GitOpsReconcileDemo: defineDemo(() => import('./GitOpsReconcileDemo.vue')),
+  ChaosBlastRadiusDemo: defineDemo(() => import('./ChaosBlastRadiusDemo.vue')),
+  SamplingRaceDemo: defineDemo(() => import('./SamplingRaceDemo.vue')),
 }
