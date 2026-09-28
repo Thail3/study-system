@@ -399,6 +399,23 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
       answer: 'Debug ยากขึ้น (flow กระจายหลาย service ต้องมี distributed tracing ช่วย), เกิด eventual consistency โดยธรรมชาติ, ต้องคิดเรื่อง event ordering/duplicate',
     },
   ],
+  'async-messaging:stream-processing': [
+    {
+      question: 'Stream Processing ต่างจาก Batch Processing ยังไง',
+      answer:
+        'Batch Processing รอสะสมข้อมูลเป็นก้อนก่อน (เช่น ข้อมูลทั้งวัน) แล้วคำนวณทีเดียว ผลแม่นยำแต่รู้ผลช้า ส่วน Stream Processing คำนวณทันทีที่ข้อมูลไหลผ่าน รู้ผลเร็วระดับวินาที/มิลลิวินาที แต่ผลลัพธ์อาจต้องปรับแก้ทีหลังถ้าข้อมูลมาช้า',
+    },
+    {
+      question: 'ทำไม Stream Processing ต้องใช้ Watermark',
+      answer:
+        'เพราะ event ที่เกิดก่อนในโลกจริงอาจมาถึง stream processor ทีหลังจาก network ล่าช้าไม่เท่ากัน ถ้าปิด window ทันทีที่ครบเวลาอาจตัดข้อมูลที่มาช้าทิ้งไปโดยไม่ตั้งใจ Watermark คือการเผื่อเวลารอสักระยะก่อนปิด window จริง ให้ event ที่มาช้ามีโอกาสไล่ตามมาทันก่อนสรุปผลสุดท้าย',
+    },
+    {
+      question: 'Exactly-Once Semantics ใน Stream Processing หมายถึงอะไรจริงๆ',
+      answer:
+        'ไม่ได้การันตีว่า network จะไม่ส่งข้อมูลซ้ำเลย (ยังส่งซ้ำได้ตามปกติ) แต่หมายถึงผลลัพธ์สุดท้ายเหมือนกับถูกประมวลผลแค่ครั้งเดียว ทำได้ผ่านการเก็บ offset คู่กับผลลัพธ์แบบ atomic และทำ checkpoint state เป็นระยะ เพื่อกู้สถานะได้แม่นยำถ้า worker ล่มกลางทาง',
+    },
+  ],
   'microservices-api:monolith-vs-microservices': [
     {
       question: 'Monolith กับ Microservices ต่างกันยังไง',
@@ -583,6 +600,40 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
       question: 'Canary Deployment ต่างจาก Rolling Deployment ยังไง',
       answer:
         'Canary จงใจปล่อยทีละเปอร์เซ็นต์เล็กๆ ก่อน แล้วหยุดดู metric (error rate) ก่อนขยายสัดส่วนเพิ่ม ถ้าผิดปกติ rollback กระทบแค่กลุ่มเล็ก. Rolling แค่ทยอยเปลี่ยน instance ไม่ได้เน้นหยุดดู metric ก่อนขยายเป็นขั้นๆ แบบ canary',
+    },
+  ],
+  'reliability:chaos-engineering-dr': [
+    {
+      question: 'Chaos Engineering คืออะไร ทำไมต้องจงใจทำให้ระบบพังเอง',
+      answer:
+        'คือการจงใจสร้างความล้มเหลวขึ้นมาเองในสภาพแวดล้อมที่ควบคุมได้และมีคนพร้อมรับมือ (เช่น Chaos Monkey สุ่มปิด instance) เพื่อพิสูจน์ว่า redundancy/failover ที่ออกแบบไว้ทำงานได้จริง ดีกว่าปล่อยให้ความล้มเหลวเกิดขึ้นเองแบบไม่ทันตั้งตัวตอนเวลาที่แย่ที่สุด',
+    },
+    {
+      question: 'RTO และ RPO ต่างกันยังไง',
+      answer:
+        'RTO (Recovery Time Objective) วัดว่าระบบหยุดทำงานได้นานสุดกี่นาที/ชั่วโมงก่อนต้องกลับมาใช้งานได้ ส่วน RPO (Recovery Point Objective) วัดว่าข้อมูลสูญหายได้มากสุดแค่ไหนนับจากจุด backup ล่าสุด ทั้งสองค่าเป็นอิสระจากกันและต้องเลือกตามความต้องการทางธุรกิจ',
+    },
+    {
+      question: 'ระดับ Disaster Recovery มีอะไรบ้าง เรียงจากถูกไปแพง',
+      answer:
+        'Backup & Restore (ถูกสุด ช้าสุด RTO หลักชั่วโมง-วัน) → Pilot Light (มีโครงสร้างพื้นฐานขั้นต่ำรอเปิดใช้) → Warm Standby (ระบบสำรองรันอยู่จริงขนาดเล็กกว่า production ตลอดเวลา) → Multi-Site Active-Active (แพงสุด RTO แทบเป็นศูนย์ ทุก region รันเต็มรูปแบบพร้อมกัน)',
+    },
+  ],
+  'reliability:multi-region-active-active': [
+    {
+      question: 'Active-Active ต่างจาก Redundancy ในเครื่องเดียวที่เรียนในบท Failover ยังไง',
+      answer:
+        'Redundancy ในเครื่องเดียวป้องกันแค่เครื่อง/instance เดียวล่ม แต่ถ้าทั้ง data center มีปัญหา (ไฟดับทั้งภูมิภาค, ภัยธรรมชาติ) redundancy ระดับเครื่องช่วยไม่ได้ Active-Active คือมีหลาย region รับ traffic จริงพร้อมกันตลอดเวลา ทนภัยพิบัติระดับภูมิภาคได้ และลด latency ให้ user ทั่วโลกไปด้วยในตัว',
+    },
+    {
+      question: 'ทำไม Active-Active เสี่ยงข้อมูลชนกัน (conflict) แก้ยังไง',
+      answer:
+        'เพราะทุก region เขียนได้ทันทีโดยไม่รอ region อื่น (เลือก Availability ตาม CAP theorem) ถ้ามีคนเขียนข้อมูลชุดเดียวกันที่คนละ region ในเวลาใกล้เคียงกัน จะเกิด conflict แก้ด้วย Last-Write-Wins (ใครเขียนทีหลังชนะ) หรือ CRDT (โครงสร้างข้อมูลที่ merge ผลจากสองฝั่งได้อัตโนมัติโดยไม่ต้องเลือกทิ้ง)',
+    },
+    {
+      question: 'ทำไมไม่ใช้ Quorum ข้าม region ทุกครั้งที่เขียน ในเมื่อป้องกัน Split-Brain ได้',
+      answer:
+        'เพราะการรอ quorum ข้าม region ต้องรอ network round-trip ข้ามทวีป (หลัก 100-200ms) ทุกครั้งที่เขียน ทำให้ latency สูงมาก ระบบส่วนใหญ่จึงยอมรับความเสี่ยง conflict ชั่วคราวแล้วแก้ทีหลังด้วย LWW/CRDT แทน เพราะเร็วกว่ามาก เหมาะกับข้อมูลที่ทนความคลาดเคลื่อนชั่วขณะได้',
     },
   ],
   'storage-at-scale:object-storage': [

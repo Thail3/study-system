@@ -99,7 +99,7 @@ export const modules: ModuleMeta[] = [
     track: 'system-design',
     slug: 'async-messaging',
     title: 'Async & Messaging',
-    titleSub: 'message queue, pub/sub, event-driven',
+    titleSub: 'message queue, pub/sub, event-driven, stream processing',
     status: 'available',
     position: { x: 600, y: 280 },
     topics: [
@@ -107,6 +107,7 @@ export const modules: ModuleMeta[] = [
       { id: 'message-queue', title: 'Message Queue', file: '02-message-queue' },
       { id: 'pub-sub', title: 'Pub/Sub', file: '03-pub-sub' },
       { id: 'event-driven', title: 'Event-Driven Architecture', file: '04-event-driven' },
+      { id: 'stream-processing', title: 'Stream Processing', file: '05-stream-processing' },
     ],
   },
   {
@@ -130,7 +131,7 @@ export const modules: ModuleMeta[] = [
     track: 'system-design',
     slug: 'reliability',
     title: 'Reliability',
-    titleSub: 'rate limiting, circuit breaker, retry, failover, observability, idempotency, deployment',
+    titleSub: 'rate limiting, circuit breaker, retry, failover, observability, idempotency, deployment, chaos engineering, DR',
     status: 'available',
     position: { x: 120, y: 280 },
     topics: [
@@ -141,6 +142,8 @@ export const modules: ModuleMeta[] = [
       { id: 'observability', title: 'Observability (Log, Metric, Trace)', file: '05-observability' },
       { id: 'idempotency', title: 'Idempotency', file: '06-idempotency' },
       { id: 'deployment-strategies', title: 'Deployment Strategies', file: '07-deployment-strategies' },
+      { id: 'chaos-engineering-dr', title: 'Chaos Engineering & Disaster Recovery', file: '08-chaos-engineering-dr' },
+      { id: 'multi-region-active-active', title: 'Multi-Region Active-Active', file: '09-multi-region-active-active' },
     ],
   },
   {
