@@ -50,3 +50,14 @@ props: {"steps":[{"label":"1. Client สร้าง Idempotency Key ก่อ�
 - **TTL ของ key** — เก็บ key ไว้ตลอดไปไม่ได้ (พื้นที่ไม่พอ) ต้องมีวันหมดอายุ (เช่น 24 ชม.) ยาวพอให้ retry ที่สมเหตุสมผลทั้งหมดยังใช้ key เดิมได้ทัน
 
 > คำถามสัมภาษณ์: "ทำไม API เก็บเงินจริง (เช่น Stripe) ถึงบังคับให้ส่ง `Idempotency-Key` header มาด้วย" — เพราะเครือข่ายไม่น่าเชื่อถือ 100% (response หายได้เสมอ) client ที่ทำตาม best practice ต้อง retry เมื่อไม่ชัวร์ว่าสำเร็จหรือไม่ — แต่ retry บน operation ที่ "เก็บเงิน" (ไม่ idempotent โดยธรรมชาติ) โดยไม่มีกลไกป้องกัน จะหักเงินซ้ำได้จริงในโลกจริง ไม่ใช่แค่ทฤษฎี
+
+## ขั้นสูง: ทำให้ Idempotent โดยธรรมชาติ โดยไม่ต้องมี Dedup Store เลยก็ได้
+
+Idempotency Key + Dedup Store คือทางแก้ที่ยืดหยุ่นที่สุด แต่ไม่ใช่ทางเดียว — บางครั้งออกแบบ operation ให้ <mark class="hl-term">idempotent โดยธรรมชาติ (naturally idempotent)</mark> ได้เลยโดยไม่ต้องมีที่เก็บ key แยกต่างหาก:
+
+- **ใช้ unique constraint ของ Database แทน dedup store** — ถ้า order มี `client_order_id` ที่ client กำหนดมาเอง (ผูกกับ "ความตั้งใจสั่งซื้อครั้งนี้" เหมือน idempotency key) และตั้ง unique constraint ไว้ที่ column นี้ใน database การ insert ซ้ำด้วย `client_order_id` เดิมจะโดน database ปฏิเสธเองอัตโนมัติ (constraint violation) <mark class="hl-insight">ไม่ต้องมี dedup store แยก เพราะ database เป็นทั้งที่เก็บข้อมูลจริงและตัวป้องกันการซ้ำในตัวเดียวกัน</mark>
+- **เปลี่ยนจาก "บวกเพิ่ม" เป็น "ตั้งค่าให้เป็น"** — คำสั่ง "เพิ่มยอด 500 บาท" (`balance += 500`) ทำซ้ำกี่ครั้งก็บวกซ้ำทุกครั้ง ไม่ idempotent แต่ถ้าเปลี่ยนเป็น "ตั้งยอดให้เท่ากับ X" (`balance = X`) ทำซ้ำกี่ครั้งผลก็เหมือนเดิมเสมอ (idempotent โดยธรรมชาติ เหมือน PUT ที่เรียนไปข้างบน)
+
+อีกบริบทที่ idempotency สำคัญมากคือฝั่ง **consumer ของ Message Queue** (โมดูล Async & Messaging) — คิวส่วนใหญ่การันตีแค่ <mark class="hl-warning">at-least-once delivery (ข้อความอาจถูกส่งซ้ำได้ ไม่ใช่แค่ client retry เอง) ถ้า consumer ประมวลผลข้อความเดิมซ้ำสองครั้งโดยไม่ป้องกัน (เช่น หักสต๊อกซ้ำ) จะเกิดบั๊กแบบเดียวกับตัวอย่างหักเงินซ้ำข้างบนได้เหมือนกัน</mark> ทางแก้เหมือนกันคือให้แต่ละข้อความมี message ID ที่ consumer เช็คก่อนประมวลผลทุกครั้ง
+
+> คำถามสัมภาษณ์: "มีวิธีทำ idempotent โดยไม่ต้องมี dedup store แยกไหม" — มี ถ้า operation นั้นออกแบบให้เป็น idempotent โดยธรรมชาติได้ เช่น ใช้ unique constraint ของ database บน key ที่ client กำหนดมา (การ insert ซ้ำจะถูกปฏิเสธเองโดย database) หรือเปลี่ยน logic จาก "บวกเพิ่ม" เป็น "ตั้งค่าให้เท่ากับ" วิธีนี้เรียบง่ายกว่า Idempotency Key + Dedup Store แต่ใช้ได้เฉพาะบาง operation ที่ปรับ logic ให้เข้ากับแนวคิดนี้ได้จริง ไม่ใช่ทุกกรณี

@@ -45,3 +45,13 @@ props: {"steps":[{"label":"1. Instance ใหม่บูตขึ้นมา",
 - **Client-side discovery** — แต่ละ client ขอสำเนารายชื่อทั้งหมดมาเก็บเอง แล้วเลือกเองว่าจะโทรหาใคร (มักผสมกับ load balancing algorithm ฝั่ง client เลย) ลด load ที่สมุดกลาง แต่ client ต้องฉลาดขึ้น
 
 > เชื่อมกับโมดูล Scalability: <mark class="hl-insight">Service Discovery คือ "Load Balancer เวอร์ชันที่รู้จักเฉพาะ service ภายใน ที่จำนวน instance เปลี่ยนตลอดเวลา"</mark> ต่างจาก Load Balancer หน้าระบบที่มักจำนวน server ค่อนข้างคงที่กว่า
+
+## ขั้นสูง: ใครเป็นคนโทรแจ้งสมุดกลาง — ตัวเองแจ้งเอง หรือมีคนแจ้งแทน
+
+บทนี้อธิบายว่า instance "ลงทะเบียนตัวเอง" กับ Registry — นี่คือรูปแบบหนึ่งที่เรียกว่า <mark class="hl-term">Self-Registration</mark> instance ต้องมีโค้ดส่วนที่รู้จัก Registry และคอยส่ง heartbeat เอง ข้อดีคือควบคุมได้ตรงไปตรงมา แต่ทุก service ต้องฝังโค้ดส่วนนี้ไว้เหมือนกันหมด
+
+อีกแบบคือ <mark class="hl-term">Third-Party Registration</mark> — instance ไม่ต้องรู้จัก Registry เลยด้วยซ้ำ มีตัวกลางแยกต่างหาก (มักเป็นส่วนหนึ่งของ orchestrator เช่น Kubernetes) ที่**คอยสังเกตว่า instance ไหนเกิด/ตาย แล้วจดทะเบียนแทนให้อัตโนมัติ** <mark class="hl-insight">เหมือนมีบรรณารักษ์ที่เดินตรวจตราเองว่าใครเข้า-ออกออฟฟิศ ไม่ต้องให้พนักงานใหม่โทรแจ้งสมุดกลางด้วยตัวเอง</mark> — ข้อดีคือ service ไม่ต้องมีโค้ดผูกกับ Registry เลย (ลด coupling) เหมาะกับระบบที่ orchestrator รู้สถานะ instance อยู่แล้วเป็นทุนเดิม
+
+ในทางปฏิบัติ Kubernetes ใช้แนวทางนี้ผสมกับ <mark class="hl-term">DNS-Based Discovery</mark> — แต่ละ service ได้ชื่อ DNS คงที่ (เช่น `order-service.default.svc.cluster.local`) ที่ resolve ไปยัง IP ของ instance ที่ healthy อยู่ตอนนั้นเสมอ (ผ่าน CoreDNS) แทนที่จะต้อง query registry ด้วย API เฉพาะทาง — client แค่ต่อ DNS name เดิม ไม่ต้องรู้เรื่อง registry เลยด้วยซ้ำ เพราะ DNS ทำหน้าที่นั้นให้อัตโนมัติ
+
+> คำถามสัมภาษณ์: "Kubernetes ทำ Service Discovery ยังไง ไม่เห็นต้องเขียนโค้ด registry เลย" — Kubernetes ใช้ Third-Party Registration ผสม DNS-Based Discovery: control plane เองคอยสังเกต Pod ที่เกิด/ตายแล้วจดทะเบียนให้อัตโนมัติ (ไม่ต้องให้ Pod แจ้งตัวเอง) แล้วเปิดชื่อ DNS คงที่ให้แต่ละ service เรียกใช้ — แอปที่รันอยู่ข้างในแค่ต่อ DNS name เดิมตลอด ไม่ต้องรู้เลยว่าเบื้องหลังมีการจดทะเบียน/ค้นหา service เกิดขึ้นอยู่

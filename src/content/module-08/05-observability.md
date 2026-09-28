@@ -55,3 +55,11 @@ caption: Distributed Trace Waterfall — คลิกแถบเพื่อด
 ลำดับการสืบสวนทั่วไปคือ <mark class="hl-insight">Metric บอกว่ามีปัญหา → Trace บอกว่าปัญหาอยู่ตรงไหน → Log บอกรายละเอียดว่าเกิดอะไรขึ้นเป๊ะๆ ที่จุดนั้น</mark> — สามอย่างทำงานร่วมกันเป็นลำดับ ไม่ใช่เลือกใช้แค่อย่างเดียว
 
 > คำถามสัมภาษณ์: "ระบบ microservices ที่มี 20 service จะ debug ยังไงเวลา request ช้า" — คำตอบที่ดีต้องพูดถึงทั้ง 3 เสาหลัก: มี metric คอย alert ก่อนว่าช้าจริง, มี distributed tracing ผูก trace ID ข้าม service เพื่อหาว่า span ไหนช้า, แล้วค่อยไปดู structured log ของ service นั้นเจาะจงเพื่อหาสาเหตุที่แท้จริง — ตอบแค่ "ดู log" อย่างเดียวจะดูไม่ไหวเมื่อ service เยอะขึ้น
+
+## ขั้นสูง: Metric ที่ tag ผิดวิธี ทำให้ค่าใช้จ่ายพุ่งจนควบคุมไม่ได้ (Cardinality Explosion)
+
+Metric ดูเหมือนถูกกว่า log มาก แต่ tag/label ที่ใส่เข้าไปผิดวิธีทำให้ต้นทุนพุ่งได้เหมือนกัน — <mark class="hl-warning">ถ้า tag metric ด้วยค่าที่มีความหลากหลายสูงมาก (เช่น user_id หรือ request_id ที่แต่ละค่าไม่ซ้ำกันเลย) ระบบเก็บ metric (เช่น Prometheus) ต้องสร้าง time series ใหม่แยกกันสำหรับทุกค่าที่ต่างกัน — จาก metric เดียวกลายเป็นต้องเก็บนับล้าน time series แยกกัน กิน memory/storage จนระบบ monitoring เองล่มได้</mark> ปัญหานี้เรียกว่า <mark class="hl-term">Cardinality Explosion</mark>
+
+<mark class="hl-insight">กฎง่ายๆ คือ tag metric ด้วยค่าที่มีจำนวนความเป็นไปได้จำกัดและคงที่พอสมควร (เช่น endpoint name, HTTP status code, region — มีค่าที่เป็นไปได้ไม่กี่สิบ/ร้อยค่า) ไม่ใช่ค่าที่ไม่ซ้ำกันเลยแบบ user_id/request_id</mark> — ถ้าต้องการดูรายละเอียดระดับ user/request จริงๆ ให้ไปดูที่ Log หรือ Trace แทน ซึ่งออกแบบมาให้รับมือกับข้อมูลรายละเอียดสูงแบบนี้อยู่แล้ว ไม่ใช่ยัดใส่ metric
+
+> คำถามสัมภาษณ์: "ทำไมไม่ tag metric ด้วย user_id เพื่อดู latency แยกตาม user เลย" — เพราะ user_id มีความหลากหลายสูงมาก (cardinality สูง) ทำให้ metric backend ต้องสร้าง time series แยกกันสำหรับทุก user ทำให้ค่าใช้จ่ายและขนาดข้อมูลพุ่งจนควบคุมไม่ได้ (cardinality explosion) metric ควร tag ด้วยค่าที่มีความเป็นไปได้จำกัด (endpoint, status code) ถ้าต้องการรายละเอียดระดับ user แยก ให้ไปดูที่ log หรือ trace ที่ออกแบบมาสำหรับข้อมูลละเอียดสูงแทน
