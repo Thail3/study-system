@@ -12,13 +12,18 @@
 
 ผู้บริหารตรวจสอบแล้วพบว่า <mark class="hl-insight">**เป้าหมายของทีม platform ถูกวัดจาก "จำนวน feature ที่ส่งได้ต่อไตรมาส" เท่านั้น ไม่มี metric เรื่อง reliability/on-call load เข้ามาเกี่ยวข้องในการประเมินผลงานเลย**</mark> — ทีมจึงมีแรงจูงใจให้ทุ่มทุกอย่างไปกับ feature ใหม่ ปล่อยให้ปัญหา reliability สะสม เพราะไม่มีผลต่อการประเมินใดๆ
 
-พอเปลี่ยนเป้าหมายทีมให้รวม **error budget** เข้าไปด้วย (แนวทางแบบ SRE — ถ้า reliability ต่ำกว่าเป้า ต้องหยุดทำ feature ใหม่ชั่วคราวไปแก้ reliability ก่อน) ทุกการตัดสินใจของทีมเปลี่ยนทันที — เริ่มลงทุนใน automation, invest ใน on-call tooling, กระจายความรู้ไม่ให้กระจุกที่คนเดียว ไม่ต้องมีใครสั่งทีละเรื่องอีกต่อไป เพราะเป้าหมายใหม่ทำให้ทุกการตัดสินใจของทีมสอดคล้องไปในทิศทางเดียวกันเองโดยอัตโนมัติ
+พอเปลี่ยนเป้าหมายทีมให้รวม **error budget** เข้าไปด้วย (แนวทางแบบ SRE (Site Reliability Engineering) — ถ้า reliability ต่ำกว่าเป้า ต้องหยุดทำ feature ใหม่ชั่วคราวไปแก้ reliability ก่อน) ทุกการตัดสินใจของทีมเปลี่ยนทันที — เริ่มลงทุนใน automation, invest ใน on-call tooling, กระจายความรู้ไม่ให้กระจุกที่คนเดียว ไม่ต้องมีใครสั่งทีละเรื่องอีกต่อไป เพราะเป้าหมายใหม่ทำให้ทุกการตัดสินใจของทีมสอดคล้องไปในทิศทางเดียวกันเองโดยอัตโนมัติ
 
 ```mermaid
 graph TD
     P["Parameter:<br/>ปรับ alert threshold"] -->|ล้มเหลว - ผิดจุด| S["Structure:<br/>dashboard + rule บังคับแก้ root cause"]
     S -->|ได้ผลบางส่วน - ยังไม่ถาวร| G["Goals:<br/>เพิ่ม error budget เข้า metric ทีม"]
     G -->|ได้ผลถาวร - ทุกการตัดสินใจสอดคล้องเป้าหมายใหม่เอง| Done["On-call fatigue ลดลงยั่งยืน"]
+```
+
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"notebook","label":"Parameter: ปรับ Alert Threshold"},{"icon":"gate","label":"Structure: Dashboard + Rule บังคับแก้ Root Cause"},{"icon":"building","label":"Goals: เพิ่ม Error Budget เข้า Metric ทีม"},{"icon":"house","label":"On-call Fatigue ลดลงยั่งยืน"}],"steps":[{"caption":"ขั้นที่ 1 (ล้มเหลว): ปรับ alert threshold ให้สูงขึ้น — alert สำคัญบางตัวถูกกรองออกไปด้วย จนมี incident จริงที่ไม่มีใครรู้ตัวจนสาย ปัญหาหลักไม่ได้ถูกแตะเลย","activeNode":0},{"caption":"ขั้นที่ 2 (ได้ผลบางส่วน): สร้าง dashboard real-time ให้ผู้บริหารเห็น + บังคับ incident ที่เกิดซ้ำต้องจัดสรร sprint capacity ไปแก้ root cause — incident ลดลงจริง แต่ on-call ยังหนักกว่าทีมอื่นเห็นได้ชัด","activeNode":1},{"caption":"ขั้นที่ 3 (ได้ผลถาวร): เปลี่ยนเป้าหมายทีมให้รวม error budget เข้าไปด้วย — ถ้า reliability ต่ำกว่าเป้า ต้องหยุดทำ feature ใหม่ชั่วคราวไปแก้ reliability ก่อน","activeNode":2},{"caption":"ทุกการตัดสินใจของทีมเปลี่ยนทันทีให้สอดคล้องเป้าหมายใหม่เอง — เริ่มลงทุนใน automation, tooling, กระจายความรู้ ไม่ต้องมีใครสั่งทีละเรื่องอีกต่อไป","activeNode":3}]}
 ```
 
 ## บทเรียนที่นำไปใช้ได้

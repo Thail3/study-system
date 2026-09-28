@@ -20,10 +20,15 @@ xychart-beta
 
 | เคส | R loop ฝั่งขึ้น | ขีดจำกัดที่ไม่ทันเห็น | ผลตอนชน |
 |---|---|---|---|
-| Database connection pool | traffic โต → เปิด connection ใหม่เรื่อยๆ | max connection ของ database | connection ใหม่ถูกปฏิเสธหมด ทั้งระบบตอบสนองไม่ได้พร้อมกัน |
-| Memory leak ที่ไม่รู้ตัว | request เข้ามาเรื่อยๆ สะสม object ที่ไม่ถูกเก็บกวาด | RAM ของเครื่อง | process ถูก OOM-kill กะทันหัน service หายไปทั้งตัว |
+| Database connection pool (กลุ่ม connection ที่เปิดเตรียมไว้ใช้ซ้ำ) | traffic โต → เปิด connection ใหม่เรื่อยๆ | max connection ของ database | connection ใหม่ถูกปฏิเสธหมด ทั้งระบบตอบสนองไม่ได้พร้อมกัน |
+| Memory leak ที่ไม่รู้ตัว | request เข้ามาเรื่อยๆ สะสม object ที่ไม่ถูกเก็บกวาด | RAM ของเครื่อง | process ถูก OOM-kill (Out Of Memory — ระบบปฏิบัติการฆ่า process ทิ้งเพราะ RAM หมด) กะทันหัน service หายไปทั้งตัว |
 | Message queue ที่ consumer ตามไม่ทัน | producer ส่งเร็วขึ้นเรื่อยๆ ตาม business growth | disk space ที่เก็บ queue | broker เต็ม เขียนข้อความใหม่ไม่ได้ ทั้งระบบหยุดชะงัก |
 | Viral marketing campaign | คนแชร์เพิ่มเรื่อยๆ | server capacity ที่เตรียมไว้ | ระบบล่มตอน traffic พีคที่สุด (ตอนที่ต้องการมันมากที่สุดพอดี) |
+
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"เติบโตแบบ Exponential"},{"icon":"gate","label":"ใกล้ขีดจำกัด Connection Limit"},{"icon":"building","label":"ระบบล่มพร้อมกันทั้งหมด"},{"icon":"person","label":"ผู้ใช้หนีไปคู่แข่ง ไม่กลับมา"}],"steps":[{"caption":"สตาร์ทอัพเติบโตผู้ใช้แบบ exponential จาก viral growth (R loop) ทีมดีใจ ระดมทุนเพิ่ม ขยายทีมตามผู้ใช้ที่พุ่ง","activeNode":0},{"caption":"ไม่มีใครสังเกตว่า database หลักกำลังใกล้ขีดจำกัดการเชื่อมต่อพร้อมกัน (connection limit) — B loop ที่ควรเตือนล่วงหน้ายังไม่มีอยู่จริง","activeNode":1},{"caption":"วันหนึ่ง traffic ทะลุขีดจำกัดนั้น ระบบทั้งหมดล่มพร้อมกันทันที ไม่มีสัญญาณเตือนล่วงหน้าที่ใครมองเห็น","activeNode":2},{"caption":"ผู้ใช้ที่หนีไปใช้คู่แข่งระหว่างระบบล่ม ไม่กลับมาอีก จำนวนผู้ใช้ที่เคยพุ่งแบบทวีคูณ กลับดิ่งลงแรงกว่าตอนขึ้นเสียอีก","activeNode":3}]}
+```
 
 ## บทเรียนสำคัญ: หาขีดจำกัดให้เจอ ก่อนที่ระบบจะหาให้คุณ
 

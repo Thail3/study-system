@@ -47,4 +47,7 @@ export const demoRegistry: Record<string, Component> = {
   ZeroTrustCastleDiagram: defineDemo(() => import('../diagrams/ZeroTrustCastleDiagram.vue')),
   StranglerFigTreeDiagram: defineDemo(() => import('../diagrams/StranglerFigTreeDiagram.vue')),
   MonolithVsMicroservicesIllustration: defineDemo(() => import('../diagrams/MonolithVsMicroservicesIllustration.vue')),
+  IcebergModelDiagram: defineDemo(() => import('../diagrams/IcebergModelDiagram.vue')),
+  BathtubStockFlowIllustration: defineDemo(() => import('../diagrams/BathtubStockFlowIllustration.vue')),
+  ArchetypeFamilyMapDiagram: defineDemo(() => import('../diagrams/ArchetypeFamilyMapDiagram.vue')),
 }

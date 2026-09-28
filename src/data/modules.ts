@@ -395,6 +395,7 @@ export const modules: ModuleMeta[] = [
       { id: 'what-is-a-system', title: 'System คืออะไร: Element, Interconnection, Purpose', file: '01-what-is-a-system' },
       { id: 'linear-vs-systems-thinking', title: 'คิดแบบเส้นตรง vs คิดแบบระบบ', file: '02-linear-vs-systems-thinking' },
       { id: 'structure-produces-behavior', title: 'โครงสร้างกำหนดพฤติกรรม (Structure Produces Behavior)', file: '03-structure-produces-behavior' },
+      { id: 'emergence-and-self-organization', title: 'ขั้นสูง: Emergence & Self-Organization — เมื่อระบบมีคุณสมบัติที่ส่วนประกอบแต่ละชิ้นไม่มี', file: '04-emergence-and-self-organization' },
     ],
   },
   {
@@ -409,6 +410,7 @@ export const modules: ModuleMeta[] = [
       { id: 'stock-flow-basics', title: 'Stock & Flow พื้นฐาน: อ่างอาบน้ำ', file: '01-stock-flow-basics' },
       { id: 'stocks-in-software-and-orgs', title: 'Stock ในซอฟต์แวร์/องค์กร: Tech Debt, Queue, Cash, Users', file: '02-stocks-in-software-and-orgs' },
       { id: 'delay-in-flows', title: 'Delay: ทำไม Flow ถึงมีความหน่วง', file: '03-delay-in-flows' },
+      { id: 'multiple-interacting-stocks', title: 'ขั้นสูง: หลาย Stock เชื่อมกัน (Co-flows)', file: '04-multiple-interacting-stocks' },
     ],
   },
   {
@@ -424,6 +426,7 @@ export const modules: ModuleMeta[] = [
       { id: 'reinforcing-loops', title: 'Reinforcing Loop (R): กลไกเร่งตัวเอง', file: '02-reinforcing-loops' },
       { id: 'reading-causal-loop-diagrams', title: 'วิธีอ่าน Causal Loop Diagram', file: '03-reading-causal-loop-diagrams' },
       { id: 'delay-and-loop-behavior', title: 'Delay ส่งผลต่อพฤติกรรมของ Loop ยังไง', file: '04-delay-and-loop-behavior' },
+      { id: 'loop-dominance', title: 'ขั้นสูง: Loop Dominance — เมื่อ Loop ไหนควบคุมพฤติกรรมระบบ', file: '05-loop-dominance' },
     ],
   },
   {
@@ -439,6 +442,7 @@ export const modules: ModuleMeta[] = [
       { id: 'goal-seeking-behavior', title: 'Goal-Seeking / Balancing Behavior', file: '02-goal-seeking-behavior' },
       { id: 'oscillation', title: 'Oscillation', file: '03-oscillation' },
       { id: 'overshoot-and-collapse', title: 'Overshoot and Collapse', file: '04-overshoot-and-collapse' },
+      { id: 's-shaped-growth', title: 'ขั้นสูง: S-Shaped Growth (Logistic Growth)', file: '05-s-shaped-growth' },
     ],
   },
   {
@@ -458,6 +462,7 @@ export const modules: ModuleMeta[] = [
       { id: 'escalation', title: 'Escalation', file: '06-escalation' },
       { id: 'growth-and-underinvestment', title: 'Growth and Underinvestment', file: '07-growth-and-underinvestment' },
       { id: 'accidental-adversaries', title: 'Accidental Adversaries', file: '08-accidental-adversaries' },
+      { id: 'eroding-goals', title: 'ขั้นสูง: Eroding Goals (Drift to Low Performance)', file: '09-eroding-goals' },
     ],
   },
   {
@@ -472,6 +477,7 @@ export const modules: ModuleMeta[] = [
       { id: 'twelve-leverage-points', title: "Meadows' 12 Leverage Points ภาพรวม", file: '01-twelve-leverage-points' },
       { id: 'parameters-vs-structure', title: 'Parameter vs Structure vs Paradigm: จุดไหนมีผลมากกว่ากัน', file: '02-parameters-vs-structure' },
       { id: 'leverage-points-in-practice', title: 'เคส: แก้ผิดจุด vs แก้ถูกจุด', file: '03-leverage-points-in-practice' },
+      { id: 'transcending-paradigms', title: 'ขั้นสูง: Transcending Paradigms — Leverage Point ระดับ 1', file: '04-transcending-paradigms' },
     ],
   },
   {
@@ -486,6 +492,7 @@ export const modules: ModuleMeta[] = [
       { id: 'system-traps-overview', title: 'System Traps: Policy Resistance, Drift, Rule Beating, Wrong Goal', file: '01-system-traps-overview' },
       { id: 'boundary-problem', title: 'Boundary Problem: เรากำหนดขอบเขตระบบผิดตรงไหน', file: '02-boundary-problem' },
       { id: 'mental-models-and-systems', title: 'Mental Model กับการมองระบบ', file: '03-mental-models-and-systems' },
+      { id: 'shifting-burden-to-intervenor', title: 'ขั้นสูง: Shifting the Burden to the Intervenor (Addiction)', file: '04-shifting-burden-to-intervenor' },
     ],
   },
   {
