@@ -26,6 +26,11 @@ graph TB
 
 แม้ SOA แบบ ESB-centric จะเสื่อมความนิยมลง แต่แนวคิดหลายอย่างยังอยู่ในระบบยุคปัจจุบัน <mark class="hl-insight">แนวคิด **service contract** (การประกาศ interface ให้ชัดเจนก่อนเริ่มใช้งาน) ยังคงเป็นหัวใจของ OpenAPI spec และ gRPC schema ที่ใช้กันทุกวันนี้</mark> แนวคิด enterprise integration patterns (message routing, transformation, aggregation) ยังมีชีวิตอยู่ในเครื่องมือสมัยใหม่อย่าง API Gateway และ iPaaS และที่สำคัญคือ SOA/ESB เองก็ยัง**ใช้งานจริง**อยู่ในองค์กรขนาดใหญ่ที่ต้องเชื่อมระบบ legacy จำนวนมาก โดยเฉพาะธนาคาร ประกันภัย และหน่วยงานรัฐ ที่ mainframe เก่ายังต้องอยู่ร่วมกับระบบใหม่ไปอีกนาน
 
+```demo
+component: ComparisonDiagram
+props: {"left":{"title":"SOA (ESB-centric)","points":["ทุก message ต้องผ่านจุดกลางเดียว (ESB)","โปรโตคอล SOAP/XML ผ่าน WS-* ค่อนข้างหนัก","ทีมกลางทีมเดียวดูแล routing/transformation logic ทั้งองค์กร","เหมาะกับเชื่อมระบบ legacy จำนวนมากในองค์กรใหญ่"]},"right":{"title":"Microservices","points":["ไม่มีจุดกลาง service คุยกันตรงหรือผ่าน lightweight gateway","REST/JSON, gRPC เบากว่ามาก","แต่ละทีมดูแล service และ contract ของตัวเอง deploy อิสระ","เหมาะกับระบบใหม่ที่ต้องการ deploy เร็วและ scale อิสระ"]},"note":"คอขวดจริงของ SOA ไม่ใช่เชิงเทคนิค (ESB ตั้งเป็น HA cluster ได้) แต่เป็นคอขวดเชิงองค์กร: ทุกการเปลี่ยนแปลงต้องผ่านทีมกลางทีมเดียว"}
+```
+
 | มิติ | SOA (ESB-centric) | Microservices |
 |---|---|---|
 | จุดกลาง | มี ESB เป็นจุดกลางที่ทุก message ต้องผ่าน | ไม่มีจุดกลาง service คุยกันตรงหรือผ่าน lightweight gateway |

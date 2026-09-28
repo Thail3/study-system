@@ -31,6 +31,11 @@ flowchart TB
 | ความเป็นเจ้าของทีม | กระจาย แต่ละทีมดูแล service ตัวเอง | รวมศูนย์ที่ทีมดูแล orchestrator |
 | เหมาะกับ | flow ไม่ซับซ้อน ไม่ต้อง rollback หลายขั้น | flow ซับซ้อน ต้องการ retry/compensate ชัดเจน (Saga) |
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"building","label":"Order Service"},{"icon":"notebook","label":"Event Bus"},{"icon":"building","label":"Payment Service"},{"icon":"building","label":"Inventory Service"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"Order Service เกิด event order.created แล้ว publish เข้า Event Bus ทันที ไม่รอใครตอบ"},{"activeNode":1,"caption":"Event Bus เก็บ event ไว้ ไม่มีใครสั่งว่าใครต้องทำอะไรต่อ"},{"activeNode":2,"caption":"Payment Service ฟัง event นี้อยู่ ตัดสินใจเองว่าต้องเรียกเก็บเงิน แล้ว publish payment.completed กลับเข้า Bus"},{"activeNode":1,"caption":"Event ใหม่ (payment.completed) เข้า Bus อีกรอบ"},{"activeNode":3,"caption":"Inventory Service ฟัง event นี้อยู่เช่นกัน ตัดสินใจเองว่าต้องจองสต๊อก — ไม่มี service ไหนสั่งใคร นี่คือ Choreography"}]}
+```
+
 ในการสัมภาษณ์งาน คำถามแนวนี้มักถามต่อว่า "ถ้า flow ซับซ้อนขึ้นเรื่อยๆ จะยังใช้ choreography ต่อไหม" คำตอบที่ดีคือชี้ให้เห็นว่าทั้งสองแบบไม่ใช่ทางเลือกตายตัว <mark class="hl-insight">ระบบใหญ่จำนวนมากเริ่มจาก choreography ในส่วนที่ง่าย แล้วค่อยดึงบาง flow ที่ซับซ้อนมาก (มี compensating transaction หลายขั้น) ออกมาทำเป็น orchestration แยกต่างหาก</mark>
 
 ## ADR ตัวอย่าง

@@ -28,6 +28,11 @@ Serverless เหมาะกับงานที่มี traffic แบบ **
 
 อีกสองข้อที่มักถูกมองข้ามแต่สำคัญไม่แพ้กัน: **Vendor lock-in** — API และรูปแบบการเขียน function ของแต่ละ cloud provider (AWS Lambda, Google Cloud Functions, Azure Functions) ไม่เหมือนกัน ย้ายค่ายทีหลังมักต้องเขียนใหม่บางส่วน ต่างจาก container ที่ portable กว่ามาก และ **Cost inversion ที่ traffic สูงต่อเนื่อง** — ราคาต่อ request ของ serverless แพงกว่า server แบบ always-on เมื่อคิดต่อหน่วยงาน <mark class="hl-warning">ถ้า traffic สม่ำเสมอสูงตลอดเวลา (ไม่ bursty) ต้นทุนรวมอาจแพงกว่าเช่า server ปกติเสียอีก — serverless คุ้มที่สุดตอน traffic ไม่สม่ำเสมอ ไม่ใช่ตอน traffic สูงคงที่</mark>
 
+```demo
+component: ComparisonDiagram
+props: {"left":{"title":"Serverless (FaaS)","points":["จ่ายตามจำนวนครั้ง/เวลาที่ execute จริง scale to zero ได้","scale อัตโนมัติตั้งแต่ศูนย์ถึงหลักพันได้เอง","มี cold start เป็นระยะเวลาที่ function ไม่ถูกเรียกนาน","จำกัดเวลา execute สูงสุด และควรเป็น stateless"]},"right":{"title":"Server แบบ Always-on","points":["จ่ายค่าเครื่องตลอดเวลาไม่ว่าจะมี traffic หรือไม่","ต้องตั้ง auto-scaling เอง หรือ provision ล่วงหน้า","ไม่มี cold start เครื่องรันอยู่แล้วตอบสนองสม่ำเสมอ","รันต่อเนื่องได้ไม่จำกัดเวลา เก็บ state ใน memory ได้"]},"note":"Serverless คุ้มที่สุดตอน traffic แบบ bursty ไม่สม่ำเสมอ ถ้า traffic สูงคงที่ตลอดเวลา ต้นทุนรวมอาจแพงกว่า server แบบ always-on เสียอีก"}
+```
+
 | มิติ | Serverless (FaaS) | Server แบบ always-on |
 |---|---|---|
 | โมเดลค่าใช้จ่าย | จ่ายตามจำนวนครั้ง/เวลาที่ execute จริง | จ่ายค่าเครื่องตลอดเวลาไม่ว่าจะมี traffic หรือไม่ |

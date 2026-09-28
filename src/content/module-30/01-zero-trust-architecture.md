@@ -4,6 +4,10 @@
 
 <mark class="hl-term">**Zero Trust Architecture**</mark> พลิกสมมติฐานนี้ทั้งหมด — หลักการคือ "never trust, always verify" ไม่มีใครถูกเชื่อถือโดยอัตโนมัติแค่เพราะอยู่ใน network เดียวกัน ทุก request ต้องพิสูจน์ตัวตนและสิทธิ์ใหม่ทุกครั้ง ไม่ว่าจะมาจากไหน
 
+```demo
+component: ZeroTrustCastleDiagram
+```
+
 ## จาก Perimeter สู่ Verify-Every-Request
 
 ```mermaid

@@ -44,4 +44,7 @@ export const demoRegistry: Record<string, Component> = {
   GitOpsReconcileDemo: defineDemo(() => import('./GitOpsReconcileDemo.vue')),
   ChaosBlastRadiusDemo: defineDemo(() => import('./ChaosBlastRadiusDemo.vue')),
   SamplingRaceDemo: defineDemo(() => import('./SamplingRaceDemo.vue')),
+  ZeroTrustCastleDiagram: defineDemo(() => import('../diagrams/ZeroTrustCastleDiagram.vue')),
+  StranglerFigTreeDiagram: defineDemo(() => import('../diagrams/StranglerFigTreeDiagram.vue')),
+  MonolithVsMicroservicesIllustration: defineDemo(() => import('../diagrams/MonolithVsMicroservicesIllustration.vue')),
 }

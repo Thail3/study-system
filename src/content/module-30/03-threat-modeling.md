@@ -33,6 +33,11 @@ flowchart LR
     class API,DB trusted
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"User Browser (Untrusted)"},{"icon":"gate","label":"Trust Boundary"},{"icon":"building","label":"API Server"},{"icon":"notebook","label":"Database"}],"travelerIcon":"person","steps":[{"activeNode":0,"caption":"เริ่มจากฝั่ง User Browser — โซนที่ไม่น่าเชื่อถือ ข้อมูลอะไรก็ปลอมมาได้"},{"activeNode":1,"caption":"ข้อมูลข้าม Trust Boundary เข้าสู่ API Server — จุดนี้ต้องตรวจ Spoofing, Tampering, Denial of Service, Elevation of Privilege"},{"activeNode":2,"caption":"API Server ประมวลผล request หลังผ่านการตรวจสอบ"},{"activeNode":1,"caption":"ก่อนข้อมูลไปถึง Database ต้องข้าม Trust Boundary อีกจุด — ตรวจ Information Disclosure, Repudiation ตรงนี้"},{"activeNode":3,"caption":"Database เก็บข้อมูล — ถ้าไม่มี audit log ที่แก้ไขไม่ได้ ผู้ใช้อาจปฏิเสธภายหลังว่าไม่ได้ทำธุรกรรมนี้ (Repudiation)"}]}
+```
+
 | แนวทาง | ต้นทุนแก้ปัญหา | เวลาที่เหมาะ |
 |---|---|---|
 | คิด threat ตอนออกแบบ (threat modeling) | ต่ำ แค่ปรับ design | ก่อนเขียนโค้ด |

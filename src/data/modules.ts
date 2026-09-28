@@ -235,6 +235,7 @@ export const modules: ModuleMeta[] = [
         file: '04-event-driven-architecture-style',
       },
       { id: 'layered-vs-hexagonal', title: 'Layered vs Hexagonal / Clean Architecture', file: '05-layered-vs-hexagonal' },
+      { id: 'modular-monolith-advanced', title: 'ขั้นสูง: Modular Monolith จุดกึ่งกลางที่ถูกมองข้าม', file: '06-modular-monolith-advanced' },
     ],
   },
   {
@@ -249,6 +250,7 @@ export const modules: ModuleMeta[] = [
       { id: 'c4-model', title: 'C4 Model: Context, Container, Component', file: '01-c4-model' },
       { id: '4-plus-1-view', title: '4+1 View Model', file: '02-4-plus-1-view' },
       { id: 'adr', title: 'เขียน ADR (Architecture Decision Record)', file: '03-adr' },
+      { id: 'documentation-as-code-advanced', title: 'ขั้นสูง: Documentation as Code กัน Diagram หลุดจาก Code จริง', file: '04-documentation-as-code-advanced' },
     ],
   },
   {
@@ -264,6 +266,7 @@ export const modules: ModuleMeta[] = [
       { id: 'ubiquitous-language', title: 'Ubiquitous Language', file: '02-ubiquitous-language' },
       { id: 'aggregate', title: 'Aggregate & Entity Boundary', file: '03-aggregate' },
       { id: 'context-mapping', title: 'Context Mapping', file: '04-context-mapping' },
+      { id: 'domain-events-acl-advanced', title: 'ขั้นสูง: Domain Events & Anti-Corruption Layer ข้าม Bounded Context', file: '05-domain-events-acl-advanced' },
     ],
   },
   {
@@ -279,6 +282,7 @@ export const modules: ModuleMeta[] = [
       { id: 'nfr-vs-fr', title: 'Functional vs Non-Functional Requirements', file: '02-nfr-vs-fr' },
       { id: 'atam-tradeoff', title: 'ATAM-style Trade-off Reasoning', file: '03-atam-tradeoff' },
       { id: 'tradeoff-case', title: 'เคส Trade-off จริง', file: '04-tradeoff-case' },
+      { id: 'architecture-tactics-advanced', title: 'ขั้นสูง: Architecture Tactics Pattern ย่อยใน Pattern ใหญ่', file: '05-architecture-tactics-advanced' },
     ],
   },
   {
@@ -294,6 +298,7 @@ export const modules: ModuleMeta[] = [
       { id: 'container-orchestration', title: 'Container Orchestration (Kubernetes)', file: '02-container-orchestration' },
       { id: 'cloud-native-patterns', title: 'Cloud-Native Architecture Patterns', file: '03-cloud-native-patterns' },
       { id: 'multi-region-deployment', title: 'Multi-Region Deployment Topology', file: '04-multi-region-deployment' },
+      { id: 'service-mesh-advanced', title: 'ขั้นสูง: Service Mesh Sidecar, mTLS, Traffic Shaping', file: '05-service-mesh-advanced' },
     ],
   },
   {
@@ -309,6 +314,7 @@ export const modules: ModuleMeta[] = [
       { id: 'event-sourcing', title: 'Event Sourcing: Event Store เป็น Source of Truth', file: '02-event-sourcing' },
       { id: 'cqrs-event-sourcing-together', title: 'CQRS + Event Sourcing ผสมกันยังไง', file: '03-cqrs-event-sourcing-together' },
       { id: 'cqrs-tradeoffs', title: 'เมื่อไหร่ควรใช้ CQRS/Event Sourcing เมื่อไหร่ไม่ควร', file: '04-cqrs-tradeoffs' },
+      { id: 'event-versioning-snapshotting-advanced', title: 'ขั้นสูง: Event Versioning & Snapshotting เมื่อ Event Store โตมาก', file: '05-event-versioning-snapshotting-advanced' },
     ],
   },
   {
@@ -323,6 +329,7 @@ export const modules: ModuleMeta[] = [
       { id: 'four-team-types', title: '4 รูปแบบทีม (Stream-aligned, Platform, Enabling, Complicated-Subsystem)', file: '01-four-team-types' },
       { id: 'team-interaction-modes', title: '3 Interaction Mode ระหว่างทีม', file: '02-team-interaction-modes' },
       { id: 'team-topologies-and-architecture', title: 'Team Topologies กับการออกแบบ Architecture', file: '03-team-topologies-and-architecture' },
+      { id: 'platform-as-a-product-advanced', title: 'ขั้นสูง: Platform as a Product วัดผลด้วย Developer Experience', file: '04-platform-as-a-product-advanced' },
     ],
   },
   {
@@ -338,6 +345,7 @@ export const modules: ModuleMeta[] = [
       { id: 'architecture-erosion', title: 'Architecture Erosion / Technical Debt เชิงสถาปัตยกรรม', file: '02-architecture-erosion' },
       { id: 'common-anti-patterns', title: 'Anti-pattern ที่พบบ่อย', file: '03-common-anti-patterns' },
       { id: 'strangler-fig-pattern', title: 'Strangler Fig Pattern: Migrate Legacy ทีละส่วน', file: '04-strangler-fig-pattern' },
+      { id: 'branch-by-abstraction-advanced', title: 'ขั้นสูง: Branch by Abstraction & Parallel Run เมื่อ Strangler Fig ไม่พอ', file: '05-branch-by-abstraction-advanced' },
     ],
   },
   {
@@ -353,6 +361,7 @@ export const modules: ModuleMeta[] = [
       { id: 'defense-in-depth', title: 'Defense in Depth: ป้องกันหลายชั้น', file: '02-defense-in-depth' },
       { id: 'threat-modeling', title: 'Threat Modeling: หา Threat ตั้งแต่ตอนออกแบบ (STRIDE)', file: '03-threat-modeling' },
       { id: 'secure-by-design-patterns', title: 'Secure by Design: Least Privilege, Secrets, Trust Boundary', file: '04-secure-by-design-patterns' },
+      { id: 'supply-chain-security-advanced', title: 'ขั้นสูง: Supply Chain Security SBOM, Dependency Signing, SLSA', file: '05-supply-chain-security-advanced' },
     ],
   },
   {

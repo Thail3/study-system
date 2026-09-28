@@ -64,6 +64,11 @@ C4Container
 
 <mark class="hl-warning">จุดที่มักออกแบบผิดคือเอา Order กับ Payment มารวมเป็น aggregate เดียวกัน เพราะดูเหมือนเป็นเรื่องเดียวกัน (จ่ายเงินเพื่อสั่งของ)</mark> แต่จริงๆ แล้วทั้งสองมี **rate of change** และ **consistency requirement** ต่างกันมาก การแยก aggregate ทำให้แต่ละฝั่งพัฒนาและ scale ได้อิสระ แต่ก็แลกมาด้วยความซับซ้อนเรื่องการประสานงานข้าม aggregate ที่ต้องจัดการเอง
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"ลูกค้า"},{"icon":"building","label":"Cart"},{"icon":"building","label":"Order Service"},{"icon":"building","label":"Inventory Service"},{"icon":"building","label":"Payment Service"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"ลูกค้ากดสั่งซื้อจากตะกร้า"},{"activeNode":1,"caption":"Cart ส่งต่อไปยัง Order Service เพื่อสร้างคำสั่งซื้อ"},{"activeNode":2,"caption":"Order Service เรียก Inventory Service จองสต๊อกแบบ sync รอผลลัพธ์ก่อน"},{"activeNode":3,"caption":"Inventory จองสำเร็จ ตอบกลับ Order Service"},{"activeNode":2,"caption":"Order Service เรียก Payment Service ตัดเงินแบบ sync ต้องได้ผลลัพธ์ชัดเจนก่อนยืนยัน order"},{"activeNode":4,"caption":"Payment ตัดเงินสำเร็จ Order Service ยืนยันคำสั่งซื้อกลับไปหาลูกค้า"}]}
+```
+
 ## ตารางเปรียบเทียบ Trade-off
 
 | ประเด็น | Monolith (เริ่มต้น) | Microservices (แยก Payment/Inventory) |

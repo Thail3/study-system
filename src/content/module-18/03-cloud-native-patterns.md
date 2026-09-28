@@ -46,6 +46,11 @@ flowchart LR
 
 ## ข้อดี-ข้อเสียของ Sidecar / Service Mesh
 
+```demo
+component: ComparisonDiagram
+props: {"left":{"title":"ไม่มี Sidecar (business code จัดการเอง)","points":["ต้องเขียน retry, encryption, metric เองในทุก service","แต่ละทีมอาจทำไม่เหมือนกัน บางทีมลืมทำ encryption","ไม่มี container เพิ่ม resource overhead ต่ำกว่า","จุดที่ต้อง debug น้อยกว่า ความซับซ้อนของระบบต่ำกว่า"]},"right":{"title":"มี Sidecar / Service Mesh","points":["business code โฟกัสแค่ business logic ล้วนๆ","นโยบายเดียวกันบังคับใช้ทุก service อัตโนมัติ ไม่ว่าเขียนด้วยภาษาอะไร","ทุก Pod มี container เสริมกินทรัพยากรเพิ่ม","ต้องมี control plane จัดการ sidecar ทั้งหมด ความซับซ้อนสูงขึ้น"]},"note":"sidecar ทำงานเป็น process แยกต่างหาก ดักจับ network traffic เท่านั้น ไม่สนใจว่า business code เขียนด้วยภาษาอะไร ต่างจาก shared library ที่ต้อง maintain แยกทีละภาษา"}
+```
+
 | | ไม่มี Sidecar (business code จัดการเอง) | มี Sidecar / Service Mesh |
 |---|---|---|
 | ความรับผิดชอบของ business code | ต้องเขียน retry, encryption, metric เองในทุก service | โฟกัสแค่ business logic ล้วนๆ |

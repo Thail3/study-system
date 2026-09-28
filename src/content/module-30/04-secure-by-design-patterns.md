@@ -26,6 +26,11 @@ flowchart LR
 
 ทุก architecture diagram ควรมีเส้นแบ่ง **trust boundary** ชัดเจน — จุดที่ข้อมูลเดินทางจากโซนที่ไม่น่าเชื่อถือ (เช่น internet, input จาก user) เข้าสู่โซนที่เชื่อถือได้มากขึ้น (internal network, database) ทุกจุดที่เส้นนี้ถูกข้าม ต้องมีการตรวจสอบ (validate, authenticate, sanitize) เสมอ — นี่คือจุดที่ threat modeling (หัวข้อก่อนหน้า) กับ secure by design มาบรรจบกัน: threat modeling หาว่า <mark class="hl-term">trust boundary</mark> อยู่ตรงไหน <mark class="hl-insight">ส่วน secure by design คือการออกแบบให้ทุกจุดข้าม boundary นั้นปลอดภัยตั้งแต่แรก</mark>
 
+```demo
+component: ComparisonDiagram
+props: {"left":{"title":"เพิ่มความปลอดภัยทีหลัง","points":["สร้างห้องเก็บของธรรมดาก่อน แล้วค่อยคิดทีหลังว่าจะเอากุญแจมาใส่","ประตูมีหลายบาน แต่ละบานอาจใส่กุญแจคนละแบบ","บางบานลืมใส่กุญแจไปเลย","credential/secret มักถูก hardcode เพราะเร็วกว่าตอนนั้น"]},"right":{"title":"Secure by Design","points":["ออกแบบตั้งแต่พิมพ์เขียวว่าต้องเข้าได้ทางเดียว ผ่านจุดตรวจเดียว","Least Privilege — ให้สิทธิ์แค่พอทำงานที่ต้องทำเท่านั้น","Secrets Management — ขอ credential จาก Secrets Manager ตอน runtime","Trust Boundary ชัดเจนตั้งแต่ diagram ว่าต้องตรวจสอบตรงไหนบ้าง"]},"note":"ความปลอดภัยเป็นส่วนหนึ่งของสถาปัตยกรรมตั้งแต่ต้น ไม่ใช่ feature ที่แปะเพิ่มทีหลัง"}
+```
+
 | Pattern | แก้ปัญหาอะไร | ต้นทุนถ้าไม่ทำ |
 |---|---|---|
 | Least Privilege | จำกัดความเสียหายถ้า service ถูกเจาะ | breach จุดเดียวลามทั้งระบบ |

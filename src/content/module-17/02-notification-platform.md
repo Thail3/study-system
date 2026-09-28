@@ -31,6 +31,11 @@ flowchart LR
 
 ข้อควรระวังของ event-driven คือมันแก้ปัญหาหนึ่งแล้วสร้างคำถามใหม่เสมอ — พอ service ต้นทางไม่ต้องรู้จักผู้รับแล้ว จะรู้ได้อย่างไรว่า event ที่ publish ไปถูกประมวลผลจริง <mark class="hl-warning">ถ้า Notification Service ล่มไปตอนที่ event เข้ามาพอดี event นั้นจะหายไปเลยหรือไม่</mark> นี่คือเหตุผลที่ event bus ที่เลือกใช้ต้องรองรับการ**เก็บ event ไว้จนกว่าจะมีคน consume สำเร็จ** (เช่น Kafka ที่เก็บ log ไว้ระยะหนึ่ง หรือ SQS ที่ลบ message ก็ต่อเมื่อ consumer ยืนยันแล้วเท่านั้น) ไม่ใช่แค่ fire-and-forget เฉยๆ
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"building","label":"Order Service"},{"icon":"notebook","label":"Event Bus"},{"icon":"building","label":"Notification Service"},{"icon":"envelope","label":"Email/SMS/Push"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"Order Service เกิด event OrderShipped แล้ว publish เข้า Event Bus ทันที ไม่รอใครตอบกลับ"},{"activeNode":1,"caption":"Event Bus เก็บ event ไว้ รอให้ subscriber มาดึงไปประมวลผล"},{"activeNode":2,"caption":"Notification Service เป็นหนึ่งใน subscriber ที่ฟัง event นี้อยู่ ดึง event ไปประมวลผล"},{"activeNode":3,"caption":"Notification Service ยิงต่อไปยัง Email/Push/SMS provider ตามช่องทางที่ผู้ใช้ตั้งไว้"},{"activeNode":2,"caption":"ถ้า provider ล้มเหลว Notification Service retry ด้วย backoff และย้ายเข้า dead-letter queue ถ้ายังไม่สำเร็จ ไม่บล็อก event อื่น"}]}
+```
+
 ## Reliability: เมื่อ Provider ภายนอกล่มหรือ Event ซ้ำ
 
 Event-driven architecture แก้ปัญหา coupling ได้ก็จริง แต่สร้างคำถามใหม่ที่ต้องตอบให้ชัด — ถ้า event bus ส่ง event ซ้ำ (at-least-once delivery ซึ่งเป็นค่าเริ่มต้นของ message broker ส่วนใหญ่) หรือถ้า email provider ภายนอกอย่าง SendGrid ล่มชั่วคราวระหว่างที่ Notification Service กำลังยิง request จะเกิดอะไรขึ้น

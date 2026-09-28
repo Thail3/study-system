@@ -1682,6 +1682,51 @@ const RAW_QUIZZES: Record<string, QuizQA[]> = {
     { question: 'ทำไมข้อมูลที่สำรวจเจอจากระบบไร้เอกสารถึงควรถูกจัดเข้า 4+1 View Model แทนที่จะโยนทุกอย่างลง diagram เดียว?', answer: 'เพราะข้อมูลที่เก็บมาระหว่างสำรวจมีหลายมิติต่างกัน — domain concept ที่ไล่จากโค้ดควรอยู่ Logical View, deployment topology จริงควรอยู่ Physical View, พฤติกรรม runtime ภายใต้โหลดจริง (เช่น cron job ชนกับ queue consumer จน DB connection พุ่ง) ควรอยู่ Process View การแยกแบบนี้ทำให้เอกสารอ่านรู้เรื่องตรงคำถามที่จะถูกถามในอนาคต ไม่ปนกันจนสับสน' },
     { question: 'ทำไม ADR แรกที่ทีมใหม่เขียนถึงสำคัญมากกว่าแค่การบันทึกสิ่งที่เพิ่งค้นพบ?', answer: 'เพราะเป้าหมายคือสร้างวินัยที่ระบบเดิมไม่เคยมี ให้ทุกการตัดสินใจถัดไปถูกบันทึกเป็นค่าเริ่มต้น ไม่ใช่ข้อยกเว้น ถ้าทำการเปลี่ยนแปลงระดับ one-way door ไปเงียบๆ โดยไม่บันทึกอะไรไว้ ทีมถัดไปจะตกอยู่ในสถานการณ์ไร้เอกสารแบบเดียวกับที่ทีมนี้เพิ่งเจอมาทุกประการ' },
   ],
+  'architectural-styles:modular-monolith-advanced': [
+    { question: 'อะไรที่ทำให้ Monolith เป็น "Modular" ต่างจาก Monolith แบบ ball-of-mud ทั่วไป', answer: 'การบังคับขอบเขตภายในผ่านโครงสร้าง package/folder บวกกับ lint/build rule ที่ห้าม import ข้าม module โดยตรง ไม่ใช่แค่จัดโฟลเดอร์สวยๆ แต่ไม่มีอะไรบังคับจริง' },
+    { question: 'Modular Monolith ให้ประโยชน์เรื่องขอบเขตแบบ Microservices โดยไม่ต้องแลกกับต้นทุนอะไรบ้าง', answer: 'ไม่ต้องมี network call ระหว่าง module, ไม่มี eventual consistency ข้าม module, ยังเป็น deployment unit เดียวและใช้ transaction เดียวได้ ต่างจาก microservices ที่ต้องแลกสิ่งเหล่านี้เพื่อความเป็นอิสระของทีม' },
+    { question: 'ถ้าไม่มีอะไรบังคับ ขอบเขตของ Modular Monolith จะเสี่ยงอะไร และป้องกันด้วยอะไร', answer: 'เสี่ยงกร่อนเงียบๆ กลับไปเป็น ball-of-mud เพราะไม่มีอะไรบังคับต่อเนื่อง ป้องกันด้วย Fitness Function ที่เช็คอัตโนมัติใน CI ว่าไม่มี module ไหน import ข้ามขอบเขตที่ตั้งไว้' },
+  ],
+  'architecture-documentation:documentation-as-code-advanced': [
+    { question: 'ปัญหาหลักของเอกสารสถาปัตยกรรมที่เก็บไว้ใน wiki แยกจาก code คืออะไร', answer: 'ค่อยๆ drift ออกจาก code จริงเพราะไม่มีใครอัปเดตตาม กลายเป็นเอกสารที่ทำให้เข้าใจผิดมากกว่าช่วย เพราะดูน่าเชื่อถือแต่ไม่ตรงกับระบบจริงแล้ว' },
+    { question: 'Documentation as Code แก้ปัญหา drift นี้ยังไง', answer: 'เขียน diagram เป็น text (เช่น Mermaid-in-markdown, Structurizr DSL) เก็บไว้ใน repo เดียวกับ code รีวิวผ่าน pull request เดียวกับที่ทำให้มันเป็นจริง ไม่ใช่แก้เอกสารทีหลังแยกต่างหาก' },
+    { question: 'CI check ที่บังคับให้ต้องอัปเดต diagram/ADR คู่กับโค้ดที่กระทบสถาปัตยกรรม สัมพันธ์กับแนวคิดอะไรที่เรียนมาก่อน', answer: 'เป็นแนวคิดเดียวกับ Fitness Function จากโมดูล Evolutionary Architecture คือทดสอบคุณสมบัติเชิงสถาปัตยกรรมแบบอัตโนมัติใน CI แทนที่จะพึ่งวินัยของคน' },
+  ],
+  'ddd-foundations:domain-events-acl-advanced': [
+    { question: 'Domain Event ต่างจากการแชร์ internal model ของ Bounded Context ตรงไหน', answer: 'Domain Event ประกาศ "สิ่งที่เกิดขึ้นแล้ว" โดยใช้ Ubiquitous Language ของ context ตัวเอง ไม่เปิดเผย schema หรือ object model ภายในให้ context อื่นเห็นโดยตรง' },
+    { question: 'Anti-Corruption Layer (ACL) มีไว้แก้ปัญหาอะไรตอนเชื่อมกับระบบภายนอก', answer: 'ป้องกันไม่ให้ model ที่ไม่ตรงกันหรือยุ่งเหยิงของระบบ legacy/third-party รั่วเข้ามาปนกับ domain model ของเราเอง โดยมีชั้นแปลอยู่ที่ขอบเขตก่อนเข้าสู่ context ของเรา' },
+    { question: 'ควรใช้ Domain Event หรือ ACL ตัดสินใจจากอะไร', answer: 'ตัดสินจากว่าเราควบคุม model ของฝั่งตรงข้ามได้ไหม — ใช้ Domain Event สำหรับสื่อสารระหว่าง context ที่เราคุมทั้งคู่ ใช้ ACL เมื่อต้องเชื่อมกับระบบที่เราคุม model ไม่ได้เลย' },
+  ],
+  'quality-attributes:architecture-tactics-advanced': [
+    { question: 'Architecture Tactic ต่างจาก Architectural Pattern/Style ยังไง', answer: 'Tactic เป็นกลไกเล็กและ composable กว่า มุ่งแก้ quality attribute เดียว (เช่น heartbeat สำหรับ Availability) ส่วน pattern/style เป็นภาพรวมระดับใหญ่กว่าที่ประกอบด้วยหลาย tactic ข้างใน' },
+    { question: 'ทำไม tactic เดียวกันถึงใช้ได้ในทั้ง microservices และ monolith', answer: 'เพราะ tactic ทำงานอยู่ระดับที่ต่ำกว่า pattern — heartbeat แค่ต้องการกลไกส่งสัญญาณ liveness เป็นระยะ ไม่สนว่าระบบใหญ่ภายนอกจะจัดเป็น style ไหน' },
+    { question: 'Architecture Tactic ช่วยให้การถกเรื่อง trade-off แบบ ATAM เป็นรูปธรรมขึ้นยังไง', answer: 'เปลี่ยนจากคำพูดกว้างๆ อย่าง "เราเลือก X เพื่อ availability" ให้ชี้ได้ชัดว่ากลไกจริงที่ใช้คือ tactic อะไร (เช่น redundant spare) ทำให้ประเมิน cost/benefit ได้ตรงจุดกว่า' },
+  ],
+  'deployment-infra-architecture:service-mesh-advanced': [
+    { question: 'Service Mesh แก้ปัญหาอะไรที่เกิดจากการมี microservices จำนวนมาก', answer: 'แก้ปัญหาที่แต่ละ service ต้องเขียนโค้ด retry, mTLS, tracing ซ้ำๆ กันเองแบบไม่สม่ำเสมอ โดยย้าย cross-cutting concern เหล่านี้ไปให้ sidecar proxy จัดการแทนแบบรวมศูนย์' },
+    { question: 'Sidecar proxy pattern ทำงานยังไง', answer: 'proxy เบาๆ (เช่น Envoy) รันคู่กับทุก service instance ดัก traffic เข้า-ออกทั้งหมด ทำให้ service ไม่ต้อง implement retry/mTLS/tracing เองในโค้ด' },
+    { question: 'ต้นทุนหลักของการใช้ Service Mesh คืออะไร', answer: 'latency เพิ่มขึ้นจาก hop ผ่าน sidecar ทุกครั้ง และต้องดูแล control plane ของ mesh เอง (เช่น Istio) ซึ่งเป็นระบบ distributed ที่ต้อง operate เพิ่มอีกชั้นหนึ่ง' },
+  ],
+  'cqrs-event-sourcing:event-versioning-snapshotting-advanced': [
+    { question: 'ปัญหา Event Versioning เกิดขึ้นเมื่อไหร่', answer: 'เมื่อ shape ของ event type ต้องเปลี่ยนหลังจากมี event รูปแบบเดิมสะสมอยู่ใน production มานานแล้ว แก้ไข event เก่าไม่ได้เพราะ event store เป็น append-only' },
+    { question: 'Upcasting คืออะไร ต่างจาก Weak Schema Evolution ยังไง', answer: 'Upcasting คือแปลง event รูปแบบเก่าเป็นรูปแบบใหม่ตอนอ่าน โดย event ที่เก็บไว้ยังคงเดิมไม่ถูกแก้ ส่วน Weak Schema Evolution คือกฎการออกแบบ event ล่วงหน้าให้เพิ่มได้แค่ field ที่ optional เท่านั้น ไม่ลบหรือเปลี่ยนชื่อ field เดิม' },
+    { question: 'ทำไมการ replay event ทั้งหมดตั้งแต่ต้นถึงมีปัญหาเมื่อ event store โตมาก และ Snapshot แก้ยังไง', answer: 'ยิ่ง event สะสมมาก ยิ่งช้าลงเรื่อยๆ ทุกครั้งที่ต้อง rebuild state Snapshot แก้โดยจดสรุป state ณ จุดหนึ่งเป็นระยะ แล้ว replay แค่ event ที่เกิดหลัง snapshot นั้นแทนที่จะไล่ตั้งแต่ genesis' },
+  ],
+  'team-topologies:platform-as-a-product-advanced': [
+    { question: 'การมอง Platform team เป็น "Product" หมายความว่ายังไง', answer: 'มองทีมอื่นที่ใช้ platform เป็น "ลูกค้า" ต้องมี roadmap ที่มาจาก feedback ของลูกค้าจริง ไม่ใช่ priority จากบนลงล่างอย่างเดียว และต้องออกแบบให้ใช้งานง่ายจนทีมอื่นเลือกใช้เองโดยไม่ต้องถูกบังคับ' },
+    { question: 'Developer Experience (DX) วัดผลด้วยอะไรได้บ้าง', answer: 'เช่น time-to-first-deploy (เวลาที่ service ใหม่ deploy ได้ครั้งแรกผ่าน platform) และ self-service ratio (สัดส่วนที่ทีมอื่นทำเองได้โดยไม่ต้องเปิด ticket ให้ Platform team)' },
+    { question: 'สัญญาณอะไรบอกว่า Platform team กำลังกลายเป็นคอขวดแทนที่จะเป็น self-service product', answer: 'ทีมอื่นต้องรอคิวผ่าน ticket ทุกครั้งที่ต้องการใช้ platform (X-as-a-Service ที่ทำได้ไม่ดี) แทนที่จะ self-service ได้เองในไม่กี่นาที นี่คือสัญญาณว่า platform ยังไม่ใช่ product ที่แท้จริง' },
+  ],
+  'evolutionary-architecture:branch-by-abstraction-advanced': [
+    { question: 'Branch by Abstraction แก้ปัญหาอะไรของ feature branch ระยะยาว', answer: 'feature branch ที่อยู่นานเกินไปจะ drift ออกจาก main จนรวมกันยาก Branch by Abstraction ใส่ interface คั่นหน้า implementation เดิม แล้ว merge ทุกอย่างเข้า main ต่อเนื่องแบบ trunk-based โดยยังไม่เปิดใช้งานจริงจนกว่าจะพร้อม' },
+    { question: 'Parallel Run (Dark Launch) ทำงานยังไง', answer: 'รัน implementation เก่าและใหม่คู่ขนานกันบน traffic จริง แต่ผลลัพธ์ที่ใช้จริงมาจาก implementation เก่าเท่านั้น ผลของตัวใหม่ถูกเก็บไว้เทียบเฉยๆ เพื่อสร้างความมั่นใจก่อนสลับจริง' },
+    { question: 'Branch by Abstraction กับ Strangler Fig Pattern ต่างระดับกันยังไง', answer: 'Strangler Fig เบี่ยง traffic ที่ระดับ service/facade ว่า capability ไหนไปเก่าไปใหม่ ส่วน Branch by Abstraction เป็นเทคนิคระดับโค้ดภายในหนึ่ง component/module ที่กำลังถูก migrate เอง' },
+  ],
+  'security-architecture:supply-chain-security-advanced': [
+    { question: 'ความเสี่ยง Supply Chain Security ต่างจากความเสี่ยงในโค้ดของเราเองยังไง', answer: 'ความเสี่ยงไม่ได้อยู่แค่โค้ดที่เราเขียนเอง แต่อยู่ที่ dependency, base image, และ build tool ทุกตัวในกระบวนการ — dependency ที่ถูกแทรกแซงตัวเดียวกระทบทุกระบบที่พึ่งพามันได้โดยไม่มี bug ในโค้ดเราเลย' },
+    { question: 'SBOM คืออะไร ช่วยอะไรตอนมี CVE ประกาศออกมาใหม่', answer: 'SBOM (Software Bill of Materials) คือรายการ dependency และ version ทั้งหมดที่อยู่ใน build เปลี่ยนคำถาม "เราโดนไหม" จากการไล่ตรวจฉุกเฉิน ให้กลายเป็นแค่ lookup ในรายการที่มีอยู่แล้ว' },
+    { question: 'Dependency signing/provenance ต่างจากการเชื่อชื่อ package ตรงๆ ยังไง', answer: 'เป็นการตรวจสอบด้วย cryptographic signature ว่า package มาจากแหล่งที่อ้างจริงและไม่ถูกแก้ระหว่างทาง ต่างจากการเชื่อแค่เพราะชื่อ package ตรงกัน ซึ่งปลอมหรือถูกแทรกแซงได้ง่ายกว่ามาก' },
+  ],
 }
 
 // Stable hash of the question text — so a question's id (and its

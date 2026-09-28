@@ -20,6 +20,11 @@ flowchart TB
 
 สังเกตว่า Projector สามารถสร้าง Read Model ได้**หลายชุดพร้อมกัน**จาก event ชุดเดียวกัน — RM1 ตอบโจทย์หน้าจอ "รายการ order ของฉัน" ส่วน RM2 ตอบโจทย์หน้าจอ "สรุปยอดขายรายวัน" ทั้งสองอ่านจาก event stream เดียวกัน (`OrderPlaced`) แต่สรุปออกมาคนละรูปแบบตามที่แต่ละหน้าจอต้องการ
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"ผู้ใช้"},{"icon":"notebook","label":"Event Store"},{"icon":"building","label":"Projector"},{"icon":"notebook","label":"Read Model"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"ผู้ใช้ส่ง Command: สั่งซื้อสินค้า"},{"activeNode":1,"caption":"ระบบตรวจ business rule แล้ว append event OrderPlaced ลง Event Store"},{"activeNode":2,"caption":"Projector subscribe ฟัง event ใหม่ที่ถูก append เข้ามา"},{"activeNode":3,"caption":"Projector สร้าง/อัปเดต Read Model ให้พร้อมแสดงผลทันที"},{"activeNode":0,"caption":"ผู้ใช้อีกคนส่ง Query ดูรายการ order — อ่านจาก Read Model เท่านั้น ไม่แตะ Event Store เลย"}]}
+```
+
 ## พลังพิเศษ: สร้าง Read Model ใหม่ย้อนหลังได้เสมอ
 
 นี่คือจุดที่การผสมสองแนวคิดนี้เข้าด้วยกันให้ประโยชน์ที่มากกว่าการใช้แยกกัน — เพราะ Event Store เก็บ**ประวัติทั้งหมดแบบสมบูรณ์**ไว้ตั้งแต่ event แรก เมื่อใดที่ทีมต้องการ Read Model รูปแบบใหม่ที่ไม่เคยมีมาก่อน (เช่น อยู่ๆ ฝ่ายการตลาดอยากได้หน้าจอ "สินค้าที่ถูกยกเลิกบ่อยที่สุดในแต่ละเดือน" ที่ไม่เคยคิดไว้ตอนออกแบบระบบครั้งแรก) ไม่ต้องไปรื้อฝั่ง write หรือขอข้อมูลจากที่ไหนใหม่เลย <mark class="hl-insight">แค่เขียน Projector ตัวใหม่ แล้ว**replay event ทั้งหมดตั้งแต่ต้น**ผ่าน projector ตัวนั้น ก็จะได้ Read Model ใหม่ที่ถูกต้องครบถ้วนทันที</mark> — เหมือนพนักงานหน้าร้านเปิดสมุดบันทึกขั้นตอนของเชฟทั้งเล่มย้อนหลัง แล้วสรุปทำป้ายเมนูแบบใหม่ขึ้นมาได้เองโดยไม่ต้องรบกวนครัวเลย

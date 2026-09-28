@@ -33,6 +33,11 @@ graph TB
 
 สังเกตว่าเส้นระหว่าง `Order` กับ `Customer` เป็นเส้นประ (reference by ID) ในขณะที่เส้นระหว่าง `Order` กับ `OrderLineItem` เป็นเส้นทึบ (อยู่ในขอบเขตเดียวกัน แก้พร้อมกันเสมอ)
 
+```demo
+component: StepThroughDiagram
+props: {"steps":[{"label":"1. เรียกผ่าน method ของ Aggregate Root เท่านั้น","detail":"order.addLineItem(product, qty) — ไม่สร้าง OrderLineItem แล้วยัดเข้า database ตรงๆ เพราะ Order เป็นคนเดียวที่รู้กติกาการคำนวณยอดรวมและเงื่อนไขส่วนลด"},{"label":"2. Aggregate Root ตรวจ invariant ก่อนแก้ไข","detail":"Order เช็คกติกาภายใน เช่น จำนวนรายการสูงสุดต่อออเดอร์ ก่อนยอมให้เพิ่ม line item ใหม่เข้าไปจริง"},{"label":"3. Commit ทั้ง Aggregate ในธุรกรรมเดียว","detail":"Order และ OrderLineItem ทั้งหมดถูกบันทึกพร้อมกันในหนึ่ง transaction รักษาความสอดคล้องภายในขอบเขตเดียวกันเสมอ"},{"label":"4. อ้างอิง Aggregate อื่นด้วย ID เท่านั้น","detail":"Order เก็บแค่ customerId ไม่เก็บ Customer object ทั้งก้อน เพราะ Customer เป็น Aggregate ที่มีขอบเขตความถูกต้องของตัวเอง"},{"label":"5. ข้าม Aggregate ด้วย Domain Event แบบ eventual consistency","detail":"Order ยิง event OrderCompleted หลัง commit เสร็จ แล้ว Customer aggregate subscribe event นั้นคนละ transaction คนละเวลา ค่อยอัปเดตสถานะ VIP ของตัวเอง"}]}
+```
+
 ## ขนาดของ Aggregate ควรใหญ่แค่ไหน
 
 คำถามที่มือใหม่มักเจอคือ แล้วอะไรควรอยู่ใน Aggregate เดียวกัน อะไรควรแยก คำแนะนำทั่วไปคือให้ Aggregate เล็กที่สุดเท่าที่จะรักษา invariant ที่จำเป็นได้ — ยิ่ง Aggregate ใหญ่ ยิ่ง lock เยอะ เขียนพร้อมกันไม่ได้ เสี่ยง contention สูงเมื่อมี concurrent write เยอะๆ

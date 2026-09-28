@@ -19,6 +19,11 @@ graph TB
 
 <mark class="hl-warning">จุดที่เข้าใจผิดบ่อยคือคิดว่า Defense in Depth คือ "เพิ่ม firewall เยอะๆ" — แต่ firewall สองตัวที่กันคนละจุดในทาง network เดียวกัน ถ้าโดน bypass วิธีเดียวกันก็ล้มทั้งคู่พร้อมกัน (ไม่ใช่ independent layer จริง)</mark> Defense in Depth ที่ดีต้องมีความหลากหลายของกลไกป้องกัน (defense diversity) ไม่ใช่แค่ปริมาณ — เช่นชั้น Data encryption ไม่ช่วยอะไรถ้า attacker ผ่าน Application layer ที่มีช่องโหว่ authorization ได้อยู่ดี ต้องคิดว่าแต่ละชั้นปิดช่องโหว่คนละประเภทจริงๆ
 
+```demo
+component: StepThroughDiagram
+props: {"steps":[{"label":"Layer 1: Network","detail":"Firewall, WAF, DDoS protection — กันไม่ให้ traffic แปลกปลอมเข้ามาถึงระบบตั้งแต่ต้น"},{"label":"Layer 2: Identity","detail":"Authentication, MFA, mTLS — ยืนยันว่าใครกำลังเรียกจริงๆ ก่อนให้เข้าถึงอะไรต่อ"},{"label":"Layer 3: Application","detail":"Input validation, authorization ต่อ endpoint — เช็คว่า input ปลอดภัยและผู้เรียกมีสิทธิ์จริง"},{"label":"Layer 4: Data","detail":"Encryption at rest, field-level encryption — ต่อให้ขโมยข้อมูลไปได้ก็อ่านไม่ออกถ้าไม่มี key แยกต่างหาก"},{"label":"Layer 5: Monitoring","detail":"Audit log, anomaly detection — จับความผิดปกติที่หลุดผ่านทุกชั้นก่อนหน้ามาได้"}]}
+```
+
 | แนวทาง | ผลถ้าชั้นเดียวถูกเจาะ | ต้นทุน |
 |---|---|---|
 | Single Layer (firewall เดียว) | ระบบเปิดโล่งทันที | ต่ำ ดูแลง่าย |

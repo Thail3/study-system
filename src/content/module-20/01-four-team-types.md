@@ -39,6 +39,11 @@ flowchart TB
 
 ## สรุปเปรียบเทียบทั้ง 4 แบบ
 
+```demo
+component: StepThroughDiagram
+props: {"steps":[{"label":"Stream-aligned Team — ทีมสายหลัก","detail":"รับผิดชอบหนึ่ง value stream แบบ end-to-end ออกแบบ พัฒนา ทดสอบ deploy และ monitor เองครบ ควรมีมากที่สุดในองค์กร อีก 3 แบบมีไว้รับใช้ทีมประเภทนี้"},{"label":"Platform Team — ลด cognitive load","detail":"สร้าง internal tool/infra แบบ self-service ให้ stream-aligned team เรียกใช้เอง เป้าหมายคือลดภาระที่ต้องเรียนรู้ Kubernetes/network/log aggregation ลึกๆ ด้วยตัวเอง"},{"label":"Enabling Team — ช่วยชั่วคราวแล้วถอยออก","detail":"ผู้เชี่ยวชาญเฉพาะด้าน (testing, security, performance) เข้าไปปิดช่องว่างทักษะชั่วคราว แล้วถอยออกเมื่อทีมเป้าหมายทำเองได้ ถ้ากลายเป็นที่พึ่งถาวรคือทำหน้าที่ผิดประเภท"},{"label":"Complicated-Subsystem Team — ห่อหุ้มความซับซ้อนเฉพาะทาง","detail":"ดูแลส่วนที่ต้องใช้ความรู้ลึกมาก เช่น video-codec, actuarial calculation ความซับซ้อนนี้จำเป็นต้องมีอยู่จริง แต่ไม่ควรกระจายออกไปให้ทีมอื่นต้องแบกรับ"}]}
+```
+
 | ประเภททีม | จุดประสงค์หลัก | ตัวอย่าง | ระยะเวลาปฏิสัมพันธ์กับทีมอื่น |
 |---|---|---|---|
 | Stream-aligned | เป็นเจ้าของ value stream หนึ่งสาย แบบ end-to-end | ทีม Checkout, ทีม Onboarding ลูกค้าใหม่ | ต่อเนื่องระยะยาว รับบริการจากอีก 3 แบบ |

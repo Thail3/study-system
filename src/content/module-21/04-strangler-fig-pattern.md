@@ -2,6 +2,10 @@
 
 Martin Fowler ยืมภาพนี้มาตั้งชื่อ **Strangler Fig Pattern** — วิธี migrate ระบบ legacy ไปเป็นระบบใหม่ (เช่น monolith เก่าไปเป็น microservices) โดยไม่ต้องหยุดระบบเดิมแล้วเขียนใหม่ทั้งหมด (rewrite แบบ big-bang ซึ่งเสี่ยงสูงมาก) แต่ค่อยๆ สร้างฟีเจอร์ใหม่แทนที่ทีละส่วน จนวันหนึ่งระบบเก่าเหลือแต่ส่วนที่ไม่มีใครใช้แล้วถึงปลดระวางได้
 
+```demo
+component: StranglerFigTreeDiagram
+```
+
 ## กลไกหลัก: Facade ที่คอยเบี่ยง Traffic
 
 ```mermaid

@@ -43,6 +43,11 @@ sequenceDiagram
     Note over Order,Inventory: 6 round-trip network call เพื่อทำ operation เดียว<br/>latency สะสมจากจำนวนรอบ ไม่ใช่จากงานจริง
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"Client"},{"icon":"building","label":"Order Service"},{"icon":"building","label":"Inventory Service"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"Client กด checkout ส่ง request เดียวไปยัง Order Service"},{"activeNode":1,"caption":"Order Service เรียก Inventory เช็ค stock สินค้า A — round trip ที่ 1"},{"activeNode":2,"caption":"Inventory ตอบกลับว่ามีสินค้า"},{"activeNode":1,"caption":"Order Service เรียก Inventory เช็ค stock สินค้า B อีกรอบ — round trip ที่ 2 แยกจากสินค้า A"},{"activeNode":2,"caption":"Inventory ตอบกลับอีกครั้ง — สังเกตว่าต้องคุยกันหลายรอบเพื่อทำ operation เดียว latency สะสมจากจำนวนรอบ ไม่ใช่จากงานจริง"}]}
+```
+
 อาการแบบนี้มักเป็นสัญญาณว่า service boundary ถูกตัดผิดจุด — ข้อมูลที่ควรอยู่ด้วยกันในการตัดสินใจครั้งเดียวถูกแยกไปอยู่คนละ service จนต้องคุยกันซ้ำไปซ้ำมา วิธีแก้มีสองทางหลัก คือออกแบบ API ให้เป็น coarse-grained มากขึ้น (รวมหลาย call เดิมให้เหลือ call เดียวที่ส่งข้อมูลที่จำเป็นไปพร้อมกัน) หรือทบทวน boundary ใหม่ว่าสอง service นี้ควรรวมเป็น service เดียวกันหรือไม่ เพราะข้อมูลที่ต้องคุยกันบ่อยขนาดนี้อาจเป็นสัญญาณว่ามันคือ bounded context เดียวกันตั้งแต่แรก
 
 ## Shared Database — ประตูหลังที่ทุกคนแอบใช้

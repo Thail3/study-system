@@ -26,6 +26,11 @@ flowchart LR
 
 สังเกตลูกศรระหว่าง Write DB กับ Read DB — นี่คือจุดสำคัญที่สุดของ CQRS: ข้อมูลไม่ได้อยู่ที่เดียวแล้วอ่าน-เขียนสลับกัน แต่ฝั่ง write บันทึกก่อน แล้ว<mark class="hl-insight">**ค่อย sync ข้อมูลไปอัปเดต read model ทีหลัง**</mark> ซึ่งมักเป็นแบบ asynchronous นั่นแปลว่ามีช่วงเวลาสั้นๆ ที่ read model ยังไม่เห็นข้อมูลล่าสุด (eventual consistency) — เชฟเพิ่งปรุงจานใหม่เสร็จ แต่ป้ายเมนูหน้าร้านยังไม่ทันอัปเดตราคาใหม่ในวินาทีนั้นเป๊ะ
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"ผู้ใช้"},{"icon":"building","label":"Write Model"},{"icon":"notebook","label":"Write DB"},{"icon":"notebook","label":"Read DB"}],"travelerIcon":"envelope","steps":[{"activeNode":0,"caption":"ผู้ใช้กด 'สั่งซื้อ' — นี่คือ Command สั่งเปลี่ยนแปลง state"},{"activeNode":1,"caption":"Command เข้า Write Model ตรวจ business rule (เช่น ห้ามสั่งเกิน stock) ก่อนบันทึก"},{"activeNode":2,"caption":"Write Model บันทึกลง Write DB แบบ normalized เพื่อความถูกต้อง"},{"activeNode":3,"caption":"ข้อมูล sync แบบ asynchronous ไปอัปเดต Read DB — มีช่วงเวลาสั้นๆ ที่ยังไม่ตรงกัน (eventual consistency)"},{"activeNode":0,"caption":"ผู้ใช้อีกคนเปิดหน้ารายการสั่งซื้อ (Query) — อ่านจาก Read DB ที่ denormalized ไว้แล้ว เร็วทันทีโดยไม่ query ฝั่ง Write เลย"}]}
+```
+
 ## ไม่จำเป็นต้องแยกฐานข้อมูลเสมอไป
 
 CQRS มีได้หลายระดับความเข้มข้น ไม่ใช่ทุกระบบต้องแยกฐานข้อมูลคนละตัวทันที ระดับที่เบาที่สุดคือแยกแค่ **class/query object** ฝั่ง read กับ write ในโค้ด แต่ยังใช้ตารางเดียวกันในฐานข้อมูลเดียวกัน — แค่เขียน query แยกเฉพาะสำหรับหน้าจอที่ต้องการ ไม่ผ่าน business logic layer ฝั่ง write เลย ระดับถัดมาคือแยกเป็นคนละ view/materialized view ในฐานข้อมูลเดียวกัน และระดับที่เข้มข้นสุดคือแยกเป็นคนละฐานข้อมูล คนละ service กันไปเลย พร้อมกลไก sync ข้อมูลแบบ event-driven — ยิ่งเข้มข้นมากยิ่งได้ประสิทธิภาพและความยืดหยุ่นมากขึ้น แต่ก็ยิ่งซับซ้อนและมี eventual consistency ที่ต้องจัดการมากขึ้นตามไปด้วย

@@ -42,6 +42,11 @@ flowchart LR
     F -->|มีบริบทใหม่ภายหลัง| H["Superseded by ADR ใหม่"]
 ```
 
+```demo
+component: JourneyDiagram
+props: {"nodes":[{"icon":"person","label":"ทีม"},{"icon":"notebook","label":"ADR Draft"},{"icon":"gate","label":"Review (PR)"},{"icon":"building","label":"Accepted"}],"travelerIcon":"notebook","steps":[{"activeNode":0,"caption":"เกิดคำถามสถาปัตยกรรม เช่น เลือก database ไหนดี ทีมเริ่มถกกัน"},{"activeNode":1,"caption":"เขียน ADR ตามฟอร์แมต Title / Status / Context / Decision / Consequences"},{"activeNode":2,"caption":"ส่ง ADR เข้ารีวิวผ่าน pull request เหมือนรีวิวโค้ด ทุกคนเห็นเหตุผลก่อนตัดสินใจจริง"},{"activeNode":3,"caption":"ทีมเห็นชอบ ADR เปลี่ยนสถานะเป็น Accepted ใช้งานจริง"},{"activeNode":1,"caption":"ถ้าบริบทเปลี่ยนในอนาคต เขียน ADR ใหม่แล้วมาร์กอันเก่าเป็น Superseded พร้อมลิงก์ไปอันใหม่ ประวัติศาสตร์ยังอยู่ครบ"}]}
+```
+
 ข้อดีของการรีวิว ADR ผ่าน pull request เหมือนรีวิวโค้ดคือทุกคนในทีมเห็นเหตุผลตั้งแต่ก่อนตัดสินใจจริง ไม่ใช่มารู้ทีหลังว่ามีคนตัดสินใจไปแล้ว และเมื่อบริบทเปลี่ยนในอนาคต (เช่น ทีมโตขึ้น เทคโนโลยีใหม่ออกมา) ก็ไม่ต้องลบ ADR เก่าทิ้ง แค่เขียน ADR ใหม่แล้วมาร์กอันเก่าเป็น Superseded พร้อมลิงก์ไปอันใหม่ — ประวัติศาสตร์การตัดสินใจทั้งหมดยังอยู่ครบ ไม่ถูกเขียนทับ
 
 ## ADR ตัวอย่าง
