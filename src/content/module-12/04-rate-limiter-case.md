@@ -56,3 +56,5 @@ Fail closed ปลอดภัยกว่าเรื่อง correctness แ�
 per-IP มีปัญหาถ้าหลาย user อยู่หลัง NAT เดียวกัน (เช่น office เดียวกัน) ทุกคนแย่ง quota เดียวกันทั้งที่เป็นคนละคน per-user แม่นกว่าแต่ต้อง authenticate ก่อนถึงเช็คได้ (ป้องกัน anonymous flood ไม่ได้ก่อน login) เลือกผิด granularity ทำให้ rate limit ไม่ป้องกันสิ่งที่ตั้งใจ หรือบล็อก user ที่ไม่ผิดไปด้วย
 
 > นี่คือตัวอย่างที่ดีว่าทำไม system design เป็นเรื่องของ**การเอาหลายๆ concept มาประกอบกัน** ไม่ใช่ท่องจำแต่ละเรื่องแยกๆ — <mark class="hl-insight">rate limiter เดี่ยวๆ ง่าย แต่พอต้อง distributed ต้องดึง caching, consistency, และ reliability pattern มาผสมกันทั้งหมด</mark>
+
+> คำถามสัมภาษณ์: "ทำไม Rate Limiter แบบ distributed ถึงต้องพึ่ง Redis กลางและ atomic operation ไม่ใช่แค่นับใน memory ของแต่ละเครื่อง" — เพราะถ้าแต่ละ app server นับโควต้าแยกกันเอง user ที่สลับยิง request ไปมาหลายเครื่อง (ปกติมากเพราะมี load balancer) จะได้โควต้ารวมมากกว่าที่ตั้งใจเป็นจำนวนเท่าของจำนวนเครื่อง ต้องย้ายมานับที่ Redis กลางเล่มเดียวด้วย atomic operation (เช่น INCR) เพื่อกัน race condition ตอนหลายเครื่องเช็ค/อัปเดตพร้อมกัน ไม่ให้นับพลาดจนปล่อย request เกิน quota ที่ตั้งใจไว้

@@ -52,3 +52,5 @@ flowchart LR
 
 **ถาม: ทำไม Analytics (นับคลิก) ต้อง async ไม่นับพร้อมกับ redirect เลย?**
 ถ้านับแบบ synchronous ทุก redirect ต้องรอเขียน analytics เสร็จก่อนตอบ user เพิ่ม latency ให้ทุกคนโดยไม่จำเป็น (analytics ไม่ต้องรู้ผลทันที) แยกเป็น async ทำให้ user ได้ redirect เร็วเท่าที่ cache ตอบได้จริง (<10ms) ส่วนนับคลิกประมวลผลเบื้องหลังทีหลัง
+
+> คำถามสัมภาษณ์: "ออกแบบ URL Shortener ระดับ production ต้องคำนึงถึงอะไรบ้างที่มากกว่าแค่แปลง URL ยาวเป็นสั้น" — ต้องคิดครบตั้งแต่วิธีสร้าง short code ที่ไม่ชนกันโดยไม่ต้องเช็คซ้ำ (base62 encode ID แทนสุ่ม), การรับมือกับ traffic ที่ read-heavy มากกว่า write (cache ทุกครั้งที่ทำได้ก่อนแตะ database), scale แบบ stateless ผ่าน load balancer, และแยกงานที่ไม่ต้องรู้ผลทันที (analytics) ออกจาก path หลักด้วย async เพื่อไม่ให้ user ต้องรอสิ่งที่ไม่จำเป็น
