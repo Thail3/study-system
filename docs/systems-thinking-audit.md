@@ -29,3 +29,20 @@ Checklist ที่วัดได้จริงจากไฟล์ ไม่
 ---
 
 อุดแล้ว — เพิ่ม StepThroughDiagram 4 steps ให้ `module-25/05-s-shaped-growth.md` (ช่วงต้นเหมือน exponential → inflection point → ช่วงชะลอ → เข้าใกล้ carrying capacity) วางไว้หลังพารากราฟ inflection point ก่อนตาราง "ตัวอย่างที่พบ S-curve" verify ผ่านหมด: typecheck/lint/vitest 37/37/build clean + เช็คจริงในเบราว์เซอร์เห็น STEP 1/4 เรนเดอร์ถูก ตอนนี้ 38/38 ไฟล์มีทั้ง diagram และ demo ครบ ไม่เหลือ gap ที่วัดได้จาก checklist แล้ว
+
+---
+
+module-29 (Case Studies) ขยายจาก 3 เป็น 13 เคส — 10 เคสใหม่ครอบคลุม archetype ที่เหลือเกือบครบ (Tragedy of Commons, Growth and Underinvestment, Overshoot and Collapse, Accidental Adversaries, Emergence/Boundary Problem) บวกเคสเดิม (Success to the Successful, Eroding Goals, Escalation) จากทั้งบริบทเกม/live-service และองค์กร
+
+---
+
+ตอนนี้คุณได้เพิ่ม ใช้ความรู้อะไรของ System Thinking มาแก้ไขปัญหา และมันแก้ไขปัญหายังไง แก้ไขปัญหาได้ยังไง มีขั้นตอนอะไรบ้าง มันทำงานยังไง มีอะไรอยู่ภายใต้การทำงานนั้นบ้าง และอื่นๆ แล้วใช่มั้ยคับ
+
+---
+
+เช็คจริงจากไฟล์ (grep ไม่ใช่ความจำ) — `## กลไกที่ทำงานจริง` มีครบทั้ง 13/13 ไฟล์ใน module-29 แต่ละไฟล์มี 3 ย่อหน้าแยกตาม Leverage Point (Parameter/Structure/Goals) ทุกย่อหน้า:
+- อ้างอิงกลับ diagram ที่อยู่ข้างบนตรงๆ ("จากไดอะแกรมด้านบน...") — บอกว่าแตะ node/link ไหน
+- อธิบายว่าทำไม Parameter (ระดับตื้น) ถึงไม่ปิด loop จริง — มักเป็นเพราะ "แก้แค่ความน่าจะเป็น/ยกเพดาน" ไม่แตะ link ในไดอะแกรม
+- อธิบายว่า Structure/Goals ไปตัด link ไหนโดยตรง พร้อมเรียกชื่อหลักการ systems thinking ที่ใช้ (เช่น stock/flow valve, ลบ precondition ของ archetype, จัดแนวแรงจูงใจ)
+
+ตัวอย่างจริงจาก matchmaking-death-spiral: "จากไดอะแกรมด้านบน ลิงก์ทั้ง 3 เส้นของ R loop (players→queue→quit→players) ยังอยู่ครบ การจับคู่กว้างขึ้นแค่ลด queue ชั่วคราวโดยไม่แตะลิงก์ไหนเลย" — ตรงตามที่ขอทั้ง 5 อย่าง: ความรู้ที่ใช้ (R loop + link เฉพาะ), ทำไมถึงแก้/ไม่แก้ได้, ขั้นตอน (3 ระดับ Parameter→Structure→Goals เรียงกัน), กลไกการทำงาน (ตัด link ไหน), และสิ่งที่อยู่ภายใต้ (ตัว loop ในไดอะแกรม) — ใช่ ทำครบตามที่ถามแล้ว
