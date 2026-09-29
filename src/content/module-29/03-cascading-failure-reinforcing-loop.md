@@ -32,6 +32,12 @@ Post-mortem พบความเชื่อร่วมที่ฝังอ�
 2. **Structure**: ใส่ circuit breaker ที่ทุกจุดเรียก downstream, แยก database connection pool ของแต่ละ service ไม่ให้แชร์กัน (bulkhead pattern), เพิ่ม jitter ให้ retry ไม่ยิงพร้อมกันเป๊ะ (ย้อนกลับไปหลักการจากโมดูล Behavior Patterns เรื่อง oscillation)
 3. **Mental Model**: เปลี่ยนความเชื่อทีมจาก "resilience คือ property ที่มีอยู่แล้วถ้าใส่ retry/timeout" เป็น "resilience คือสิ่งที่ต้องทดสอบต่อเนื่องภายใต้ load จริง" — นำไปสู่การทำ chaos engineering หรือ game day exercise เป็นกิจวัตรประจำ ไม่ใช่แค่ตอบสนองหลัง incident เกิดแล้ว
 
-## ปิดท้าย Track: เครื่องมือเดียวกัน ใช้ซ้ำได้กับทุกปัญหา
+## กลไกที่ทำงานจริง
 
-สามเคสสุดท้ายนี้ — tech debt, Conway's Law, cascading failure — เป็นปัญหาที่ดูไม่เกี่ยวข้องกันเลยในตอนแรก แต่ทุกเคสถูกไล่ผ่านกรอบเดียวกันทั้งหมด: **stock/flow กำหนดว่าอะไรสะสมอยู่, feedback loop กำหนดว่ามันขยายตัวหรือหดตัวยังไง, delay กำหนดว่าทำไมคนถึงรู้ตัวช้า, archetype ช่วยจำแนกแพทเทิร์นที่เจอซ้ำได้เร็ว, leverage point บอกว่าควรลงแรงตรงไหน, และ iceberg model เตือนให้ขุดลงไปให้ลึกกว่าแค่ event ที่เห็นตรงหน้า** — นี่คือของขวัญที่แท้จริงของ Systems Thinking: ไม่ใช่คำตอบสำเร็จรูปสำหรับปัญหาใดปัญหาหนึ่ง แต่คือเลนส์ชุดเดียวที่ใช้มองปัญหาอะไรก็ได้ ในระบบอะไรก็ได้ ไปตลอด
+**Parameter (เพิ่ม connection pool size) ทำไมถึงแค่บรรเทาเฉพาะหน้า**: จากไดอะแกรมด้านบน R loop (retry→load→errors→retry) ยังคงอยู่ครบทั้ง 3 ลิงก์เหมือนเดิม การเพิ่ม pool size แค่ยกเพดานที่ loop จะเริ่มวิ่งให้สูงขึ้น — พอ traffic โตอีกครั้ง (ซึ่งจะเกิดแน่นอน) loop เดียวกันจะวิ่งอีกที่เพดานใหม่ที่สูงขึ้น ไม่ต่างจากเดิม
+
+**Structure (circuit breaker + bulkhead + jitter) ทำไมถึงตัด Loop ได้จริง**: แต่ละกลไกตัดคนละลิงก์ในไดอะแกรม — circuit breaker ตัดลิงก์ errors→retries โดยตรง (หยุด retry เมื่อ error rate เกิน threshold), bulkhead แยก connection pool ไม่ให้ auth-service กับ payment-service แชร์กัน (ลบ dependency ที่ซ่อนอยู่ซึ่งทำให้ cascade ข้าม service ได้ตั้งแต่แรก), jitter ป้องกัน retry จากหลาย client ยิงพร้อมกันเป๊ะ (ลดแรงขยายของ reinforcing loop) — สามกลไกนี้ตัดคนละจุดของ loop เดียวกัน ไม่ใช่แค่ยกเพดาน
+
+**Mental Model (ทดสอบ resilience ต่อเนื่อง) ทำไมถึงเป็น leverage ที่ลึกที่สุด**: สองทางแก้ข้างบนแก้ loop ที่ "รู้แล้วว่ามี" แต่ปัญหาจริงคือทีมไม่เคยรู้ว่ามี shared dependency ซ่อนอยู่จนกว่าจะพังจริง — การทำ chaos engineering เป็นกิจวัตรเปลี่ยนวิธีที่ทีม**ค้นพบ** loop ที่ซ่อนอยู่ตัวถัดไป ก่อนที่ production จะเป็นคนค้นพบให้แทน นี่คือทำไมมันลึกกว่าการแก้ทีละ loop ที่เจอ
+
+สามเคสแรกของโมดูลนี้ — tech debt, Conway's Law, cascading failure — เป็นปัญหาสาย infrastructure/องค์กรล้วนๆ หัวข้อถัดไปเปลี่ยนบริบทไปเป็นโลกเกม เริ่มจากเคสที่ทุกคนที่เคยเล่นเกมออนไลน์น่าจะเคยเจอมาก่อน — **บอสดรอปไอเทม 1,000 คนแย่งเก็บ**

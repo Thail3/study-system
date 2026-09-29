@@ -50,4 +50,5 @@ export const demoRegistry: Record<string, Component> = {
   IcebergModelDiagram: defineDemo(() => import('../diagrams/IcebergModelDiagram.vue')),
   BathtubStockFlowIllustration: defineDemo(() => import('../diagrams/BathtubStockFlowIllustration.vue')),
   ArchetypeFamilyMapDiagram: defineDemo(() => import('../diagrams/ArchetypeFamilyMapDiagram.vue')),
+  BossLootRaceIllustration: defineDemo(() => import('../diagrams/BossLootRaceIllustration.vue')),
 }
