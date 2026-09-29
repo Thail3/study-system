@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BackToTopButton from './components/layout/BackToTopButton.vue'
+</script>
 
 <template>
   <router-view v-slot="{ Component, route }">
@@ -6,6 +8,7 @@
       <component :is="Component" :key="route.fullPath" />
     </transition>
   </router-view>
+  <BackToTopButton />
 </template>
 
 <style>
