@@ -405,5 +405,5 @@ props: {"nodes":[{"icon":"person","label":"ลูกค้า"},{"icon":"buildin
 > **Title:** แยก Payment Service ออกจาก Checkout Monolith
 > **Status:** Accepted
 > **Context:** ระบบ checkout เดิมเป็น monolith เดียว เมื่อ traffic ช่วง flash sale พุ่งสูง การ scale ทั้งก้อนตามภาระงาน browse สินค้าทำให้ต้นทุน infra สูงเกินจำเป็น อีกทั้ง PCI-DSS audit ต้องครอบคลุมทั้ง codebase ทำให้ scope การตรวจสอบใหญ่และช้า
-> **Decision:** แยก Payment ออกเป็น microservice ของตัวเอง สื่อสารกับ Order Service ผ่าน synchronous API เพื่อรักษา strong consistency ของการตัดเงิน ส่วน Cart และ Order ยังคงอยู่ร่วมกันใน monolith เดิมไปก่อน
+> **Decision:** แยก Payment ออกเป็น microservice ของตัวเอง สื่อสารกับ Order Service ผ่าน synchronous API เพื่อรักษา strong consistency ของการตัดเงิน โดย Order Service แยกเป็น microservice เช่นกัน ทำหน้าที่ตัวกลางคุมลำดับ (จองสต๊อก แล้วค่อยตัดเงิน) ส่วน Cart ยังคงอยู่ใน monolith เดิมไปก่อน
 > **Consequences:** Scaling และ deploy ของ Payment ทำได้อิสระ ลด PCI-DSS audit scope ให้เหลือเฉพาะ service นี้ แต่ทีมต้องเพิ่ม logic จัดการ failure ข้าม service ด้วยรูปแบบ compensating transaction (Saga pattern ที่เรียนไปแล้วในโมดูล Microservices & API Design) เช่น rollback การจองสต๊อกถ้าตัดเงินไม่สำเร็จ และดูแล network latency ระหว่าง service เพิ่มขึ้น
