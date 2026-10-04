@@ -1,0 +1,2018 @@
+{
+  ".mcp.json": {
+    "mtime": 1790049363.6937973,
+    "seen": 1791107913.3627908,
+    "ast_hash": "84d07f763bfda2c2870b69a5b0ab59f1",
+    "semantic_hash": "84d07f763bfda2c2870b69a5b0ab59f1"
+  },
+  ".vscode/extensions.json": {
+    "mtime": 1788614171.1904905,
+    "seen": 1791107913.362793,
+    "ast_hash": "886c161c2f2d9388473a64033e7d1931",
+    "semantic_hash": "886c161c2f2d9388473a64033e7d1931"
+  },
+  "eslint.config.js": {
+    "mtime": 1788626034.1787345,
+    "seen": 1791107913.362794,
+    "ast_hash": "c8945e642b89ce3049205dd9105e79e2",
+    "semantic_hash": "c8945e642b89ce3049205dd9105e79e2"
+  },
+  "package.json": {
+    "mtime": 1788625967.690267,
+    "seen": 1791107913.362794,
+    "ast_hash": "2e6e92084e19b8f285c67ba4e8956883",
+    "semantic_hash": "2e6e92084e19b8f285c67ba4e8956883"
+  },
+  "src/App.vue": {
+    "mtime": 1790654276.934089,
+    "seen": 1791107913.362795,
+    "ast_hash": "288c95b7ec93ec5229e5d76d71ecf937",
+    "semantic_hash": "288c95b7ec93ec5229e5d76d71ecf937"
+  },
+  "src/components/content/MermaidDiagram.vue": {
+    "mtime": 1790352397.4234734,
+    "seen": 1791107913.362796,
+    "ast_hash": "7c106f6d1f0c5eca88bcdfa239d35c3c",
+    "semantic_hash": "7c106f6d1f0c5eca88bcdfa239d35c3c"
+  },
+  "src/components/content/TopicRenderer.vue": {
+    "mtime": 1790048714.540562,
+    "seen": 1791107913.362796,
+    "ast_hash": "a3b557edc21f9edef9e2a1b89e454b11",
+    "semantic_hash": "a3b557edc21f9edef9e2a1b89e454b11"
+  },
+  "src/components/demos/CacheDemo.vue": {
+    "mtime": 1788615781.0595646,
+    "seen": 1791107913.362797,
+    "ast_hash": "3f97399b7dcbe570fa9649bd54f49bbc",
+    "semantic_hash": "3f97399b7dcbe570fa9649bd54f49bbc"
+  },
+  "src/components/demos/CacheLayersDemo.vue": {
+    "mtime": 1788624081.3407254,
+    "seen": 1791107913.362798,
+    "ast_hash": "657282a4245e03c5d54dd89224003f04",
+    "semantic_hash": "657282a4245e03c5d54dd89224003f04"
+  },
+  "src/components/demos/CanaryRolloutDemo.vue": {
+    "mtime": 1788660768.9772792,
+    "seen": 1791107913.362798,
+    "ast_hash": "a74566e783cc893668a2c63eace5c5bc",
+    "semantic_hash": "a74566e783cc893668a2c63eace5c5bc"
+  },
+  "src/components/demos/CapTheoremDiagram.vue": {
+    "mtime": 1789129804.6778333,
+    "seen": 1791107913.3627992,
+    "ast_hash": "e081873243f6c9e2ed85c1ceb7003c20",
+    "semantic_hash": "e081873243f6c9e2ed85c1ceb7003c20"
+  },
+  "src/components/demos/CapacityCalculator.vue": {
+    "mtime": 1788615954.83201,
+    "seen": 1791107913.3628001,
+    "ast_hash": "a956a4921e8d03ce266ec05b713a21db",
+    "semantic_hash": "a956a4921e8d03ce266ec05b713a21db"
+  },
+  "src/components/demos/ChaosBlastRadiusDemo.spec.ts": {
+    "mtime": 1790416247.1565318,
+    "seen": 1791107913.3628001,
+    "ast_hash": "6f07ceec8cbb966891a9285f744ef703",
+    "semantic_hash": "6f07ceec8cbb966891a9285f744ef703"
+  },
+  "src/components/demos/ChaosBlastRadiusDemo.vue": {
+    "mtime": 1790416105.3843195,
+    "seen": 1791107913.3628008,
+    "ast_hash": "faf4cd3065afc777bdb51454dff49354",
+    "semantic_hash": "faf4cd3065afc777bdb51454dff49354"
+  },
+  "src/components/demos/CircuitBreakerDemo.spec.ts": {
+    "mtime": 1788624234.860246,
+    "seen": 1791107913.362802,
+    "ast_hash": "c4682c3f638aabea855f5e47ada71bce",
+    "semantic_hash": "c4682c3f638aabea855f5e47ada71bce"
+  },
+  "src/components/demos/CircuitBreakerDemo.vue": {
+    "mtime": 1788615920.5077052,
+    "seen": 1791107913.362803,
+    "ast_hash": "690668ebd9b585cfe80955de4104e581",
+    "semantic_hash": "690668ebd9b585cfe80955de4104e581"
+  },
+  "src/components/demos/DemoLoadError.vue": {
+    "mtime": 1788625821.6311119,
+    "seen": 1791107913.362803,
+    "ast_hash": "bd093f95706a36c5f6f3a61ac27fe53d",
+    "semantic_hash": "bd093f95706a36c5f6f3a61ac27fe53d"
+  },
+  "src/components/demos/DemoLoading.vue": {
+    "mtime": 1790048629.9434767,
+    "seen": 1791107913.362804,
+    "ast_hash": "201f7c261273dc04c6b8522b752bfdfb",
+    "semantic_hash": "201f7c261273dc04c6b8522b752bfdfb"
+  },
+  "src/components/demos/EventualConsistencyDemo.vue": {
+    "mtime": 1788620429.207099,
+    "seen": 1791107913.362804,
+    "ast_hash": "ebebe3a74c338bb72ced31e7b9a2a600",
+    "semantic_hash": "ebebe3a74c338bb72ced31e7b9a2a600"
+  },
+  "src/components/demos/ExponentialBackoffDemo.vue": {
+    "mtime": 1788625790.3492653,
+    "seen": 1791107913.362805,
+    "ast_hash": "a96dcbf6ac3d43e6c0078a2a8b6aae04",
+    "semantic_hash": "a96dcbf6ac3d43e6c0078a2a8b6aae04"
+  },
+  "src/components/demos/FeedbackLoopSimulator.vue": {
+    "mtime": 1788957023.1942818,
+    "seen": 1791107913.362806,
+    "ast_hash": "34bbf4912f0b417244abb88033f74e63",
+    "semantic_hash": "34bbf4912f0b417244abb88033f74e63"
+  },
+  "src/components/demos/GitOpsReconcileDemo.spec.ts": {
+    "mtime": 1790416230.8921008,
+    "seen": 1791107913.362806,
+    "ast_hash": "d59b641f2194d8662ba0c2a941d30669",
+    "semantic_hash": "d59b641f2194d8662ba0c2a941d30669"
+  },
+  "src/components/demos/GitOpsReconcileDemo.vue": {
+    "mtime": 1790416069.9602587,
+    "seen": 1791107913.362807,
+    "ast_hash": "9646313a0e121d470128f09723f4877d",
+    "semantic_hash": "9646313a0e121d470128f09723f4877d"
+  },
+  "src/components/demos/LatencyBarChartDemo.vue": {
+    "mtime": 1788663785.7307281,
+    "seen": 1791107913.362808,
+    "ast_hash": "c3949b5df90e44e9ee6c6e096e97b21d",
+    "semantic_hash": "c3949b5df90e44e9ee6c6e096e97b21d"
+  },
+  "src/components/demos/LeaderElectionDemo.vue": {
+    "mtime": 1788663764.0632803,
+    "seen": 1791107913.362808,
+    "ast_hash": "c8d2a5546d81d6ed489e100ba16aa4a2",
+    "semantic_hash": "c8d2a5546d81d6ed489e100ba16aa4a2"
+  },
+  "src/components/demos/LoadBalancerDemo.spec.ts": {
+    "mtime": 1788624216.147348,
+    "seen": 1791107913.3628092,
+    "ast_hash": "9efe5bf07381e6a5514bc963f55a47fe",
+    "semantic_hash": "9efe5bf07381e6a5514bc963f55a47fe"
+  },
+  "src/components/demos/LoadBalancerDemo.vue": {
+    "mtime": 1788625860.3403912,
+    "seen": 1791107913.3628101,
+    "ast_hash": "d1a3cb6084949fcbc357b4a578573db6",
+    "semantic_hash": "d1a3cb6084949fcbc357b4a578573db6"
+  },
+  "src/components/demos/PubSubFanoutDemo.vue": {
+    "mtime": 1788620468.40716,
+    "seen": 1791107913.3628101,
+    "ast_hash": "1f59a6e45ae2d7bfbc99495d59815d00",
+    "semantic_hash": "1f59a6e45ae2d7bfbc99495d59815d00"
+  },
+  "src/components/demos/QueueDemo.vue": {
+    "mtime": 1788625868.6290948,
+    "seen": 1791107913.3628109,
+    "ast_hash": "3fa291235ccc751aa08256dc79b61d23",
+    "semantic_hash": "3fa291235ccc751aa08256dc79b61d23"
+  },
+  "src/components/demos/RateLimiterDemo.vue": {
+    "mtime": 1788615886.6284738,
+    "seen": 1791107913.3628109,
+    "ast_hash": "11d6b56fec5d58f161b9d6ae02ebe25f",
+    "semantic_hash": "11d6b56fec5d58f161b9d6ae02ebe25f"
+  },
+  "src/components/demos/RealtimeLatencyRaceDemo.vue": {
+    "mtime": 1788661788.6070657,
+    "seen": 1791107913.3628118,
+    "ast_hash": "51e9f93217fee2ccff94c19577616e58",
+    "semantic_hash": "51e9f93217fee2ccff94c19577616e58"
+  },
+  "src/components/demos/SagaCompensationDemo.vue": {
+    "mtime": 1788663772.762253,
+    "seen": 1791107913.362813,
+    "ast_hash": "f28d4d8dd8b17dd629ea5e0c41dd6b7d",
+    "semantic_hash": "f28d4d8dd8b17dd629ea5e0c41dd6b7d"
+  },
+  "src/components/demos/SamplingRaceDemo.spec.ts": {
+    "mtime": 1790416275.083541,
+    "seen": 1791107913.362813,
+    "ast_hash": "aa03a6207bff13de75d7bfde10ca30bd",
+    "semantic_hash": "aa03a6207bff13de75d7bfde10ca30bd"
+  },
+  "src/components/demos/SamplingRaceDemo.vue": {
+    "mtime": 1790416142.5071025,
+    "seen": 1791107913.362814,
+    "ast_hash": "569100f6c2b6c374280d92cd9e72ac4f",
+    "semantic_hash": "569100f6c2b6c374280d92cd9e72ac4f"
+  },
+  "src/components/demos/ShardRouterDemo.vue": {
+    "mtime": 1788663776.8805969,
+    "seen": 1791107913.362815,
+    "ast_hash": "9c299b5fac8b67f5db6db71e83d58215",
+    "semantic_hash": "9c299b5fac8b67f5db6db71e83d58215"
+  },
+  "src/components/demos/StockFlowSimulator.vue": {
+    "mtime": 1788957006.9257584,
+    "seen": 1791107913.362815,
+    "ast_hash": "a9f21311ff88b0e2db84b7bb155b0437",
+    "semantic_hash": "a9f21311ff88b0e2db84b7bb155b0437"
+  },
+  "src/components/demos/TraceWaterfallDemo.vue": {
+    "mtime": 1788663781.8830452,
+    "seen": 1791107913.362816,
+    "ast_hash": "8772e54e7fc0f2e7cf023f64e96d6825",
+    "semantic_hash": "8772e54e7fc0f2e7cf023f64e96d6825"
+  },
+  "src/components/demos/registry.ts": {
+    "mtime": 1790615433.2123559,
+    "seen": 1791107913.362817,
+    "ast_hash": "c7f64108873912ddf1a83f4ce9832b80",
+    "semantic_hash": "c7f64108873912ddf1a83f4ce9832b80"
+  },
+  "src/components/diagrams/ArchetypeFamilyMapDiagram.vue": {
+    "mtime": 1790614022.2843647,
+    "seen": 1791107913.362817,
+    "ast_hash": "adaf44eb0c2adc7b70034e400f0b8a7e",
+    "semantic_hash": "adaf44eb0c2adc7b70034e400f0b8a7e"
+  },
+  "src/components/diagrams/BathtubStockFlowIllustration.vue": {
+    "mtime": 1790613990.2863505,
+    "seen": 1791107913.362821,
+    "ast_hash": "34310edf1f3c584645aaf4e5c6fc296a",
+    "semantic_hash": "34310edf1f3c584645aaf4e5c6fc296a"
+  },
+  "src/components/diagrams/BossLootRaceIllustration.vue": {
+    "mtime": 1790615244.4596014,
+    "seen": 1791107913.3628218,
+    "ast_hash": "e2b0bafc46ef51d3171329de5622fca4",
+    "semantic_hash": "e2b0bafc46ef51d3171329de5622fca4"
+  },
+  "src/components/diagrams/CausalLoopDiagram.vue": {
+    "mtime": 1790089964.9660523,
+    "seen": 1791107913.3628218,
+    "ast_hash": "229535eafd1979a8bdea8606af24e503",
+    "semantic_hash": "229535eafd1979a8bdea8606af24e503"
+  },
+  "src/components/diagrams/ClientServerLBDiagram.vue": {
+    "mtime": 1789129789.6662161,
+    "seen": 1791107913.362823,
+    "ast_hash": "c0bdefe99714eaa2f8f7b346bbaff85a",
+    "semantic_hash": "c0bdefe99714eaa2f8f7b346bbaff85a"
+  },
+  "src/components/diagrams/ComparisonDiagram.vue": {
+    "mtime": 1788615689.7744327,
+    "seen": 1791107913.362824,
+    "ast_hash": "2572a6fe05dc5dec6456cf3ce26929bd",
+    "semantic_hash": "2572a6fe05dc5dec6456cf3ce26929bd"
+  },
+  "src/components/diagrams/IcebergModelDiagram.vue": {
+    "mtime": 1790613961.3008518,
+    "seen": 1791107913.362825,
+    "ast_hash": "bddb61a03314bae392d869bf7245aa65",
+    "semantic_hash": "bddb61a03314bae392d869bf7245aa65"
+  },
+  "src/components/diagrams/JourneyDiagram.vue": {
+    "mtime": 1790048549.6722214,
+    "seen": 1791107913.362825,
+    "ast_hash": "1a3ee0bd652265b26de0565bb88ca926",
+    "semantic_hash": "1a3ee0bd652265b26de0565bb88ca926"
+  },
+  "src/components/diagrams/JourneyIcon.vue": {
+    "mtime": 1790048666.1966262,
+    "seen": 1791107913.3628259,
+    "ast_hash": "787cd4bfe9468ec070f154799540e7cf",
+    "semantic_hash": "787cd4bfe9468ec070f154799540e7cf"
+  },
+  "src/components/diagrams/MonolithVsMicroservicesIllustration.vue": {
+    "mtime": 1790599505.9578373,
+    "seen": 1791107913.3628259,
+    "ast_hash": "e82d0b14f45f8d51f895b6bfbfa8c9d4",
+    "semantic_hash": "e82d0b14f45f8d51f895b6bfbfa8c9d4"
+  },
+  "src/components/diagrams/ScalingDiagram.vue": {
+    "mtime": 1789129756.7276614,
+    "seen": 1791107913.362827,
+    "ast_hash": "01639cef0d14a6f6ae166c16c2aa93c1",
+    "semantic_hash": "01639cef0d14a6f6ae166c16c2aa93c1"
+  },
+  "src/components/diagrams/StepThroughDiagram.vue": {
+    "mtime": 1788617446.6386669,
+    "seen": 1791107913.362828,
+    "ast_hash": "b16be3fbc35714abf5cf81c4a972f0c7",
+    "semantic_hash": "b16be3fbc35714abf5cf81c4a972f0c7"
+  },
+  "src/components/diagrams/StickySessionDiagram.vue": {
+    "mtime": 1788614636.7416797,
+    "seen": 1791107913.362828,
+    "ast_hash": "62b7a7c9d406ffcbcc0f15da93f29d4a",
+    "semantic_hash": "62b7a7c9d406ffcbcc0f15da93f29d4a"
+  },
+  "src/components/diagrams/StockFlowDiagram.vue": {
+    "mtime": 1790089970.3504436,
+    "seen": 1791107913.362829,
+    "ast_hash": "6d89296a6c3551a657ecaa7e4b4eadf0",
+    "semantic_hash": "6d89296a6c3551a657ecaa7e4b4eadf0"
+  },
+  "src/components/diagrams/StranglerFigTreeDiagram.vue": {
+    "mtime": 1790599476.5415726,
+    "seen": 1791107913.3628302,
+    "ast_hash": "9965d2e86432084d88f5abbe6e4dd4bf",
+    "semantic_hash": "9965d2e86432084d88f5abbe6e4dd4bf"
+  },
+  "src/components/diagrams/ZeroTrustCastleDiagram.vue": {
+    "mtime": 1790599445.3861034,
+    "seen": 1791107913.3628302,
+    "ast_hash": "a2868de9e039962433fc2bbd85e7d403",
+    "semantic_hash": "a2868de9e039962433fc2bbd85e7d403"
+  },
+  "src/components/layout/BackToTopButton.vue": {
+    "mtime": 1790654267.2168896,
+    "seen": 1791107913.362831,
+    "ast_hash": "2a96ff14b913a711d809d5337a020d27",
+    "semantic_hash": "2a96ff14b913a711d809d5337a020d27"
+  },
+  "src/components/layout/ModulePage.vue": {
+    "mtime": 1788876598.7580748,
+    "seen": 1791107913.3628318,
+    "ast_hash": "ec73e5292f142c5ba710072673323460",
+    "semantic_hash": "ec73e5292f142c5ba710072673323460"
+  },
+  "src/components/map/BlueprintMap.vue": {
+    "mtime": 1790346723.5013378,
+    "seen": 1791107913.3628318,
+    "ast_hash": "4b856ead7e9f28a3eaa5e8d389f3b3b2",
+    "semantic_hash": "4b856ead7e9f28a3eaa5e8d389f3b3b2"
+  },
+  "src/components/quiz/QuizFlipCard.vue": {
+    "mtime": 1788668843.4447162,
+    "seen": 1791107913.3628328,
+    "ast_hash": "a69efd58ba8a582bb6ce08b23c577207",
+    "semantic_hash": "a69efd58ba8a582bb6ce08b23c577207"
+  },
+  "src/composables/useProgress.spec.ts": {
+    "mtime": 1788624179.246959,
+    "seen": 1791107913.362834,
+    "ast_hash": "a87183b81147088cf3d1d04826cc8fb9",
+    "semantic_hash": "a87183b81147088cf3d1d04826cc8fb9"
+  },
+  "src/composables/useProgress.ts": {
+    "mtime": 1788625811.831503,
+    "seen": 1791107913.362834,
+    "ast_hash": "9130ee3ff36b357bb2de34735e547334",
+    "semantic_hash": "9130ee3ff36b357bb2de34735e547334"
+  },
+  "src/composables/useQuizReview.ts": {
+    "mtime": 1788668759.8458152,
+    "seen": 1791107913.362835,
+    "ast_hash": "b2ce44dafbad2a7cdcad99fd224427df",
+    "semantic_hash": "b2ce44dafbad2a7cdcad99fd224427df"
+  },
+  "src/composables/useScrollReveal.spec.ts": {
+    "mtime": 1790089976.7124674,
+    "seen": 1791107913.362836,
+    "ast_hash": "886702f2104a3b432c17db587cea2eb7",
+    "semantic_hash": "886702f2104a3b432c17db587cea2eb7"
+  },
+  "src/composables/useScrollReveal.ts": {
+    "mtime": 1790089959.6110337,
+    "seen": 1791107913.362836,
+    "ast_hash": "5c062831428ba8e9d8c77dbaa57480b4",
+    "semantic_hash": "5c062831428ba8e9d8c77dbaa57480b4"
+  },
+  "src/content/index.spec.ts": {
+    "mtime": 1788947543.566925,
+    "seen": 1791107913.362837,
+    "ast_hash": "dc42d97075bc12213d85b2fbb8386b3b",
+    "semantic_hash": "dc42d97075bc12213d85b2fbb8386b3b"
+  },
+  "src/content/index.ts": {
+    "mtime": 1788947533.0796528,
+    "seen": 1791107913.362837,
+    "ast_hash": "fa5ff19cc61999dd5a977d3b5adc467a",
+    "semantic_hash": "fa5ff19cc61999dd5a977d3b5adc467a"
+  },
+  "src/data/modules.spec.ts": {
+    "mtime": 1788624191.2529914,
+    "seen": 1791107913.362838,
+    "ast_hash": "3894fb18162dd7974720abcc45b85a09",
+    "semantic_hash": "3894fb18162dd7974720abcc45b85a09"
+  },
+  "src/data/modules.ts": {
+    "mtime": 1790653917.7741058,
+    "seen": 1791107913.362839,
+    "ast_hash": "39692ad66bd1500c8c3fe1c172e1d5de",
+    "semantic_hash": "39692ad66bd1500c8c3fe1c172e1d5de"
+  },
+  "src/data/quizzes.spec.ts": {
+    "mtime": 1788668800.809424,
+    "seen": 1791107913.362839,
+    "ast_hash": "1c8bd9ac37f68c29b68add06f91dd3b7",
+    "semantic_hash": "1c8bd9ac37f68c29b68add06f91dd3b7"
+  },
+  "src/data/quizzes.ts": {
+    "mtime": 1790653933.561643,
+    "seen": 1791107913.3628402,
+    "ast_hash": "c71fd656a18b382d8b90f417fae926d7",
+    "semantic_hash": "c71fd656a18b382d8b90f417fae926d7"
+  },
+  "src/main.ts": {
+    "mtime": 1788614420.5632348,
+    "seen": 1791107913.3628402,
+    "ast_hash": "11ffd5d3f818efd39ef9211e8953b047",
+    "semantic_hash": "11ffd5d3f818efd39ef9211e8953b047"
+  },
+  "src/router/index.ts": {
+    "mtime": 1790346713.8403776,
+    "seen": 1791107913.3628411,
+    "ast_hash": "0613887cf0a882242118a37a0a68e54c",
+    "semantic_hash": "0613887cf0a882242118a37a0a68e54c"
+  },
+  "src/string-empty-checker/AbstractEmptyChecker.ts": {
+    "mtime": 1791041071.9335198,
+    "seen": 1791107913.362842,
+    "ast_hash": "156cd80ed2bb924e89208683157df74f",
+    "semantic_hash": "156cd80ed2bb924e89208683157df74f"
+  },
+  "src/string-empty-checker/BlankEmptyChecker.ts": {
+    "mtime": 1791041072.5722098,
+    "seen": 1791107913.362842,
+    "ast_hash": "514a4e0b0d469aedfc3466f465d9eefe",
+    "semantic_hash": "514a4e0b0d469aedfc3466f465d9eefe"
+  },
+  "src/string-empty-checker/EmptyCheckerFactory.ts": {
+    "mtime": 1791041072.8618474,
+    "seen": 1791107913.3628428,
+    "ast_hash": "da74d07ba03536575f1bfe4429595f41",
+    "semantic_hash": "da74d07ba03536575f1bfe4429595f41"
+  },
+  "src/string-empty-checker/IEmptyChecker.ts": {
+    "mtime": 1791041062.8750117,
+    "seen": 1791107913.3628428,
+    "ast_hash": "d62a7acd03fab054da1efbc0b6f0d01c",
+    "semantic_hash": "d62a7acd03fab054da1efbc0b6f0d01c"
+  },
+  "src/string-empty-checker/StrictEmptyChecker.ts": {
+    "mtime": 1791041072.2548244,
+    "seen": 1791107913.362844,
+    "ast_hash": "94c9fa983349005d6f053949f865aa1f",
+    "semantic_hash": "94c9fa983349005d6f053949f865aa1f"
+  },
+  "src/string-empty-checker/demo.ts": {
+    "mtime": 1791041073.5029154,
+    "seen": 1791107913.362845,
+    "ast_hash": "541f357f69da3d750da69b6fe9dd4704",
+    "semantic_hash": "541f357f69da3d750da69b6fe9dd4704"
+  },
+  "src/string-empty-checker/index.ts": {
+    "mtime": 1791041073.1865358,
+    "seen": 1791107913.362845,
+    "ast_hash": "4115a492032ced808cc171dd43b469f7",
+    "semantic_hash": "4115a492032ced808cc171dd43b469f7"
+  },
+  "src/views/HomeView.vue": {
+    "mtime": 1790346731.695425,
+    "seen": 1791107913.362846,
+    "ast_hash": "e42d7e2319c49701d7030fec33a23e93",
+    "semantic_hash": "e42d7e2319c49701d7030fec33a23e93"
+  },
+  "src/views/ModuleView.vue": {
+    "mtime": 1790260969.0071166,
+    "seen": 1791107913.362847,
+    "ast_hash": "978e869f454aa39707e1403c4146be2e",
+    "semantic_hash": "978e869f454aa39707e1403c4146be2e"
+  },
+  "src/views/ReviewView.vue": {
+    "mtime": 1788666467.288418,
+    "seen": 1791107913.362847,
+    "ast_hash": "df806f2bb82e89c5dc52b4f9bad77abf",
+    "semantic_hash": "df806f2bb82e89c5dc52b4f9bad77abf"
+  },
+  "src/views/TrackHomeView.vue": {
+    "mtime": 1788876499.7666724,
+    "seen": 1791107913.362848,
+    "ast_hash": "7f93b9419ed7d6602281bf43121d7690",
+    "semantic_hash": "7f93b9419ed7d6602281bf43121d7690"
+  },
+  "tsconfig.app.json": {
+    "mtime": 1788614171.1944394,
+    "seen": 1791107913.362849,
+    "ast_hash": "56289ca8209aea384e556b398dce4310",
+    "semantic_hash": "56289ca8209aea384e556b398dce4310"
+  },
+  "tsconfig.json": {
+    "mtime": 1788614171.1945817,
+    "seen": 1791107913.362849,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "tsconfig.node.json": {
+    "mtime": 1788614171.1947198,
+    "seen": 1791107913.36285,
+    "ast_hash": "f9cb81ddcea69ffdab672fc8c48dca66",
+    "semantic_hash": "f9cb81ddcea69ffdab672fc8c48dca66"
+  },
+  "vite.config.ts": {
+    "mtime": 1788624101.5496974,
+    "seen": 1791107913.36285,
+    "ast_hash": "0220637f14eed96a9d61471319c0aae4",
+    "semantic_hash": "0220637f14eed96a9d61471319c0aae4"
+  },
+  "README.md": {
+    "mtime": 1788626099.556635,
+    "seen": 1791107913.362852,
+    "ast_hash": "fcbe62f92c97a36cb752097f38d086fa",
+    "semantic_hash": "fcbe62f92c97a36cb752097f38d086fa"
+  },
+  "docs/system-architecture-audit.md": {
+    "mtime": 1790601847.7771897,
+    "seen": 1791107913.362852,
+    "ast_hash": "b05445cb4c3c44bda5b2becaccc42483",
+    "semantic_hash": "b05445cb4c3c44bda5b2becaccc42483"
+  },
+  "docs/systems-thinking-audit.md": {
+    "mtime": 1790648185.3087814,
+    "seen": 1791107913.362853,
+    "ast_hash": "b01c7b6ac0a57b1ac1c49ba616afd9cf",
+    "semantic_hash": "b01c7b6ac0a57b1ac1c49ba616afd9cf"
+  },
+  "index.html": {
+    "mtime": 1788614276.084334,
+    "seen": 1791107913.362854,
+    "ast_hash": "70b39058f2dd0fac2f664ee1414419c2",
+    "semantic_hash": "70b39058f2dd0fac2f664ee1414419c2"
+  },
+  "src/content/module-01/01-client-server-model.md": {
+    "mtime": 1790594489.460499,
+    "seen": 1791107913.362854,
+    "ast_hash": "3f0dc3ff440ec423206b42521ef8dd9e",
+    "semantic_hash": "3f0dc3ff440ec423206b42521ef8dd9e"
+  },
+  "src/content/module-01/02-dns-resolution.md": {
+    "mtime": 1790594551.5539312,
+    "seen": 1791107913.362855,
+    "ast_hash": "14074b5f983ad45ca8db5c096359e133",
+    "semantic_hash": "14074b5f983ad45ca8db5c096359e133"
+  },
+  "src/content/module-01/03-http-lifecycle.md": {
+    "mtime": 1790064124.7364833,
+    "seen": 1791107913.362856,
+    "ast_hash": "b01b2ea79898b1929afff14ee56bbae8",
+    "semantic_hash": "b01b2ea79898b1929afff14ee56bbae8"
+  },
+  "src/content/module-01/04-tcp-vs-udp.md": {
+    "mtime": 1790064090.797177,
+    "seen": 1791107913.362856,
+    "ast_hash": "e2246bbf700024afcd8ac1aab3b1e330",
+    "semantic_hash": "e2246bbf700024afcd8ac1aab3b1e330"
+  },
+  "src/content/module-01/05-realtime-communication.md": {
+    "mtime": 1790594612.8276973,
+    "seen": 1791107913.3628569,
+    "ast_hash": "79e22bedbf12da0c19cc382c669c5341",
+    "semantic_hash": "79e22bedbf12da0c19cc382c669c5341"
+  },
+  "src/content/module-02/01-vertical-vs-horizontal.md": {
+    "mtime": 1790064169.7399492,
+    "seen": 1791107913.362858,
+    "ast_hash": "9e8bccb0f7e31fa2f40634db57f96636",
+    "semantic_hash": "9e8bccb0f7e31fa2f40634db57f96636"
+  },
+  "src/content/module-02/02-load-balancer-basics.md": {
+    "mtime": 1790594714.4510167,
+    "seen": 1791107913.362858,
+    "ast_hash": "925fd2bd6a933d7842cea88e44b2f714",
+    "semantic_hash": "925fd2bd6a933d7842cea88e44b2f714"
+  },
+  "src/content/module-02/03-lb-algorithms.md": {
+    "mtime": 1790594771.6671255,
+    "seen": 1791107913.362859,
+    "ast_hash": "d923810efc0f6db13e78bdd9ac58407a",
+    "semantic_hash": "d923810efc0f6db13e78bdd9ac58407a"
+  },
+  "src/content/module-02/04-stateless-design.md": {
+    "mtime": 1790594829.8942742,
+    "seen": 1791107913.36286,
+    "ast_hash": "597c5ac43ec5b8017653933ae4df58fc",
+    "semantic_hash": "597c5ac43ec5b8017653933ae4df58fc"
+  },
+  "src/content/module-03/01-why-cache.md": {
+    "mtime": 1790594920.2165012,
+    "seen": 1791107913.36286,
+    "ast_hash": "788581e55b14713d61db3290baf732f8",
+    "semantic_hash": "788581e55b14713d61db3290baf732f8"
+  },
+  "src/content/module-03/02-cache-layers.md": {
+    "mtime": 1790594972.1445518,
+    "seen": 1791107913.3628612,
+    "ast_hash": "c3f48de095033b303a5c1c04e44e5b74",
+    "semantic_hash": "c3f48de095033b303a5c1c04e44e5b74"
+  },
+  "src/content/module-03/03-eviction-policy.md": {
+    "mtime": 1790595022.9929645,
+    "seen": 1791107913.3628612,
+    "ast_hash": "7953aef2a618d615f11fb2d6723ba9fa",
+    "semantic_hash": "7953aef2a618d615f11fb2d6723ba9fa"
+  },
+  "src/content/module-03/04-cache-invalidation.md": {
+    "mtime": 1790063683.636532,
+    "seen": 1791107913.362862,
+    "ast_hash": "d456b85f0000d3018ff9fe9403904a34",
+    "semantic_hash": "d456b85f0000d3018ff9fe9403904a34"
+  },
+  "src/content/module-04/01-sql-vs-nosql.md": {
+    "mtime": 1790595109.3226888,
+    "seen": 1791107913.362863,
+    "ast_hash": "0af592b1a5cbd2d8c653deb951023b54",
+    "semantic_hash": "0af592b1a5cbd2d8c653deb951023b54"
+  },
+  "src/content/module-04/02-indexing.md": {
+    "mtime": 1790595155.0450244,
+    "seen": 1791107913.362863,
+    "ast_hash": "44a9476552f4bbee399098df7deb618f",
+    "semantic_hash": "44a9476552f4bbee399098df7deb618f"
+  },
+  "src/content/module-04/03-replication.md": {
+    "mtime": 1790595200.7179189,
+    "seen": 1791107913.362864,
+    "ast_hash": "4f331d795de4772e700c23b30eeb2a9d",
+    "semantic_hash": "4f331d795de4772e700c23b30eeb2a9d"
+  },
+  "src/content/module-04/04-sharding.md": {
+    "mtime": 1790595266.9217455,
+    "seen": 1791107913.362864,
+    "ast_hash": "9ff2002c9936586fed488d2f4e5bc3e8",
+    "semantic_hash": "9ff2002c9936586fed488d2f4e5bc3e8"
+  },
+  "src/content/module-04/05-consensus-leader-election.md": {
+    "mtime": 1790595319.5762188,
+    "seen": 1791107913.362865,
+    "ast_hash": "a5e3d6e2214b30acbace6d01a3492855",
+    "semantic_hash": "a5e3d6e2214b30acbace6d01a3492855"
+  },
+  "src/content/module-05/01-cap-theorem.md": {
+    "mtime": 1790595398.4217029,
+    "seen": 1791107913.362866,
+    "ast_hash": "e30507453ada8b25d245511e854e32a3",
+    "semantic_hash": "e30507453ada8b25d245511e854e32a3"
+  },
+  "src/content/module-05/02-pacelc.md": {
+    "mtime": 1790595451.8393981,
+    "seen": 1791107913.362866,
+    "ast_hash": "24080ce78956e2536e9846deee32cb06",
+    "semantic_hash": "24080ce78956e2536e9846deee32cb06"
+  },
+  "src/content/module-05/03-consistency-models.md": {
+    "mtime": 1790063754.1990807,
+    "seen": 1791107913.3628669,
+    "ast_hash": "097d6caa7760a330f5509b0984ac7746",
+    "semantic_hash": "097d6caa7760a330f5509b0984ac7746"
+  },
+  "src/content/module-06/01-why-async.md": {
+    "mtime": 1790595547.672324,
+    "seen": 1791107913.362868,
+    "ast_hash": "4bd9b9127880b365822b399e218ccdf5",
+    "semantic_hash": "4bd9b9127880b365822b399e218ccdf5"
+  },
+  "src/content/module-06/02-message-queue.md": {
+    "mtime": 1790063809.5640302,
+    "seen": 1791107913.362868,
+    "ast_hash": "6ad54e99b32da905c828988be3226651",
+    "semantic_hash": "6ad54e99b32da905c828988be3226651"
+  },
+  "src/content/module-06/03-pub-sub.md": {
+    "mtime": 1790595591.1917562,
+    "seen": 1791107913.362869,
+    "ast_hash": "7285edad67c82b75bc168b93fc2d1f75",
+    "semantic_hash": "7285edad67c82b75bc168b93fc2d1f75"
+  },
+  "src/content/module-06/04-event-driven.md": {
+    "mtime": 1790595646.4531267,
+    "seen": 1791107913.36287,
+    "ast_hash": "537321d42eb2fe2f72f6b6df78828c9d",
+    "semantic_hash": "537321d42eb2fe2f72f6b6df78828c9d"
+  },
+  "src/content/module-06/05-stream-processing.md": {
+    "mtime": 1790597012.7903101,
+    "seen": 1791107913.36287,
+    "ast_hash": "94d482b931d7b52bc249e1f7f10317b8",
+    "semantic_hash": "94d482b931d7b52bc249e1f7f10317b8"
+  },
+  "src/content/module-07/01-monolith-vs-microservices.md": {
+    "mtime": 1790595742.3413098,
+    "seen": 1791107913.362871,
+    "ast_hash": "0aa7fd02772d87fa7e11e4c13a4a4d00",
+    "semantic_hash": "0aa7fd02772d87fa7e11e4c13a4a4d00"
+  },
+  "src/content/module-07/02-rest-vs-grpc.md": {
+    "mtime": 1790595800.7325056,
+    "seen": 1791107913.3628721,
+    "ast_hash": "1158cbe16142b0f42cf434c7eef780e8",
+    "semantic_hash": "1158cbe16142b0f42cf434c7eef780e8"
+  },
+  "src/content/module-07/03-api-gateway.md": {
+    "mtime": 1790595846.983174,
+    "seen": 1791107913.3628721,
+    "ast_hash": "7612fc86bd8320b4841206a719483e6c",
+    "semantic_hash": "7612fc86bd8320b4841206a719483e6c"
+  },
+  "src/content/module-07/04-service-discovery.md": {
+    "mtime": 1790595897.5966039,
+    "seen": 1791107913.362873,
+    "ast_hash": "2fb242593ef8dfb3970b0536211b59d7",
+    "semantic_hash": "2fb242593ef8dfb3970b0536211b59d7"
+  },
+  "src/content/module-07/05-distributed-transactions-saga.md": {
+    "mtime": 1790595955.075097,
+    "seen": 1791107913.362873,
+    "ast_hash": "c35fc199de4fd5eaf1802b43985d2297",
+    "semantic_hash": "c35fc199de4fd5eaf1802b43985d2297"
+  },
+  "src/content/module-08/01-rate-limiting.md": {
+    "mtime": 1790596051.3651826,
+    "seen": 1791107913.362874,
+    "ast_hash": "3d133a4c6d93e862681c282661329bd3",
+    "semantic_hash": "3d133a4c6d93e862681c282661329bd3"
+  },
+  "src/content/module-08/02-circuit-breaker.md": {
+    "mtime": 1790596108.6891704,
+    "seen": 1791107913.362875,
+    "ast_hash": "a844b6a618cb0bc21736525e002d6533",
+    "semantic_hash": "a844b6a618cb0bc21736525e002d6533"
+  },
+  "src/content/module-08/03-retry-backoff.md": {
+    "mtime": 1790596160.7757215,
+    "seen": 1791107913.362875,
+    "ast_hash": "2ff579bd8aadabe9dfea4c6b12b1e8e4",
+    "semantic_hash": "2ff579bd8aadabe9dfea4c6b12b1e8e4"
+  },
+  "src/content/module-08/04-failover-redundancy.md": {
+    "mtime": 1790596211.6563787,
+    "seen": 1791107913.362876,
+    "ast_hash": "ace50a162e852726df53a0ba0a2f7398",
+    "semantic_hash": "ace50a162e852726df53a0ba0a2f7398"
+  },
+  "src/content/module-08/05-observability.md": {
+    "mtime": 1790596255.64934,
+    "seen": 1791107913.362876,
+    "ast_hash": "b9c1a3475e903c81a189e90aff6cfb56",
+    "semantic_hash": "b9c1a3475e903c81a189e90aff6cfb56"
+  },
+  "src/content/module-08/06-idempotency.md": {
+    "mtime": 1790596311.683484,
+    "seen": 1791107913.362877,
+    "ast_hash": "081d4c9865d187deb7b74399d4c9f8fd",
+    "semantic_hash": "081d4c9865d187deb7b74399d4c9f8fd"
+  },
+  "src/content/module-08/07-deployment-strategies.md": {
+    "mtime": 1790596367.4296792,
+    "seen": 1791107913.3628778,
+    "ast_hash": "2acb535bca892d26bb2fdc0fad8667c8",
+    "semantic_hash": "2acb535bca892d26bb2fdc0fad8667c8"
+  },
+  "src/content/module-08/08-chaos-engineering-dr.md": {
+    "mtime": 1790597206.131641,
+    "seen": 1791107913.3628778,
+    "ast_hash": "e76a9baa686ecccb44bf06efc98288e0",
+    "semantic_hash": "e76a9baa686ecccb44bf06efc98288e0"
+  },
+  "src/content/module-08/09-multi-region-active-active.md": {
+    "mtime": 1790597361.8571317,
+    "seen": 1791107913.362879,
+    "ast_hash": "7c33ae9622bd4befab4affdc7fa778f4",
+    "semantic_hash": "7c33ae9622bd4befab4affdc7fa778f4"
+  },
+  "src/content/module-09/01-object-storage.md": {
+    "mtime": 1790063884.1329556,
+    "seen": 1791107913.36288,
+    "ast_hash": "d69dd7e1431f9443391c0a0d249a1345",
+    "semantic_hash": "d69dd7e1431f9443391c0a0d249a1345"
+  },
+  "src/content/module-09/02-cdn.md": {
+    "mtime": 1790063928.8879774,
+    "seen": 1791107913.36288,
+    "ast_hash": "c3c833abb80dc3197398b0e19ae38130",
+    "semantic_hash": "c3c833abb80dc3197398b0e19ae38130"
+  },
+  "src/content/module-09/03-search-index.md": {
+    "mtime": 1790063972.5221422,
+    "seen": 1791107913.362881,
+    "ast_hash": "fef6de03be2f79b91db292c6d6f50bf9",
+    "semantic_hash": "fef6de03be2f79b91db292c6d6f50bf9"
+  },
+  "src/content/module-10/01-authn-vs-authz.md": {
+    "mtime": 1790063474.515154,
+    "seen": 1791107913.362881,
+    "ast_hash": "7362062ac4c2ff9e1fb21d2501d14e53",
+    "semantic_hash": "7362062ac4c2ff9e1fb21d2501d14e53"
+  },
+  "src/content/module-10/02-oauth-flow.md": {
+    "mtime": 1790063546.8530087,
+    "seen": 1791107913.3628821,
+    "ast_hash": "c3b6bfcea82cc0c2a723d0b2c15992f3",
+    "semantic_hash": "c3b6bfcea82cc0c2a723d0b2c15992f3"
+  },
+  "src/content/module-10/03-encryption.md": {
+    "mtime": 1790063598.9728272,
+    "seen": 1791107913.362883,
+    "ast_hash": "38f6fa12f2aea680f58e8c0cd5086e29",
+    "semantic_hash": "38f6fa12f2aea680f58e8c0cd5086e29"
+  },
+  "src/content/module-11/01-why-estimate.md": {
+    "mtime": 1790596440.40967,
+    "seen": 1791107913.362883,
+    "ast_hash": "785358db4e7a4dabe41047975700003a",
+    "semantic_hash": "785358db4e7a4dabe41047975700003a"
+  },
+  "src/content/module-11/02-latency-numbers.md": {
+    "mtime": 1790596497.56063,
+    "seen": 1791107913.362884,
+    "ast_hash": "0bd2d5efdd61adc233a7303595d83162",
+    "semantic_hash": "0bd2d5efdd61adc233a7303595d83162"
+  },
+  "src/content/module-11/03-estimation-calculator.md": {
+    "mtime": 1790596550.67173,
+    "seen": 1791107913.3628852,
+    "ast_hash": "02434e67a94ad9c9ab2b7c1464c8e7c8",
+    "semantic_hash": "02434e67a94ad9c9ab2b7c1464c8e7c8"
+  },
+  "src/content/module-12/01-url-shortener.md": {
+    "mtime": 1790654697.3047812,
+    "seen": 1791107913.3628852,
+    "ast_hash": "5bb6506242be6ae1efd61a5b9eb18183",
+    "semantic_hash": "5bb6506242be6ae1efd61a5b9eb18183"
+  },
+  "src/content/module-12/02-chat-app.md": {
+    "mtime": 1790654725.5108242,
+    "seen": 1791107913.362886,
+    "ast_hash": "972957aba9eafd2190d136f37e7592e2",
+    "semantic_hash": "972957aba9eafd2190d136f37e7592e2"
+  },
+  "src/content/module-12/03-news-feed.md": {
+    "mtime": 1790084376.180334,
+    "seen": 1791107913.362886,
+    "ast_hash": "7c8ec7944a9627ee5d45dc6381889a3c",
+    "semantic_hash": "7c8ec7944a9627ee5d45dc6381889a3c"
+  },
+  "src/content/module-12/04-rate-limiter-case.md": {
+    "mtime": 1790654746.8986278,
+    "seen": 1791107913.362887,
+    "ast_hash": "10e12ad5d1f6eaaa51038abc1afb32d6",
+    "semantic_hash": "10e12ad5d1f6eaaa51038abc1afb32d6"
+  },
+  "src/content/module-12/05-boss-loot-race.md": {
+    "mtime": 1790084494.797417,
+    "seen": 1791107913.3628879,
+    "ast_hash": "4495884ef0bf0675fbb242a4a3c201f5",
+    "semantic_hash": "4495884ef0bf0675fbb242a4a3c201f5"
+  },
+  "src/content/module-12/06-flash-sale-ticket.md": {
+    "mtime": 1790084548.9022992,
+    "seen": 1791107913.362889,
+    "ast_hash": "b8d387d17a5d768ef74abbfe5aac17f7",
+    "semantic_hash": "b8d387d17a5d768ef74abbfe5aac17f7"
+  },
+  "src/content/module-12/07-ride-hailing-matching.md": {
+    "mtime": 1790084603.204473,
+    "seen": 1791107913.362889,
+    "ast_hash": "13610fea4bbd9b8d4300026e9198ad71",
+    "semantic_hash": "13610fea4bbd9b8d4300026e9198ad71"
+  },
+  "src/content/module-12/08-viral-post-hotkey.md": {
+    "mtime": 1790084667.0794106,
+    "seen": 1791107913.36289,
+    "ast_hash": "626f70731036db5fddbba8d35d73cf9c",
+    "semantic_hash": "626f70731036db5fddbba8d35d73cf9c"
+  },
+  "src/content/module-12/09-realtime-leaderboard.md": {
+    "mtime": 1790084722.8205402,
+    "seen": 1791107913.362891,
+    "ast_hash": "b7500dbd6c311a87c4cb18a76fc222c5",
+    "semantic_hash": "b7500dbd6c311a87c4cb18a76fc222c5"
+  },
+  "src/content/module-12/10-knight-capital-deploy-disaster.md": {
+    "mtime": 1790650332.2761214,
+    "seen": 1791107913.362891,
+    "ast_hash": "fb30cbc90ffefe8d2926875f74453bdf",
+    "semantic_hash": "fb30cbc90ffefe8d2926875f74453bdf"
+  },
+  "src/content/module-12/11-github-network-partition-outage.md": {
+    "mtime": 1790650555.8944185,
+    "seen": 1791107913.3628922,
+    "ast_hash": "82e95a48b35a671dd05b27d6dd877fc2",
+    "semantic_hash": "82e95a48b35a671dd05b27d6dd877fc2"
+  },
+  "src/content/module-12/12-instagram-sharding-at-scale.md": {
+    "mtime": 1790650737.0791433,
+    "seen": 1791107913.3628922,
+    "ast_hash": "fe576df5ce0f75b5196ceb897e22fffb",
+    "semantic_hash": "fe576df5ce0f75b5196ceb897e22fffb"
+  },
+  "src/content/module-12/13-aws-s3-typo-outage.md": {
+    "mtime": 1790650942.964469,
+    "seen": 1791107913.362893,
+    "ast_hash": "f01c1e11aa361e280c43d094e6209cfd",
+    "semantic_hash": "f01c1e11aa361e280c43d094e6209cfd"
+  },
+  "src/content/module-12/14-cloudflare-regex-outage.md": {
+    "mtime": 1790651141.154381,
+    "seen": 1791107913.362894,
+    "ast_hash": "47faecf9329e8a8217f553040c186e5d",
+    "semantic_hash": "47faecf9329e8a8217f553040c186e5d"
+  },
+  "src/content/module-12/15-meta-bgp-outage.md": {
+    "mtime": 1790653107.2807405,
+    "seen": 1791107913.362894,
+    "ast_hash": "361e4949c523751cbc88783c859db693",
+    "semantic_hash": "361e4949c523751cbc88783c859db693"
+  },
+  "src/content/module-12/16-slack-thundering-herd-outage.md": {
+    "mtime": 1790653310.2210083,
+    "seen": 1791107913.362895,
+    "ast_hash": "b56776a6eb01a29b3290f3c1adf9074d",
+    "semantic_hash": "b56776a6eb01a29b3290f3c1adf9074d"
+  },
+  "src/content/module-12/17-discord-database-migration.md": {
+    "mtime": 1790653520.0123966,
+    "seen": 1791107913.362895,
+    "ast_hash": "75c8bac5f554fcb1334d319b8895d146",
+    "semantic_hash": "75c8bac5f554fcb1334d319b8895d146"
+  },
+  "src/content/module-12/18-facebook-memcache-lease.md": {
+    "mtime": 1790653706.7761068,
+    "seen": 1791107913.362896,
+    "ast_hash": "edeaee3c8170308fad5f6c5b8bd3cecb",
+    "semantic_hash": "edeaee3c8170308fad5f6c5b8bd3cecb"
+  },
+  "src/content/module-12/19-twitter-fail-whale-migration.md": {
+    "mtime": 1790653912.9958575,
+    "seen": 1791107913.362897,
+    "ast_hash": "ccbb8edf0111acf33dc2f01fa818624a",
+    "semantic_hash": "ccbb8edf0111acf33dc2f01fa818624a"
+  },
+  "src/content/module-13/00-what-is-system-architecture.md": {
+    "mtime": 1790086869.0139859,
+    "seen": 1791107913.362897,
+    "ast_hash": "60534166e66aebae9bb0e45177f8ff3a",
+    "semantic_hash": "60534166e66aebae9bb0e45177f8ff3a"
+  },
+  "src/content/module-13/01-monolith-vs-microservices-style.md": {
+    "mtime": 1790599532.3300097,
+    "seen": 1791107913.3628979,
+    "ast_hash": "2631a0fed4d1c5d07c5b3a67e01f99c7",
+    "semantic_hash": "2631a0fed4d1c5d07c5b3a67e01f99c7"
+  },
+  "src/content/module-13/02-soa.md": {
+    "mtime": 1790602062.4594743,
+    "seen": 1791107913.3628979,
+    "ast_hash": "a3dd0e196b1e58cfad14cad4fc7a2f49",
+    "semantic_hash": "a3dd0e196b1e58cfad14cad4fc7a2f49"
+  },
+  "src/content/module-13/03-serverless-architecture.md": {
+    "mtime": 1790602058.1681244,
+    "seen": 1791107913.3628988,
+    "ast_hash": "e85c0f96fc2a8fb2af88f301068ab32a",
+    "semantic_hash": "e85c0f96fc2a8fb2af88f301068ab32a"
+  },
+  "src/content/module-13/04-event-driven-architecture-style.md": {
+    "mtime": 1790599330.5394797,
+    "seen": 1791107913.3629,
+    "ast_hash": "d2a9ac9f990bcf86e30bef8083e4a6ee",
+    "semantic_hash": "d2a9ac9f990bcf86e30bef8083e4a6ee"
+  },
+  "src/content/module-13/05-layered-vs-hexagonal.md": {
+    "mtime": 1790086920.029103,
+    "seen": 1791107913.3629,
+    "ast_hash": "2aa3f73f140038072ab10d55c4be8ae6",
+    "semantic_hash": "2aa3f73f140038072ab10d55c4be8ae6"
+  },
+  "src/content/module-13/06-modular-monolith-advanced.md": {
+    "mtime": 1790599315.6467042,
+    "seen": 1791107913.362901,
+    "ast_hash": "943a1c23cef27a38807aac3108900dce",
+    "semantic_hash": "943a1c23cef27a38807aac3108900dce"
+  },
+  "src/content/module-14/01-c4-model.md": {
+    "mtime": 1790086929.7408347,
+    "seen": 1791107913.362901,
+    "ast_hash": "7c58144cc1703ce3f44388ec2b86390e",
+    "semantic_hash": "7c58144cc1703ce3f44388ec2b86390e"
+  },
+  "src/content/module-14/02-4-plus-1-view.md": {
+    "mtime": 1790086942.4803696,
+    "seen": 1791107913.362902,
+    "ast_hash": "b5ac6b2df337d31b1aded84fc3722d6a",
+    "semantic_hash": "b5ac6b2df337d31b1aded84fc3722d6a"
+  },
+  "src/content/module-14/03-adr.md": {
+    "mtime": 1790599344.348409,
+    "seen": 1791107913.362903,
+    "ast_hash": "02168def1109e45c5512ec9bedf9cd43",
+    "semantic_hash": "02168def1109e45c5512ec9bedf9cd43"
+  },
+  "src/content/module-14/04-documentation-as-code-advanced.md": {
+    "mtime": 1790599338.0878227,
+    "seen": 1791107913.362903,
+    "ast_hash": "90bc4562a4cfb7a821aad4b00212ea93",
+    "semantic_hash": "90bc4562a4cfb7a821aad4b00212ea93"
+  },
+  "src/content/module-15/01-bounded-context.md": {
+    "mtime": 1790602067.34802,
+    "seen": 1791107913.362904,
+    "ast_hash": "b62445f638bdab6b7c7ec05608d24e90",
+    "semantic_hash": "b62445f638bdab6b7c7ec05608d24e90"
+  },
+  "src/content/module-15/02-ubiquitous-language.md": {
+    "mtime": 1790086973.3429434,
+    "seen": 1791107913.362904,
+    "ast_hash": "3a42f8395e2d711b52e44527f65bfe41",
+    "semantic_hash": "3a42f8395e2d711b52e44527f65bfe41"
+  },
+  "src/content/module-15/03-aggregate.md": {
+    "mtime": 1790602072.9299145,
+    "seen": 1791107913.362911,
+    "ast_hash": "24aaf46a5b969e8ab9d950ddfc6787c1",
+    "semantic_hash": "24aaf46a5b969e8ab9d950ddfc6787c1"
+  },
+  "src/content/module-15/04-context-mapping.md": {
+    "mtime": 1790086999.4750443,
+    "seen": 1791107913.362912,
+    "ast_hash": "a4059d2299a49e2a3780f8b4372b2b0e",
+    "semantic_hash": "a4059d2299a49e2a3780f8b4372b2b0e"
+  },
+  "src/content/module-15/05-domain-events-acl-advanced.md": {
+    "mtime": 1790599372.2872226,
+    "seen": 1791107913.3629131,
+    "ast_hash": "2795803f7360cb0997936ad98088a9d2",
+    "semantic_hash": "2795803f7360cb0997936ad98088a9d2"
+  },
+  "src/content/module-16/01-quality-attributes-ilities.md": {
+    "mtime": 1790602078.3492305,
+    "seen": 1791107913.3629131,
+    "ast_hash": "31f5dd573455c3a28bcc134742422cb6",
+    "semantic_hash": "31f5dd573455c3a28bcc134742422cb6"
+  },
+  "src/content/module-16/02-nfr-vs-fr.md": {
+    "mtime": 1790086740.5599494,
+    "seen": 1791107913.362914,
+    "ast_hash": "d639705d8890062af4b4d8a5a19fdb8a",
+    "semantic_hash": "d639705d8890062af4b4d8a5a19fdb8a"
+  },
+  "src/content/module-16/03-atam-tradeoff.md": {
+    "mtime": 1790086766.816954,
+    "seen": 1791107913.362914,
+    "ast_hash": "29b5dc35008e611c6839c7d4db3085af",
+    "semantic_hash": "29b5dc35008e611c6839c7d4db3085af"
+  },
+  "src/content/module-16/04-tradeoff-case.md": {
+    "mtime": 1790602083.599513,
+    "seen": 1791107913.362915,
+    "ast_hash": "a46d474996e97801381827fab577aa18",
+    "semantic_hash": "a46d474996e97801381827fab577aa18"
+  },
+  "src/content/module-16/05-architecture-tactics-advanced.md": {
+    "mtime": 1790599412.5359552,
+    "seen": 1791107913.362915,
+    "ast_hash": "1203a5501622119f0aa5906d0d1c8b54",
+    "semantic_hash": "1203a5501622119f0aa5906d0d1c8b54"
+  },
+  "src/content/module-17/01-ecommerce-checkout.md": {
+    "mtime": 1790747155.086199,
+    "seen": 1791107913.362916,
+    "ast_hash": "bd750e58bebb76214b691b3df62db1ad",
+    "semantic_hash": "bd750e58bebb76214b691b3df62db1ad"
+  },
+  "src/content/module-17/02-notification-platform.md": {
+    "mtime": 1790741897.4507983,
+    "seen": 1791107913.3629172,
+    "ast_hash": "f8b8aa71f7628befa25e670312ecb108",
+    "semantic_hash": "f8b8aa71f7628befa25e670312ecb108"
+  },
+  "src/content/module-17/03-core-banking-ledger.md": {
+    "mtime": 1790741888.516909,
+    "seen": 1791107913.3629172,
+    "ast_hash": "0749eb99b2aedcfec800dd59e8bce3a2",
+    "semantic_hash": "0749eb99b2aedcfec800dd59e8bce3a2"
+  },
+  "src/content/module-17/04-legacy-monolith-migration.md": {
+    "mtime": 1790741826.6184714,
+    "seen": 1791107913.362918,
+    "ast_hash": "87a96431faec437386ed348a0eb01edc",
+    "semantic_hash": "87a96431faec437386ed348a0eb01edc"
+  },
+  "src/content/module-17/05-game-platform-at-scale.md": {
+    "mtime": 1790741817.8146555,
+    "seen": 1791107913.362918,
+    "ast_hash": "82bfaf495945a08011844d16553ad37c",
+    "semantic_hash": "82bfaf495945a08011844d16553ad37c"
+  },
+  "src/content/module-17/06-secure-payment-platform.md": {
+    "mtime": 1790742187.447624,
+    "seen": 1791107913.3629189,
+    "ast_hash": "6339e771ef0b6c63fb843331486d620f",
+    "semantic_hash": "6339e771ef0b6c63fb843331486d620f"
+  },
+  "src/content/module-17/07-team-reorg-for-scale.md": {
+    "mtime": 1790742277.0150046,
+    "seen": 1791107913.36292,
+    "ast_hash": "be74d91581306f13d7b37d1c7c321533",
+    "semantic_hash": "be74d91581306f13d7b37d1c7c321533"
+  },
+  "src/content/module-17/08-undocumented-legacy-onboarding.md": {
+    "mtime": 1790742422.5176105,
+    "seen": 1791107913.36292,
+    "ast_hash": "4e7d0b4de5273aa30b7351f21ce5cb48",
+    "semantic_hash": "4e7d0b4de5273aa30b7351f21ce5cb48"
+  },
+  "src/content/module-18/01-containerization-basics.md": {
+    "mtime": 1790086846.9069176,
+    "seen": 1791107913.362921,
+    "ast_hash": "f7ee44f6bb020c8898eddc9f643468c1",
+    "semantic_hash": "f7ee44f6bb020c8898eddc9f643468c1"
+  },
+  "src/content/module-18/02-container-orchestration.md": {
+    "mtime": 1790086864.6364944,
+    "seen": 1791107913.362921,
+    "ast_hash": "985a28786e5ea7a523c1d54fa221e5bf",
+    "semantic_hash": "985a28786e5ea7a523c1d54fa221e5bf"
+  },
+  "src/content/module-18/03-cloud-native-patterns.md": {
+    "mtime": 1790602087.9690003,
+    "seen": 1791107913.362922,
+    "ast_hash": "a473247404f167a158e57be959415dd3",
+    "semantic_hash": "a473247404f167a158e57be959415dd3"
+  },
+  "src/content/module-18/04-multi-region-deployment.md": {
+    "mtime": 1790086898.7836301,
+    "seen": 1791107913.362922,
+    "ast_hash": "a1e7aeaf5d84eae46306e84c627ce5a9",
+    "semantic_hash": "a1e7aeaf5d84eae46306e84c627ce5a9"
+  },
+  "src/content/module-18/05-service-mesh-advanced.md": {
+    "mtime": 1790599402.3420022,
+    "seen": 1791107913.362923,
+    "ast_hash": "160b72f8ee0ea4cdfc0d560e42553996",
+    "semantic_hash": "160b72f8ee0ea4cdfc0d560e42553996"
+  },
+  "src/content/module-19/01-cqrs-basics.md": {
+    "mtime": 1790599357.125895,
+    "seen": 1791107913.362924,
+    "ast_hash": "e6f9d56b6a507517ef3435209f1ed95c",
+    "semantic_hash": "e6f9d56b6a507517ef3435209f1ed95c"
+  },
+  "src/content/module-19/02-event-sourcing.md": {
+    "mtime": 1790086927.1124864,
+    "seen": 1791107913.362924,
+    "ast_hash": "ec78646716e1689ef82d2917ca7be12d",
+    "semantic_hash": "ec78646716e1689ef82d2917ca7be12d"
+  },
+  "src/content/module-19/03-cqrs-event-sourcing-together.md": {
+    "mtime": 1790602091.7750669,
+    "seen": 1791107913.362925,
+    "ast_hash": "e3fbb03a5bda5814b7afa650b2605300",
+    "semantic_hash": "e3fbb03a5bda5814b7afa650b2605300"
+  },
+  "src/content/module-19/04-cqrs-tradeoffs.md": {
+    "mtime": 1790086961.125633,
+    "seen": 1791107913.362925,
+    "ast_hash": "07629fbdd6b3802b99c2ddb68fc13e11",
+    "semantic_hash": "07629fbdd6b3802b99c2ddb68fc13e11"
+  },
+  "src/content/module-19/05-event-versioning-snapshotting-advanced.md": {
+    "mtime": 1790599460.5127203,
+    "seen": 1791107913.362926,
+    "ast_hash": "4fff9567054f1d4d210208e293d0fb4d",
+    "semantic_hash": "4fff9567054f1d4d210208e293d0fb4d"
+  },
+  "src/content/module-20/01-four-team-types.md": {
+    "mtime": 1790602097.2437305,
+    "seen": 1791107913.3629272,
+    "ast_hash": "1223b3a51ad75c91ac0fd84bfaee7242",
+    "semantic_hash": "1223b3a51ad75c91ac0fd84bfaee7242"
+  },
+  "src/content/module-20/02-team-interaction-modes.md": {
+    "mtime": 1790086956.6748006,
+    "seen": 1791107913.3629272,
+    "ast_hash": "b3a52ce3795469168fc368fb4e80d776",
+    "semantic_hash": "b3a52ce3795469168fc368fb4e80d776"
+  },
+  "src/content/module-20/03-team-topologies-and-architecture.md": {
+    "mtime": 1790602102.8789334,
+    "seen": 1791107913.3629282,
+    "ast_hash": "ae076e1551791a907faabbc0d27a4f3f",
+    "semantic_hash": "ae076e1551791a907faabbc0d27a4f3f"
+  },
+  "src/content/module-20/04-platform-as-a-product-advanced.md": {
+    "mtime": 1790599426.922928,
+    "seen": 1791107913.3629282,
+    "ast_hash": "49f829ce66f836601f33d096cbbcc498",
+    "semantic_hash": "49f829ce66f836601f33d096cbbcc498"
+  },
+  "src/content/module-21/01-fitness-functions.md": {
+    "mtime": 1790086979.226589,
+    "seen": 1791107913.3629289,
+    "ast_hash": "37dd9cac943a2aebbd2cd83c44735bdb",
+    "semantic_hash": "37dd9cac943a2aebbd2cd83c44735bdb"
+  },
+  "src/content/module-21/02-architecture-erosion.md": {
+    "mtime": 1790602107.3452623,
+    "seen": 1791107913.3629298,
+    "ast_hash": "4ade6bc1118d6d9e766217561431379b",
+    "semantic_hash": "4ade6bc1118d6d9e766217561431379b"
+  },
+  "src/content/module-21/03-common-anti-patterns.md": {
+    "mtime": 1790599391.7782223,
+    "seen": 1791107913.3629298,
+    "ast_hash": "c2fe71756460495eb8d015194ee5b993",
+    "semantic_hash": "c2fe71756460495eb8d015194ee5b993"
+  },
+  "src/content/module-21/04-strangler-fig-pattern.md": {
+    "mtime": 1790599525.7405694,
+    "seen": 1791107913.362931,
+    "ast_hash": "c9ef02bf351ce45afde0d0f7c23a3b60",
+    "semantic_hash": "c9ef02bf351ce45afde0d0f7c23a3b60"
+  },
+  "src/content/module-21/05-branch-by-abstraction-advanced.md": {
+    "mtime": 1790599353.8199809,
+    "seen": 1791107913.362934,
+    "ast_hash": "298fab302ac72bc92f62f909defd554d",
+    "semantic_hash": "298fab302ac72bc92f62f909defd554d"
+  },
+  "src/content/module-22/01-what-is-a-system.md": {
+    "mtime": 1790614265.0389683,
+    "seen": 1791107913.362934,
+    "ast_hash": "53207add7a0b503ae5db3744a8acba50",
+    "semantic_hash": "53207add7a0b503ae5db3744a8acba50"
+  },
+  "src/content/module-22/02-linear-vs-systems-thinking.md": {
+    "mtime": 1790614270.2495902,
+    "seen": 1791107913.362935,
+    "ast_hash": "175078c7fd389f184c0de84594f12348",
+    "semantic_hash": "175078c7fd389f184c0de84594f12348"
+  },
+  "src/content/module-22/03-structure-produces-behavior.md": {
+    "mtime": 1790613500.0807583,
+    "seen": 1791107913.362936,
+    "ast_hash": "1762e658cf218c732ab100db081e0529",
+    "semantic_hash": "1762e658cf218c732ab100db081e0529"
+  },
+  "src/content/module-22/04-emergence-and-self-organization.md": {
+    "mtime": 1790612787.0881639,
+    "seen": 1791107913.362936,
+    "ast_hash": "cd638ab1c4dec8b46eb2c83d9687360d",
+    "semantic_hash": "cd638ab1c4dec8b46eb2c83d9687360d"
+  },
+  "src/content/module-23/01-stock-flow-basics.md": {
+    "mtime": 1790614054.2010753,
+    "seen": 1791107913.362937,
+    "ast_hash": "338c437aa1be40cf735e5c6337be69cc",
+    "semantic_hash": "338c437aa1be40cf735e5c6337be69cc"
+  },
+  "src/content/module-23/02-stocks-in-software-and-orgs.md": {
+    "mtime": 1790089528.4526236,
+    "seen": 1791107913.362937,
+    "ast_hash": "aebb440951d164c40979b087ec3980c9",
+    "semantic_hash": "aebb440951d164c40979b087ec3980c9"
+  },
+  "src/content/module-23/03-delay-in-flows.md": {
+    "mtime": 1790089547.7093623,
+    "seen": 1791107913.3629382,
+    "ast_hash": "85b2517fff537fe341bc6d35ab8680f0",
+    "semantic_hash": "85b2517fff537fe341bc6d35ab8680f0"
+  },
+  "src/content/module-23/04-multiple-interacting-stocks.md": {
+    "mtime": 1790612853.5321746,
+    "seen": 1791107913.3629382,
+    "ast_hash": "b288eb74973878168f0f96e9792d9c38",
+    "semantic_hash": "b288eb74973878168f0f96e9792d9c38"
+  },
+  "src/content/module-24/01-balancing-loops.md": {
+    "mtime": 1790089597.9097621,
+    "seen": 1791107913.362939,
+    "ast_hash": "07bd188ee349b9df936398d12fc34786",
+    "semantic_hash": "07bd188ee349b9df936398d12fc34786"
+  },
+  "src/content/module-24/02-reinforcing-loops.md": {
+    "mtime": 1790089614.8940988,
+    "seen": 1791107913.3629398,
+    "ast_hash": "110426870eb04f5a173f615983334300",
+    "semantic_hash": "110426870eb04f5a173f615983334300"
+  },
+  "src/content/module-24/03-reading-causal-loop-diagrams.md": {
+    "mtime": 1790089634.8178537,
+    "seen": 1791107913.3629398,
+    "ast_hash": "a5c4820567743ef37a6ba696b1bb2fc7",
+    "semantic_hash": "a5c4820567743ef37a6ba696b1bb2fc7"
+  },
+  "src/content/module-24/04-delay-and-loop-behavior.md": {
+    "mtime": 1790089650.792405,
+    "seen": 1791107913.362941,
+    "ast_hash": "ad5f6cc0c7e7c878ff272f5308b1c0f2",
+    "semantic_hash": "ad5f6cc0c7e7c878ff272f5308b1c0f2"
+  },
+  "src/content/module-24/05-loop-dominance.md": {
+    "mtime": 1790612920.8308396,
+    "seen": 1791107913.362941,
+    "ast_hash": "248efe150f3c3ec089f44d7040ad35ff",
+    "semantic_hash": "248efe150f3c3ec089f44d7040ad35ff"
+  },
+  "src/content/module-25/01-exponential-growth.md": {
+    "mtime": 1790613518.8728352,
+    "seen": 1791107913.362942,
+    "ast_hash": "bfab9d03da77dd0d55450aaea4a29c41",
+    "semantic_hash": "bfab9d03da77dd0d55450aaea4a29c41"
+  },
+  "src/content/module-25/02-goal-seeking-behavior.md": {
+    "mtime": 1790613536.2190652,
+    "seen": 1791107913.362943,
+    "ast_hash": "62e4dba1d50931954fb40e48eb5d20f2",
+    "semantic_hash": "62e4dba1d50931954fb40e48eb5d20f2"
+  },
+  "src/content/module-25/03-oscillation.md": {
+    "mtime": 1790613552.108651,
+    "seen": 1791107913.362943,
+    "ast_hash": "e094f8275ff812bf36a6a30205cc15a6",
+    "semantic_hash": "e094f8275ff812bf36a6a30205cc15a6"
+  },
+  "src/content/module-25/04-overshoot-and-collapse.md": {
+    "mtime": 1790614275.3184464,
+    "seen": 1791107913.362944,
+    "ast_hash": "c63364d51ad5e40f572e699b26144425",
+    "semantic_hash": "c63364d51ad5e40f572e699b26144425"
+  },
+  "src/content/module-25/05-s-shaped-growth.md": {
+    "mtime": 1790614572.2905984,
+    "seen": 1791107913.362944,
+    "ast_hash": "e468b80d53d60a69c51511661ef757a2",
+    "semantic_hash": "e468b80d53d60a69c51511661ef757a2"
+  },
+  "src/content/module-26/01-limits-to-growth.md": {
+    "mtime": 1790089133.219175,
+    "seen": 1791107913.362945,
+    "ast_hash": "7ccb4fd3a50eea6d96a997cef13c4fd3",
+    "semantic_hash": "7ccb4fd3a50eea6d96a997cef13c4fd3"
+  },
+  "src/content/module-26/02-fixes-that-fail.md": {
+    "mtime": 1790089163.8045163,
+    "seen": 1791107913.362945,
+    "ast_hash": "0c7fcc3170aeea7306cb96fc61a90026",
+    "semantic_hash": "0c7fcc3170aeea7306cb96fc61a90026"
+  },
+  "src/content/module-26/03-shifting-the-burden.md": {
+    "mtime": 1790089194.6255827,
+    "seen": 1791107913.362946,
+    "ast_hash": "9efcc0ffab89fba513af08dc43f2eeb2",
+    "semantic_hash": "9efcc0ffab89fba513af08dc43f2eeb2"
+  },
+  "src/content/module-26/04-tragedy-of-the-commons.md": {
+    "mtime": 1790614281.2963462,
+    "seen": 1791107913.362947,
+    "ast_hash": "eb52884c6b0571ab0d3871a5d1ca499f",
+    "semantic_hash": "eb52884c6b0571ab0d3871a5d1ca499f"
+  },
+  "src/content/module-26/05-success-to-the-successful.md": {
+    "mtime": 1790614292.8047686,
+    "seen": 1791107913.362947,
+    "ast_hash": "47e0c23cf6fab39452d725bf72982694",
+    "semantic_hash": "47e0c23cf6fab39452d725bf72982694"
+  },
+  "src/content/module-26/06-escalation.md": {
+    "mtime": 1790614299.3062541,
+    "seen": 1791107913.3629482,
+    "ast_hash": "68f4e114acbc15364dfc8d179ed54342",
+    "semantic_hash": "68f4e114acbc15364dfc8d179ed54342"
+  },
+  "src/content/module-26/07-growth-and-underinvestment.md": {
+    "mtime": 1790089327.2773318,
+    "seen": 1791107913.3629491,
+    "ast_hash": "223e1ab61014dac748fb5832dc777291",
+    "semantic_hash": "223e1ab61014dac748fb5832dc777291"
+  },
+  "src/content/module-26/08-accidental-adversaries.md": {
+    "mtime": 1790089357.94709,
+    "seen": 1791107913.3629491,
+    "ast_hash": "2fcb9b4d1515b31664e34c2b69bec1f4",
+    "semantic_hash": "2fcb9b4d1515b31664e34c2b69bec1f4"
+  },
+  "src/content/module-26/09-eroding-goals.md": {
+    "mtime": 1790614064.0410585,
+    "seen": 1791107913.3629498,
+    "ast_hash": "5a970d7c119ad7563226c91f3e31e840",
+    "semantic_hash": "5a970d7c119ad7563226c91f3e31e840"
+  },
+  "src/content/module-27/01-twelve-leverage-points.md": {
+    "mtime": 1790614301.9473636,
+    "seen": 1791107913.3629498,
+    "ast_hash": "02cba23f3c1164321676186e7713edc5",
+    "semantic_hash": "02cba23f3c1164321676186e7713edc5"
+  },
+  "src/content/module-27/02-parameters-vs-structure.md": {
+    "mtime": 1790614303.2552545,
+    "seen": 1791107913.3629508,
+    "ast_hash": "42844a40a93323dce7a06172f14f2b78",
+    "semantic_hash": "42844a40a93323dce7a06172f14f2b78"
+  },
+  "src/content/module-27/03-leverage-points-in-practice.md": {
+    "mtime": 1790614304.590481,
+    "seen": 1791107913.362952,
+    "ast_hash": "4fbdc5e5e3f0dc2fc7d39a2830200cc6",
+    "semantic_hash": "4fbdc5e5e3f0dc2fc7d39a2830200cc6"
+  },
+  "src/content/module-27/04-transcending-paradigms.md": {
+    "mtime": 1790613091.4066017,
+    "seen": 1791107913.362952,
+    "ast_hash": "0ef8c03cbf6b23e1722aa14925349b24",
+    "semantic_hash": "0ef8c03cbf6b23e1722aa14925349b24"
+  },
+  "src/content/module-28/01-system-traps-overview.md": {
+    "mtime": 1790613630.5022767,
+    "seen": 1791107913.362953,
+    "ast_hash": "218b494948680237ef2e0c854403a5c0",
+    "semantic_hash": "218b494948680237ef2e0c854403a5c0"
+  },
+  "src/content/module-28/02-boundary-problem.md": {
+    "mtime": 1790613643.1982744,
+    "seen": 1791107913.362953,
+    "ast_hash": "15fd207c4987b4940714c57333f02e5a",
+    "semantic_hash": "15fd207c4987b4940714c57333f02e5a"
+  },
+  "src/content/module-28/03-mental-models-and-systems.md": {
+    "mtime": 1790614058.51289,
+    "seen": 1791107913.362954,
+    "ast_hash": "3c538842148ca36bfea658bcfb59f446",
+    "semantic_hash": "3c538842148ca36bfea658bcfb59f446"
+  },
+  "src/content/module-28/04-shifting-burden-to-intervenor.md": {
+    "mtime": 1790613147.202765,
+    "seen": 1791107913.362955,
+    "ast_hash": "03c34dcff436cb0dcf9bbc9a9f7de288",
+    "semantic_hash": "03c34dcff436cb0dcf9bbc9a9f7de288"
+  },
+  "src/content/module-29/01-tech-debt-as-stock-flow.md": {
+    "mtime": 1790647755.4893603,
+    "seen": 1791107913.362955,
+    "ast_hash": "29430920bcd26c5eec0d7f99fcb5470e",
+    "semantic_hash": "29430920bcd26c5eec0d7f99fcb5470e"
+  },
+  "src/content/module-29/02-conways-law-systems-view.md": {
+    "mtime": 1790647776.6080565,
+    "seen": 1791107913.362956,
+    "ast_hash": "da8e2f5d03ff9af917bdd33ceb5f9f85",
+    "semantic_hash": "da8e2f5d03ff9af917bdd33ceb5f9f85"
+  },
+  "src/content/module-29/03-cascading-failure-reinforcing-loop.md": {
+    "mtime": 1790647797.6759367,
+    "seen": 1791107913.362956,
+    "ast_hash": "51167051ead9a57f83d67af5837f8638",
+    "semantic_hash": "51167051ead9a57f83d67af5837f8638"
+  },
+  "src/content/module-29/04-boss-loot-race-condition.md": {
+    "mtime": 1790647597.8674273,
+    "seen": 1791107913.362957,
+    "ast_hash": "ad0fc0af42b1f4813364bf2bb2b55fcf",
+    "semantic_hash": "ad0fc0af42b1f4813364bf2bb2b55fcf"
+  },
+  "src/content/module-29/05-flash-sale-oversell.md": {
+    "mtime": 1790647818.8199627,
+    "seen": 1791107913.362957,
+    "ast_hash": "8afca64e4a729695202edd77ea49d6e4",
+    "semantic_hash": "8afca64e4a729695202edd77ea49d6e4"
+  },
+  "src/content/module-29/06-matchmaking-death-spiral.md": {
+    "mtime": 1790647839.1226153,
+    "seen": 1791107913.3629582,
+    "ast_hash": "65dd562b93d8c1ebe8a76deef31b0f7e",
+    "semantic_hash": "65dd562b93d8c1ebe8a76deef31b0f7e"
+  },
+  "src/content/module-29/07-leaderboard-consistency-drift.md": {
+    "mtime": 1790647861.1740043,
+    "seen": 1791107913.3629591,
+    "ast_hash": "3bede47b7b1082eed7ff72ea850a0b2e",
+    "semantic_hash": "3bede47b7b1082eed7ff72ea850a0b2e"
+  },
+  "src/content/module-29/08-guild-war-escalation.md": {
+    "mtime": 1790647881.850468,
+    "seen": 1791107913.3629591,
+    "ast_hash": "67fb199a63a4944fed1c8aba068324fe",
+    "semantic_hash": "67fb199a63a4944fed1c8aba068324fe"
+  },
+  "src/content/module-29/09-cicd-runner-pool-tragedy.md": {
+    "mtime": 1790647909.5680559,
+    "seen": 1791107913.3629599,
+    "ast_hash": "f49dddc995b9f6a52c0f566d1a08b77f",
+    "semantic_hash": "f49dddc995b9f6a52c0f566d1a08b77f"
+  },
+  "src/content/module-29/10-support-team-growth-underinvestment.md": {
+    "mtime": 1790647932.3394306,
+    "seen": 1791107913.3629599,
+    "ast_hash": "0cae613416f83e03ae0bd7fd0263346f",
+    "semantic_hash": "0cae613416f83e03ae0bd7fd0263346f"
+  },
+  "src/content/module-29/11-viral-launch-day-collapse.md": {
+    "mtime": 1790647951.5659826,
+    "seen": 1791107913.3629608,
+    "ast_hash": "814e0852be179b10d08f0bee0c73a9a0",
+    "semantic_hash": "814e0852be179b10d08f0bee0c73a9a0"
+  },
+  "src/content/module-29/12-design-vs-liveops-accidental-adversaries.md": {
+    "mtime": 1790647972.3996084,
+    "seen": 1791107913.362962,
+    "ast_hash": "351787446d433091606e7ff73a3b8df6",
+    "semantic_hash": "351787446d433091606e7ff73a3b8df6"
+  },
+  "src/content/module-29/13-bot-farm-emergent-economy-collapse.md": {
+    "mtime": 1790647996.6743329,
+    "seen": 1791107913.362962,
+    "ast_hash": "c1f2bb8199c79ef4ed825d1eb7c8b72e",
+    "semantic_hash": "c1f2bb8199c79ef4ed825d1eb7c8b72e"
+  },
+  "src/content/module-30/01-zero-trust-architecture.md": {
+    "mtime": 1790599520.0823257,
+    "seen": 1791107913.362963,
+    "ast_hash": "6bf3e1612bbae57dcc3eed4b8493a21e",
+    "semantic_hash": "6bf3e1612bbae57dcc3eed4b8493a21e"
+  },
+  "src/content/module-30/02-defense-in-depth.md": {
+    "mtime": 1790602111.3555207,
+    "seen": 1791107913.362963,
+    "ast_hash": "3abc31390211c4232ef2b055d7410316",
+    "semantic_hash": "3abc31390211c4232ef2b055d7410316"
+  },
+  "src/content/module-30/03-threat-modeling.md": {
+    "mtime": 1790599404.5362523,
+    "seen": 1791107913.362964,
+    "ast_hash": "f8b9eba96c1718f61d34c14c4daa7107",
+    "semantic_hash": "f8b9eba96c1718f61d34c14c4daa7107"
+  },
+  "src/content/module-30/04-secure-by-design-patterns.md": {
+    "mtime": 1790602115.7878041,
+    "seen": 1791107913.362964,
+    "ast_hash": "d82fe6c72e49db82d7b0000fb4917f4a",
+    "semantic_hash": "d82fe6c72e49db82d7b0000fb4917f4a"
+  },
+  "src/content/module-30/05-supply-chain-security-advanced.md": {
+    "mtime": 1790599352.624857,
+    "seen": 1791107913.362965,
+    "ast_hash": "cc9643a0084ae8e5155afc420784cacb",
+    "semantic_hash": "cc9643a0084ae8e5155afc420784cacb"
+  },
+  "src/content/module-31/01-monitoring-vs-observability.md": {
+    "mtime": 1790261451.2361143,
+    "seen": 1791107913.362966,
+    "ast_hash": "4736978ef0eb8fe74277878860316625",
+    "semantic_hash": "4736978ef0eb8fe74277878860316625"
+  },
+  "src/content/module-31/02-four-golden-signals.md": {
+    "mtime": 1790261496.9568453,
+    "seen": 1791107913.362966,
+    "ast_hash": "6895fba7a98954c43f75df4c65bc7b0a",
+    "semantic_hash": "6895fba7a98954c43f75df4c65bc7b0a"
+  },
+  "src/content/module-31/03-red-and-use-method.md": {
+    "mtime": 1790261542.0323257,
+    "seen": 1791107913.362967,
+    "ast_hash": "dc4f0a7930a4763a209fbb88ac40ed41",
+    "semantic_hash": "dc4f0a7930a4763a209fbb88ac40ed41"
+  },
+  "src/content/module-31/04-synthetic-monitoring-and-rum.md": {
+    "mtime": 1790415274.5556948,
+    "seen": 1791107913.362967,
+    "ast_hash": "409038c973b63d4c4480714a40bcf6ac",
+    "semantic_hash": "409038c973b63d4c4480714a40bcf6ac"
+  },
+  "src/content/module-32/01-time-series-data-model.md": {
+    "mtime": 1790261957.54307,
+    "seen": 1791107913.362968,
+    "ast_hash": "f1cf5c168971e918194d7558db7bf685",
+    "semantic_hash": "f1cf5c168971e918194d7558db7bf685"
+  },
+  "src/content/module-32/02-promql-basics.md": {
+    "mtime": 1790261996.5996864,
+    "seen": 1791107913.362968,
+    "ast_hash": "3d604e6d100e9b9f687fc0d0fc02d90a",
+    "semantic_hash": "3d604e6d100e9b9f687fc0d0fc02d90a"
+  },
+  "src/content/module-32/03-cardinality-explosion.md": {
+    "mtime": 1790262043.4560454,
+    "seen": 1791107913.3629692,
+    "ast_hash": "da809dfec538b3d9eeeff5674c3fe00c",
+    "semantic_hash": "da809dfec538b3d9eeeff5674c3fe00c"
+  },
+  "src/content/module-32/04-advanced-promql.md": {
+    "mtime": 1790415339.9455078,
+    "seen": 1791107913.36297,
+    "ast_hash": "dbaec804781822a000049385cdc3e54d",
+    "semantic_hash": "dbaec804781822a000049385cdc3e54d"
+  },
+  "src/content/module-33/01-structured-logging.md": {
+    "mtime": 1790262577.975345,
+    "seen": 1791107913.36297,
+    "ast_hash": "0f57a087f73665091255ac17c8bcd7c8",
+    "semantic_hash": "0f57a087f73665091255ac17c8bcd7c8"
+  },
+  "src/content/module-33/02-log-levels.md": {
+    "mtime": 1790262619.7156618,
+    "seen": 1791107913.3629708,
+    "ast_hash": "2edf65bcd5ff9fb7a421e28f54217183",
+    "semantic_hash": "2edf65bcd5ff9fb7a421e28f54217183"
+  },
+  "src/content/module-33/03-centralized-log-pipeline.md": {
+    "mtime": 1790262664.3722503,
+    "seen": 1791107913.362972,
+    "ast_hash": "1b2dc21a5657028ac5ee6ef7e231b058",
+    "semantic_hash": "1b2dc21a5657028ac5ee6ef7e231b058"
+  },
+  "src/content/module-33/04-log-correlation-and-exemplars.md": {
+    "mtime": 1790415393.2439015,
+    "seen": 1791107913.362972,
+    "ast_hash": "14d8186325281600b85e5369e1067123",
+    "semantic_hash": "14d8186325281600b85e5369e1067123"
+  },
+  "src/content/module-34/01-spans-and-traces.md": {
+    "mtime": 1790262776.3878448,
+    "seen": 1791107913.362973,
+    "ast_hash": "c6b57ea117ce0eec65f5d50a65a8b532",
+    "semantic_hash": "c6b57ea117ce0eec65f5d50a65a8b532"
+  },
+  "src/content/module-34/02-trace-context-propagation.md": {
+    "mtime": 1790262820.8826518,
+    "seen": 1791107913.362974,
+    "ast_hash": "6bcd7d4f4e65cc37c49ce59262a01ed0",
+    "semantic_hash": "6bcd7d4f4e65cc37c49ce59262a01ed0"
+  },
+  "src/content/module-34/03-opentelemetry.md": {
+    "mtime": 1790262863.1895366,
+    "seen": 1791107913.362974,
+    "ast_hash": "fe4d1850efc385e109af89a4d6be491b",
+    "semantic_hash": "fe4d1850efc385e109af89a4d6be491b"
+  },
+  "src/content/module-34/04-trace-sampling-strategies.md": {
+    "mtime": 1790416207.112775,
+    "seen": 1791107913.362975,
+    "ast_hash": "be8ddd28cb8036a98dd6206f6c7e989e",
+    "semantic_hash": "be8ddd28cb8036a98dd6206f6c7e989e"
+  },
+  "src/content/module-35/01-dashboard-design-principles.md": {
+    "mtime": 1790263006.647576,
+    "seen": 1791107913.362975,
+    "ast_hash": "cf7fa9264d6f9d5350eaeaaa57bcafad",
+    "semantic_hash": "cf7fa9264d6f9d5350eaeaaa57bcafad"
+  },
+  "src/content/module-35/02-grafana-and-data-sources.md": {
+    "mtime": 1790263044.2330897,
+    "seen": 1791107913.362976,
+    "ast_hash": "a37bbb5fd7005d725f89af51ec9a2a99",
+    "semantic_hash": "a37bbb5fd7005d725f89af51ec9a2a99"
+  },
+  "src/content/module-35/03-sli-slo-dashboard.md": {
+    "mtime": 1790263083.2183256,
+    "seen": 1791107913.362976,
+    "ast_hash": "dfd9bd2f08ebd8d107286a46f00473f5",
+    "semantic_hash": "dfd9bd2f08ebd8d107286a46f00473f5"
+  },
+  "src/content/module-35/04-dashboard-and-alerting-as-code.md": {
+    "mtime": 1790415511.105514,
+    "seen": 1791107913.362977,
+    "ast_hash": "bf4a8b5f6de70f788890d9e438fa82d8",
+    "semantic_hash": "bf4a8b5f6de70f788890d9e438fa82d8"
+  },
+  "src/content/module-36/01-error-budget-burn-rate.md": {
+    "mtime": 1790264228.2466486,
+    "seen": 1791107913.362978,
+    "ast_hash": "7106415fa623c95bcef012abba76ab79",
+    "semantic_hash": "7106415fa623c95bcef012abba76ab79"
+  },
+  "src/content/module-36/02-alert-fatigue.md": {
+    "mtime": 1790264273.9213464,
+    "seen": 1791107913.362978,
+    "ast_hash": "b39c625def4a7b45587dea4eadfd9292",
+    "semantic_hash": "b39c625def4a7b45587dea4eadfd9292"
+  },
+  "src/content/module-36/03-on-call-and-paging.md": {
+    "mtime": 1790264316.896456,
+    "seen": 1791107913.3629792,
+    "ast_hash": "4e1a017d7abfbd20f40671a88f28e310",
+    "semantic_hash": "4e1a017d7abfbd20f40671a88f28e310"
+  },
+  "src/content/module-36/04-sre-practice-toil-and-postmortem.md": {
+    "mtime": 1790415584.2575765,
+    "seen": 1791107913.3629792,
+    "ast_hash": "ed1ba2c76844973472406b777fe132ed",
+    "semantic_hash": "ed1ba2c76844973472406b777fe132ed"
+  },
+  "src/content/module-37/01-case-checkout-latency-incident.md": {
+    "mtime": 1790264735.7451973,
+    "seen": 1791107913.3629801,
+    "ast_hash": "ceac350c3420d39337e45cc8e9f13487",
+    "semantic_hash": "ceac350c3420d39337e45cc8e9f13487"
+  },
+  "src/content/module-37/02-case-prometheus-cardinality-outage.md": {
+    "mtime": 1790264784.2311676,
+    "seen": 1791107913.362981,
+    "ast_hash": "a8d781b15f282064fc7cfde4c90c6da5",
+    "semantic_hash": "a8d781b15f282064fc7cfde4c90c6da5"
+  },
+  "src/content/module-37/03-case-silent-failure-unknown-unknown.md": {
+    "mtime": 1790264837.4361513,
+    "seen": 1791107913.362981,
+    "ast_hash": "d2cc978424264f98d5e5ff213c36bc65",
+    "semantic_hash": "d2cc978424264f98d5e5ff213c36bc65"
+  },
+  "src/content/module-37/04-case-alert-storm-multi-service-deploy.md": {
+    "mtime": 1790415674.9363213,
+    "seen": 1791107913.3629818,
+    "ast_hash": "1b44b24b1697c3062534534eb072fda7",
+    "semantic_hash": "1b44b24b1697c3062534534eb072fda7"
+  },
+  "src/content/module-38/01-monorepo-fundamentals.md": {
+    "mtime": 1790344711.7601504,
+    "seen": 1791107913.3629818,
+    "ast_hash": "5d531ae8f058fac4d3b13826bbb97c55",
+    "semantic_hash": "5d531ae8f058fac4d3b13826bbb97c55"
+  },
+  "src/content/module-38/02-polyrepo-fundamentals.md": {
+    "mtime": 1790344762.1207964,
+    "seen": 1791107913.362983,
+    "ast_hash": "88161a2b5e088d127c892d3ca95a8d29",
+    "semantic_hash": "88161a2b5e088d127c892d3ca95a8d29"
+  },
+  "src/content/module-38/03-choosing-repo-strategy.md": {
+    "mtime": 1790344807.42814,
+    "seen": 1791107913.362983,
+    "ast_hash": "6bdeaec4910bf4b88e72d483b67baf36",
+    "semantic_hash": "6bdeaec4910bf4b88e72d483b67baf36"
+  },
+  "src/content/module-39/01-gitflow.md": {
+    "mtime": 1790345005.1551244,
+    "seen": 1791107913.362984,
+    "ast_hash": "21b0f2d51194d2ffc3f99a337438a41a",
+    "semantic_hash": "21b0f2d51194d2ffc3f99a337438a41a"
+  },
+  "src/content/module-39/02-trunk-based-development.md": {
+    "mtime": 1790345050.6011162,
+    "seen": 1791107913.362985,
+    "ast_hash": "fb95807a1126cc5eec19fb956849908a",
+    "semantic_hash": "fb95807a1126cc5eec19fb956849908a"
+  },
+  "src/content/module-39/03-choosing-branching-strategy.md": {
+    "mtime": 1790345094.9178329,
+    "seen": 1791107913.362985,
+    "ast_hash": "f67ecf1d6628869e24fb0242faf57a2f",
+    "semantic_hash": "f67ecf1d6628869e24fb0242faf57a2f"
+  },
+  "src/content/module-40/01-pr-review-culture.md": {
+    "mtime": 1790345352.572589,
+    "seen": 1791107913.362986,
+    "ast_hash": "60a1e46b2c96e8bd2552a83253a79e92",
+    "semantic_hash": "60a1e46b2c96e8bd2552a83253a79e92"
+  },
+  "src/content/module-40/02-merge-vs-squash-vs-rebase.md": {
+    "mtime": 1790345394.2470186,
+    "seen": 1791107913.362986,
+    "ast_hash": "e4586b298aab53352f583c8c0a4a273a",
+    "semantic_hash": "e4586b298aab53352f583c8c0a4a273a"
+  },
+  "src/content/module-40/03-branch-protection.md": {
+    "mtime": 1790345438.4732726,
+    "seen": 1791107913.362987,
+    "ast_hash": "9a79c9dca371d11bc17f0a838bec97cf",
+    "semantic_hash": "9a79c9dca371d11bc17f0a838bec97cf"
+  },
+  "src/content/module-41/01-semantic-versioning.md": {
+    "mtime": 1790345584.6526108,
+    "seen": 1791107913.362988,
+    "ast_hash": "9c2f06e5c241a627d40a9042cc729376",
+    "semantic_hash": "9c2f06e5c241a627d40a9042cc729376"
+  },
+  "src/content/module-41/02-changelog-and-release-automation.md": {
+    "mtime": 1790345627.58669,
+    "seen": 1791107913.362988,
+    "ast_hash": "40c3ce889c0fa34adb97a4a10947464d",
+    "semantic_hash": "40c3ce889c0fa34adb97a4a10947464d"
+  },
+  "src/content/module-41/03-monorepo-versioning.md": {
+    "mtime": 1790345670.568365,
+    "seen": 1791107913.362989,
+    "ast_hash": "c47a156848515035b3eb621cb3720c18",
+    "semantic_hash": "c47a156848515035b3eb621cb3720c18"
+  },
+  "src/content/module-42/01-codeowners.md": {
+    "mtime": 1790346159.3150337,
+    "seen": 1791107913.362989,
+    "ast_hash": "af6efbbd50712a23dfe58f64a927fde7",
+    "semantic_hash": "af6efbbd50712a23dfe58f64a927fde7"
+  },
+  "src/content/module-42/02-commit-convention-at-scale.md": {
+    "mtime": 1790346215.7318475,
+    "seen": 1791107913.3629901,
+    "ast_hash": "cd6c2562fbb4534727a1623b33725acd",
+    "semantic_hash": "cd6c2562fbb4534727a1623b33725acd"
+  },
+  "src/content/module-42/03-large-repo-practices.md": {
+    "mtime": 1790346274.856528,
+    "seen": 1791107913.3629901,
+    "ast_hash": "13e43a68bd09b87863f0a2f328a0ad74",
+    "semantic_hash": "13e43a68bd09b87863f0a2f328a0ad74"
+  },
+  "src/content/module-43/01-case-polyrepo-to-monorepo-migration.md": {
+    "mtime": 1790346388.1364293,
+    "seen": 1791107913.362991,
+    "ast_hash": "ecfbac5ddac61e9e1ea26782bb497989",
+    "semantic_hash": "ecfbac5ddac61e9e1ea26782bb497989"
+  },
+  "src/content/module-43/02-case-hotfix-under-gitflow.md": {
+    "mtime": 1790346435.080377,
+    "seen": 1791107913.362992,
+    "ast_hash": "678cdbbce81b705bac9b7abdd52ae021",
+    "semantic_hash": "678cdbbce81b705bac9b7abdd52ae021"
+  },
+  "src/content/module-43/03-case-broken-release-from-bad-version-bump.md": {
+    "mtime": 1790346496.5479314,
+    "seen": 1791107913.362992,
+    "ast_hash": "73fdf8bf7eb6bb34c5d3dec8456f1774",
+    "semantic_hash": "73fdf8bf7eb6bb34c5d3dec8456f1774"
+  },
+  "src/content/module-44/01-encapsulation-and-abstraction.md": {
+    "mtime": 1790346876.5276566,
+    "seen": 1791107913.362993,
+    "ast_hash": "8bf18ec1c490a30ed6814ac2e08b339e",
+    "semantic_hash": "8bf18ec1c490a30ed6814ac2e08b339e"
+  },
+  "src/content/module-44/02-coupling-and-cohesion.md": {
+    "mtime": 1790346924.8955944,
+    "seen": 1791107913.362993,
+    "ast_hash": "82475d25cde0c324f6ed06e64d5c03e5",
+    "semantic_hash": "82475d25cde0c324f6ed06e64d5c03e5"
+  },
+  "src/content/module-44/03-composition-vs-inheritance.md": {
+    "mtime": 1790346967.9965525,
+    "seen": 1791107913.362994,
+    "ast_hash": "4c7b0bb108fddc79a03cdeb17990fceb",
+    "semantic_hash": "4c7b0bb108fddc79a03cdeb17990fceb"
+  },
+  "src/content/module-45/01-srp-and-ocp.md": {
+    "mtime": 1790347123.0916836,
+    "seen": 1791107913.362995,
+    "ast_hash": "c60c94fc5f5275be16e46448a33d91f2",
+    "semantic_hash": "c60c94fc5f5275be16e46448a33d91f2"
+  },
+  "src/content/module-45/02-liskov-substitution-principle.md": {
+    "mtime": 1790347165.1101327,
+    "seen": 1791107913.362995,
+    "ast_hash": "32ff54b5a43d1696ca778ba46f3d8b76",
+    "semantic_hash": "32ff54b5a43d1696ca778ba46f3d8b76"
+  },
+  "src/content/module-45/03-isp-and-dip.md": {
+    "mtime": 1790347216.0920606,
+    "seen": 1791107913.3629959,
+    "ast_hash": "1f922a0eecd3293e0acabfcb0e85e0d7",
+    "semantic_hash": "1f922a0eecd3293e0acabfcb0e85e0d7"
+  },
+  "src/content/module-46/01-singleton.md": {
+    "mtime": 1790347322.7448592,
+    "seen": 1791107913.362997,
+    "ast_hash": "4785f9644f082b68f27f6314e2afe647",
+    "semantic_hash": "4785f9644f082b68f27f6314e2afe647"
+  },
+  "src/content/module-46/02-factory-method-and-abstract-factory.md": {
+    "mtime": 1790347369.377132,
+    "seen": 1791107913.362997,
+    "ast_hash": "1bfb894d354effd15220179bb6384ce0",
+    "semantic_hash": "1bfb894d354effd15220179bb6384ce0"
+  },
+  "src/content/module-46/03-builder.md": {
+    "mtime": 1790347416.5048032,
+    "seen": 1791107913.362998,
+    "ast_hash": "8c9eb2efcc6092fff2340c3bb0cfe323",
+    "semantic_hash": "8c9eb2efcc6092fff2340c3bb0cfe323"
+  },
+  "src/content/module-47/01-adapter-and-facade.md": {
+    "mtime": 1790347541.3601694,
+    "seen": 1791107913.362998,
+    "ast_hash": "764da4b8d27b8e5e528488a28ede01f1",
+    "semantic_hash": "764da4b8d27b8e5e528488a28ede01f1"
+  },
+  "src/content/module-47/02-decorator-and-proxy.md": {
+    "mtime": 1790347595.4645114,
+    "seen": 1791107913.362999,
+    "ast_hash": "ac3563374fb899b6302c936899c7ed8c",
+    "semantic_hash": "ac3563374fb899b6302c936899c7ed8c"
+  },
+  "src/content/module-47/03-composite.md": {
+    "mtime": 1790347640.8201492,
+    "seen": 1791107913.362999,
+    "ast_hash": "657602eed75234099bda8e45df188ce9",
+    "semantic_hash": "657602eed75234099bda8e45df188ce9"
+  },
+  "src/content/module-48/01-strategy-and-template-method.md": {
+    "mtime": 1790347764.9308088,
+    "seen": 1791107913.3630002,
+    "ast_hash": "371ee86f91c6ecd38f42b4a90328869d",
+    "semantic_hash": "371ee86f91c6ecd38f42b4a90328869d"
+  },
+  "src/content/module-48/02-observer.md": {
+    "mtime": 1790347808.254319,
+    "seen": 1791107913.363001,
+    "ast_hash": "45d241eb0f23a96e01a5602068b8e50e",
+    "semantic_hash": "45d241eb0f23a96e01a5602068b8e50e"
+  },
+  "src/content/module-48/03-command-and-state.md": {
+    "mtime": 1790347858.292559,
+    "seen": 1791107913.363001,
+    "ast_hash": "cb3076fb77474e9093ae6d5eb7046b61",
+    "semantic_hash": "cb3076fb77474e9093ae6d5eb7046b61"
+  },
+  "src/content/module-49/01-layered-architecture.md": {
+    "mtime": 1790347984.5381382,
+    "seen": 1791107913.363002,
+    "ast_hash": "c581eda28937d3304485805bf08c2a42",
+    "semantic_hash": "c581eda28937d3304485805bf08c2a42"
+  },
+  "src/content/module-49/02-the-dependency-rule.md": {
+    "mtime": 1790348028.8736773,
+    "seen": 1791107913.363002,
+    "ast_hash": "02b97c4ccf5cbe12a93802c7db113ecd",
+    "semantic_hash": "02b97c4ccf5cbe12a93802c7db113ecd"
+  },
+  "src/content/module-49/03-folder-structure-in-practice.md": {
+    "mtime": 1790348077.1277158,
+    "seen": 1791107913.3630028,
+    "ast_hash": "ebf9564b82e5e42712dc8da00037ac24",
+    "semantic_hash": "ebf9564b82e5e42712dc8da00037ac24"
+  },
+  "src/content/module-50/01-case-parking-lot.md": {
+    "mtime": 1790348194.8528585,
+    "seen": 1791107913.363004,
+    "ast_hash": "4972e35f77c453083baf50b8f00a677e",
+    "semantic_hash": "4972e35f77c453083baf50b8f00a677e"
+  },
+  "src/content/module-50/02-case-rate-limiter.md": {
+    "mtime": 1790348246.2025528,
+    "seen": 1791107913.363004,
+    "ast_hash": "abd161ea3822af79fc9b7098412630f9",
+    "semantic_hash": "abd161ea3822af79fc9b7098412630f9"
+  },
+  "src/content/module-50/03-case-elevator-system.md": {
+    "mtime": 1790348297.248618,
+    "seen": 1791107913.363005,
+    "ast_hash": "2e3e73dd07ae56c713eb00b0158ba70e",
+    "semantic_hash": "2e3e73dd07ae56c713eb00b0158ba70e"
+  },
+  "src/content/module-51/01-cicd-pipeline-anatomy.md": {
+    "mtime": 1790351628.8906198,
+    "seen": 1791107913.363005,
+    "ast_hash": "77df0111f0501f505e6c24880637a584",
+    "semantic_hash": "77df0111f0501f505e6c24880637a584"
+  },
+  "src/content/module-51/02-gitops.md": {
+    "mtime": 1790416183.815099,
+    "seen": 1791107913.3630059,
+    "ast_hash": "153156ba4166855f769ea99717433818",
+    "semantic_hash": "153156ba4166855f769ea99717433818"
+  },
+  "src/content/module-51/03-progressive-delivery.md": {
+    "mtime": 1790351807.5934868,
+    "seen": 1791107913.363007,
+    "ast_hash": "7b150c01515b3383ec380df649cf5ad4",
+    "semantic_hash": "7b150c01515b3383ec380df649cf5ad4"
+  },
+  "src/content/module-52/01-iac-fundamentals.md": {
+    "mtime": 1790414116.8891823,
+    "seen": 1791107913.363007,
+    "ast_hash": "0fc57d7275a98c3fa9a210d712100f82",
+    "semantic_hash": "0fc57d7275a98c3fa9a210d712100f82"
+  },
+  "src/content/module-52/02-immutable-infrastructure.md": {
+    "mtime": 1790414195.1312408,
+    "seen": 1791107913.363008,
+    "ast_hash": "c13346637a447e94610855d5a4808ff3",
+    "semantic_hash": "c13346637a447e94610855d5a4808ff3"
+  },
+  "src/content/module-52/03-chaos-engineering.md": {
+    "mtime": 1790416194.0487332,
+    "seen": 1791107913.363008,
+    "ast_hash": "699c5b01747f10443ffedcc5f07bd0a9",
+    "semantic_hash": "699c5b01747f10443ffedcc5f07bd0a9"
+  },
+  "src/content/module-53/01-ebpf-observability.md": {
+    "mtime": 1790414837.2988937,
+    "seen": 1791107913.363009,
+    "ast_hash": "978d35cd36061703c2d500e94cae27cc",
+    "semantic_hash": "978d35cd36061703c2d500e94cae27cc"
+  },
+  "src/content/module-53/02-continuous-profiling.md": {
+    "mtime": 1790414919.3210268,
+    "seen": 1791107913.36301,
+    "ast_hash": "6c0ff15cdf9a74567756f54900cff9d5",
+    "semantic_hash": "6c0ff15cdf9a74567756f54900cff9d5"
+  },
+  "src/content/module-53/03-observability-cost-finops.md": {
+    "mtime": 1790415003.0517285,
+    "seen": 1791107913.363012,
+    "ast_hash": "ee54fa0c44f9209b42b9a467c6c301ec",
+    "semantic_hash": "ee54fa0c44f9209b42b9a467c6c301ec"
+  },
+  "public/favicon.svg": {
+    "mtime": 1788614171.191459,
+    "seen": 1791107913.363013,
+    "ast_hash": "7e840862161341271697daa99a40d76b",
+    "semantic_hash": "7e840862161341271697daa99a40d76b"
+  }
+}
