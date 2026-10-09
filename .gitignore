@@ -29,3 +29,9 @@ CLAUDE.md
 
 # Claude Code local config
 .claude/
+
+# Hippo logs
+.hippo/
+
+# Graphify
+graphify-out
