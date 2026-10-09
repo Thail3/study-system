@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import type { Mermaid } from 'mermaid'
+import { ref, watch } from 'vue'
 import { useScrollReveal } from '../../composables/useScrollReveal'
+import { renderMermaid } from './renderMermaid'
 
 const props = defineProps<{ code: string; caption?: string }>()
 
@@ -16,6 +16,11 @@ watch(revealed, (isRevealed) => {
   if (isRevealed) container.value?.classList.add('is-revealed')
 })
 
+// Render lazily: only once the figure is within ~1.5 screens of the viewport.
+// Rendering every diagram on mount blocked the main thread for seconds on
+// long modules (architecture-case-studies has 64 diagrams).
+const { revealed: near } = useScrollReveal(container, true, { rootMargin: '1500px 0px' })
+
 function setupReveal(root: HTMLDivElement, code: string) {
   const stagger = /^\s*(flowchart|graph)\b/i.test(code)
   root.classList.remove('mode-stagger', 'mode-fade')
@@ -26,35 +31,6 @@ function setupReveal(root: HTMLDivElement, code: string) {
     ...root.querySelectorAll<SVGElement>('.edgePaths path'),
   ]
   els.forEach((el, i) => el.style.setProperty('--reveal-delay', `${i * 80}ms`))
-}
-
-let mermaidPromise: Promise<Mermaid> | null = null
-
-function loadMermaid(): Promise<Mermaid> {
-  if (!mermaidPromise) {
-    mermaidPromise = import('mermaid').then(({ default: mermaid }) => {
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: 'strict',
-        theme: 'base',
-        fontFamily: 'IBM Plex Mono, monospace',
-        themeVariables: {
-          primaryColor: '#fbf8f0',
-          primaryTextColor: '#16324f',
-          primaryBorderColor: '#16324f',
-          lineColor: '#1f6f8b',
-          secondaryColor: '#f6f2e7',
-          tertiaryColor: '#f6f2e7',
-          noteBkgColor: '#fbf8f0',
-          noteBorderColor: '#9fb0be',
-          edgeLabelBackground: '#f6f2e7',
-          fontSize: '14px',
-        },
-      })
-      return mermaid
-    })
-  }
-  return mermaidPromise
 }
 
 // Mermaid's default theme renders every node the same color regardless of
@@ -91,12 +67,11 @@ function colorizeNodes(root: Element) {
 
 async function render() {
   const token = ++renderToken
-  const id = `mermaid-${Math.random().toString(36).slice(2, 10)}`
   try {
-    const mermaid = await loadMermaid()
-    const { svg } = await mermaid.render(id, props.code)
+    const svg = await renderMermaid(props.code)
     if (token === renderToken && container.value) {
       container.value.innerHTML = svg
+      container.value.classList.add('is-rendered')
       colorizeNodes(container.value)
       setupReveal(container.value, props.code)
     }
@@ -111,8 +86,15 @@ async function render() {
   }
 }
 
-onMounted(render)
-watch(() => props.code, render)
+watch(near, (isNear) => {
+  if (isNear) render()
+})
+watch(
+  () => props.code,
+  () => {
+    if (near.value) render()
+  },
+)
 </script>
 
 <template>
@@ -134,6 +116,11 @@ watch(() => props.code, render)
 .mermaid-mount {
   display: flex;
   justify-content: center;
+}
+/* Reserve height until the lazy render lands, so off-screen diagrams don't
+   all collapse to 0px and intersect the viewport at once. */
+.mermaid-mount:not(.is-rendered) {
+  min-height: 240px;
 }
 .mermaid-mount :deep(svg) {
   max-width: 100%;

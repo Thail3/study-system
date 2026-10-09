@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, type Component } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, type Component } from 'vue'
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
 import MermaidDiagram from './MermaidDiagram.vue'
 import { demoRegistry } from '../demos/registry'
+import { useScrollReveal } from '../../composables/useScrollReveal'
 
 // html:true lets lesson prose (authored by us, not user input) use
 // <mark class="hl-term|hl-insight|hl-warning"> for the 3-color highlight
@@ -22,6 +23,43 @@ const SANITIZE_CONFIG = {
 }
 
 const props = defineProps<{ source: string }>()
+
+// A topic can be ~100KB of markdown. Parsing + sanitizing + mounting every
+// topic of a module on load froze long modules (architecture-case-studies:
+// 8 topics, 64 diagrams, 90 demos). Render a topic only once it is within
+// ~1.5 screens of the viewport; until then reserve an estimated height so
+// scroll position and the anchor-jump targets stay roughly stable.
+const root = ref<HTMLDivElement | null>(null)
+const { revealed: near } = useScrollReveal(root, true, { rootMargin: '1500px 0px' })
+// Measured on architecture-case-studies: rendered height / source chars = 0.36–0.42.
+const PLACEHOLDER_PX_PER_CHAR = 0.4
+const placeholderStyle = computed(() =>
+  near.value ? undefined : { minHeight: `${Math.round(props.source.length * PLACEHOLDER_PX_PER_CHAR)}px` },
+)
+
+// Replacing a placeholder with real content (and diagrams/demos settling
+// afterwards) changes this block's height. When the block is entirely above
+// the viewport, that shifts everything the reader is looking at, and the
+// browser's own scroll anchoring doesn't cover a hash jump into a not-yet-
+// rendered module. Cancel the shift by scrolling by the same delta.
+let resizeObserver: ResizeObserver | null = null
+let lastHeight = 0
+onMounted(() => {
+  const el = root.value
+  if (!el || typeof ResizeObserver === 'undefined') return
+  lastHeight = el.getBoundingClientRect().height
+  resizeObserver = new ResizeObserver(() => {
+    const rect = el.getBoundingClientRect()
+    const delta = rect.height - lastHeight
+    lastHeight = rect.height
+    if (delta !== 0 && rect.bottom - delta <= 0) window.scrollBy(0, delta)
+  })
+  resizeObserver.observe(el)
+})
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect()
+  resizeObserver = null
+})
 
 type Segment =
   | { type: 'html'; html: string }
@@ -59,6 +97,7 @@ function extractTitle(info: string): string | undefined {
 }
 
 const segments = computed<Segment[]>(() => {
+  if (!near.value) return []
   const out: Segment[] = []
   let lastIndex = 0
   const fenceRe = /```(mermaid|demo)([^\n]*)\n([\s\S]*?)```/g
@@ -89,7 +128,7 @@ const segments = computed<Segment[]>(() => {
 </script>
 
 <template>
-  <div class="topic-content">
+  <div ref="root" class="topic-content" :style="placeholderStyle">
     <template v-for="(seg, i) in segments" :key="i">
       <div v-if="seg.type === 'html'" class="prose" v-html="seg.html" />
       <MermaidDiagram v-else-if="seg.type === 'mermaid'" :code="seg.code" :caption="seg.caption" />

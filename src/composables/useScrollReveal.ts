@@ -10,8 +10,14 @@ export interface UseScrollReveal {
  * Fires `revealed` once when `target` scrolls into view, then disconnects.
  * `replay()` bumps `replayToken` — pair it with `:key="replayToken"` on the
  * animated subtree so Vue remounts fresh elements and CSS animations restart.
+ * `options` is passed to IntersectionObserver (default `threshold: 0.4`); use a
+ * positive `rootMargin` to fire before the target is actually visible (lazy render).
  */
-export function useScrollReveal(target: Ref<Element | null>, active: boolean): UseScrollReveal {
+export function useScrollReveal(
+  target: Ref<Element | null>,
+  active: boolean,
+  options: IntersectionObserverInit = { threshold: 0.4 },
+): UseScrollReveal {
   const revealed = ref(false)
   const replayToken = ref(0)
   let observer: IntersectionObserver | null = null
@@ -30,7 +36,7 @@ export function useScrollReveal(target: Ref<Element | null>, active: boolean): U
           observer = null
         }
       },
-      { threshold: 0.4 },
+      options,
     )
     observer.observe(target.value)
   })
